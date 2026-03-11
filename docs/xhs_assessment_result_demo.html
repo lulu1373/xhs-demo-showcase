@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>测评结果页 Demo</title>
+  <style>
+    :root {
+      --bg: #f7f3ef;
+      --ink: #241d18;
+      --muted: #786d65;
+      --paper: rgba(255, 252, 248, 0.84);
+      --line: rgba(74, 56, 40, 0.08);
+      --shadow: 0 18px 48px rgba(63, 45, 31, 0.08);
+      --radius: 26px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 202, 175, 0.35), transparent 25%),
+        radial-gradient(circle at top right, rgba(189, 197, 255, 0.28), transparent 24%),
+        linear-gradient(180deg, #fbf6f1 0%, #f4ede5 100%);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    .phone {
+      width: min(100%, 430px);
+      margin: 0 auto;
+      padding: 16px 14px 36px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .brand {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .save {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #5b4a40;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(91, 74, 64, 0.08);
+    }
+
+    .switcher {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .switcher::-webkit-scrollbar { display: none; }
+
+    .tab {
+      flex: 0 0 auto;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(84, 64, 49, 0.08);
+      background: rgba(255,255,255,0.76);
+      color: #64574f;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tab.active {
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .hero {
+      padding: 22px 20px;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      right: -28px;
+      top: -26px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.24);
+      filter: blur(4px);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(255,255,255,0.8);
+      color: #5f4c43;
+    }
+
+    h1 {
+      margin: 14px 0 8px;
+      font-size: 34px;
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      margin: 0;
+      line-height: 1.85;
+      font-size: 15px;
+      color: #4e433c;
+      position: relative;
+      z-index: 1;
+    }
+
+    .result-pill {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.84);
+      font-size: 13px;
+      color: #6b5e57;
+      position: relative;
+      z-index: 1;
+    }
+
+    .result-pill strong {
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .section {
+      margin-top: 14px;
+      padding: 18px 16px;
+      border-radius: var(--radius);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .section h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+    }
+
+    .note {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-item {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(84, 64, 49, 0.06);
+    }
+
+    .summary-item .label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .summary-item .text {
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .bars {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(84, 64, 49, 0.06);
+    }
+
+    .bar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .bar-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .bar-score {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(66, 47, 36, 0.08);
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .bar p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #594e46;
+    }
+
+    .need {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(84, 64, 49, 0.06);
+      font-size: 17px;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    .scenes {
+      display: grid;
+      gap: 10px;
+    }
+
+    .scene {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(84, 64, 49, 0.06);
+      line-height: 1.75;
+      color: #594e46;
+      font-size: 14px;
+    }
+
+    .closing {
+      font-size: 17px;
+      line-height: 1.9;
+      color: #443931;
+    }
+
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(84, 64, 49, 0.08);
+      color: #5d4e44;
+      font-size: 13px;
+    }
+
+    .family .hero { background: linear-gradient(140deg, #f8dbcf 0%, #f7ece6 48%, #e6ddfb 100%); }
+    .family .tab.active, .family .fill { background: linear-gradient(90deg, #e79a83 0%, #b790ff 100%); }
+    .family .section { background: rgba(255, 250, 246, 0.86); }
+
+    .heal .hero { background: linear-gradient(140deg, #d9e7ff 0%, #f7efff 48%, #ffe4dd 100%); }
+    .heal .tab.active, .heal .fill { background: linear-gradient(90deg, #7ca5ff 0%, #f0998c 100%); }
+    .heal .section { background: rgba(251, 250, 255, 0.86); }
+
+    .life .hero { background: linear-gradient(140deg, #f6e7b8 0%, #f6f0db 46%, #dbe7d5 100%); }
+    .life .tab.active, .life .fill { background: linear-gradient(90deg, #e0b64f 0%, #8bbd7d 100%); }
+    .life .section { background: rgba(255, 252, 245, 0.86); }
+
+    .regret .hero { background: linear-gradient(140deg, #e2e3f8 0%, #efe8f7 46%, #f5ddd8 100%); }
+    .regret .tab.active, .regret .fill { background: linear-gradient(90deg, #9097dd 0%, #e39a8b 100%); }
+    .regret .section { background: rgba(252, 249, 255, 0.86); }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="topbar">
+      <div class="brand">result demo</div>
+      <div class="save">保存报告</div>
+    </div>
+
+    <div class="switcher">
+      <button class="tab active" data-target="family">家庭情感共鸣型</button>
+      <button class="tab" data-target="heal">治愈补偿型</button>
+      <button class="tab" data-target="life">生活价值认同型</button>
+      <button class="tab" data-target="regret">反思遗憾表达型</button>
+    </div>
+
+    <section class="screen family active">
+      <div class="hero">
+        <div class="eyebrow">Assessment Result</div>
+        <h1>你更在意<br>关系里有没有爱</h1>
+        <p>你会自然地把很多内容和父母、孩子、成长经历联系起来。你不是太敏感，而是对“有没有被接住”这件事感受很深。</p>
+        <div class="result-pill"><span>你的主类型</span><strong>家庭情感共鸣型</strong></div>
+      </div>
+
+      <div class="section">
+        <h2>结果摘要</h2>
+        <div class="summary-list">
+          <div class="summary-item"><div class="label">你最敏感的点</div><div class="text">家庭里的冷暖、父母的态度、被允许普通的感觉。</div></div>
+          <div class="summary-item"><div class="label">你最在意的事</div><div class="text">我有没有被真正理解过、接纳过、好好爱过。</div></div>
+          <div class="summary-item"><div class="label">你现在最需要的</div><div class="text">稳定的关系感，而不是偶尔一次的安慰。</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>五维度画像</h2>
+        <div class="bars">
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系安全感</div><div class="bar-score">42 / 100</div></div><div class="track"><div class="fill" style="width:42%"></div></div><p>你会更在意自己在关系里是不是被稳稳接住。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系/胜任需要满足</div><div class="bar-score">46 / 100</div></div><div class="track"><div class="fill" style="width:46%"></div></div><p>你既想被理解，也常担心自己做得还不够好。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">普通容忍度</div><div class="bar-score">49 / 100</div></div><div class="track"><div class="fill" style="width:49%"></div></div><p>你想接受普通，但内心偶尔还是会拿自己比较。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">自我安抚能力</div><div class="bar-score">39 / 100</div></div><div class="track"><div class="fill" style="width:39%"></div></div><p>难过时，你还不太习惯先抱抱自己。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">修复准备度</div><div class="bar-score">55 / 100</div></div><div class="track"><div class="fill" style="width:55%"></div></div><p>你已经开始觉察自己，只是还在找更清晰的路径。</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>你真正的需要</h2>
+        <div class="need">你需要的不是更多道理，而是一种更稳定的确认：即使我不够完美，也仍然值得被爱。</div>
+      </div>
+
+      <div class="section">
+        <h2>你容易被触发的时刻</h2>
+        <div class="scenes">
+          <div class="scene">看到别人被父母温柔托住的时候。</div>
+          <div class="scene">听见“没关系，你已经很好了”的时候。</div>
+          <div class="scene">关系里出现冷淡、忽视或比较的时候。</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>温柔结尾</h2>
+        <div class="closing">你不是太情绪化，你只是一直认真地在感受关系。你会被这些内容击中，是因为你心里始终在等一种更稳定的爱。</div>
+        <div class="actions"><div class="btn">保存这份报告</div><div class="btn">查看其他类型</div></div>
+      </div>
+    </section>
+
+    <section class="screen heal">
+      <div class="hero">
+        <div class="eyebrow">Assessment Result</div>
+        <h1>你在寻找一种<br>能安放自己的温柔</h1>
+        <p>你会被“普通也很好”“没关系”“有人认真爱你”这类表达深深打动。那些内容对你来说，不只是感人，也是一种修复。</p>
+        <div class="result-pill"><span>你的主类型</span><strong>治愈补偿型</strong></div>
+      </div>
+
+      <div class="section">
+        <h2>结果摘要</h2>
+        <div class="summary-list">
+          <div class="summary-item"><div class="label">你最敏感的点</div><div class="text">温柔的话、被接纳的情绪、别人家的安全感。</div></div>
+          <div class="summary-item"><div class="label">你最在意的事</div><div class="text">我可不可以不靠证明，也被真心喜欢。</div></div>
+          <div class="summary-item"><div class="label">你现在最需要的</div><div class="text">把外界偶尔给的温柔，慢慢长成自己的力量。</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>五维度画像</h2>
+        <div class="bars">
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系安全感</div><div class="bar-score">38 / 100</div></div><div class="track"><div class="fill" style="width:38%"></div></div><p>你容易确认自己是不是足够重要、足够值得。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系/胜任需要满足</div><div class="bar-score">44 / 100</div></div><div class="track"><div class="fill" style="width:44%"></div></div><p>你既想被爱，也容易在“我够不够好”上紧张。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">普通容忍度</div><div class="bar-score">41 / 100</div></div><div class="track"><div class="fill" style="width:41%"></div></div><p>你认同普通的价值，但还是会担心自己不够特别。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">自我安抚能力</div><div class="bar-score">33 / 100</div></div><div class="track"><div class="fill" style="width:33%"></div></div><p>受伤时，你更容易靠外界内容来安抚自己。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">修复准备度</div><div class="bar-score">52 / 100</div></div><div class="track"><div class="fill" style="width:52%"></div></div><p>你已经在努力理解自己，只是还不够稳定。</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>你真正的需要</h2>
+        <div class="need">你需要的不只是被安慰，而是慢慢确认：原来我不需要做得很好，也可以被留下来。</div>
+      </div>
+
+      <div class="section">
+        <h2>你容易被触发的时刻</h2>
+        <div class="scenes">
+          <div class="scene">刷到特别温柔、特别安静的家庭内容时。</div>
+          <div class="scene">别人说“没关系，你已经很好了”的时候。</div>
+          <div class="scene">独处时忽然感到空落、羡慕、想哭的时候。</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>温柔结尾</h2>
+        <div class="closing">你不是过度依赖温柔，你只是一直在寻找一种足够稳定的接纳。那份你总想从外面找到的安稳，未来也可以一点点长在你自己心里。</div>
+        <div class="actions"><div class="btn">保存这份报告</div><div class="btn">查看其他类型</div></div>
+      </div>
+    </section>
+
+    <section class="screen life">
+      <div class="hero">
+        <div class="eyebrow">Assessment Result</div>
+        <h1>你认同平凡生活<br>本身的幸福</h1>
+        <p>比起宏大成功，你更容易被一顿饭、一个家、有人陪伴、日常的烟火气打动。你在寻找一种扎实、具体、能落地的幸福。</p>
+        <div class="result-pill"><span>你的主类型</span><strong>生活价值认同型</strong></div>
+      </div>
+
+      <div class="section">
+        <h2>结果摘要</h2>
+        <div class="summary-list">
+          <div class="summary-item"><div class="label">你最敏感的点</div><div class="text">平凡日常、小幸福、稳定关系和有温度的生活细节。</div></div>
+          <div class="summary-item"><div class="label">你最在意的事</div><div class="text">普通生活到底能不能也算一种值得骄傲的人生。</div></div>
+          <div class="summary-item"><div class="label">你现在最需要的</div><div class="text">更坚定地相信，平凡不是退而求其次。</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>五维度画像</h2>
+        <div class="bars">
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系安全感</div><div class="bar-score">57 / 100</div></div><div class="track"><div class="fill" style="width:57%"></div></div><p>你对稳定关系有需求，但整体感受相对更平稳。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系/胜任需要满足</div><div class="bar-score">54 / 100</div></div><div class="track"><div class="fill" style="width:54%"></div></div><p>你希望被理解，也希望自己的生活节奏被尊重。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">普通容忍度</div><div class="bar-score">68 / 100</div></div><div class="track"><div class="fill" style="width:68%"></div></div><p>你比很多人更能看到平凡生活本身的价值。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">自我安抚能力</div><div class="bar-score">59 / 100</div></div><div class="track"><div class="fill" style="width:59%"></div></div><p>你更容易从具体生活里给自己一点安定感。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">修复准备度</div><div class="bar-score">61 / 100</div></div><div class="track"><div class="fill" style="width:61%"></div></div><p>你已经在建立属于自己的生活秩序和幸福标准。</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>你真正的需要</h2>
+        <div class="need">你需要的是更坚定地站在自己的生活感受这边，而不是总被外界的成功标准推着走。</div>
+      </div>
+
+      <div class="section">
+        <h2>你容易被触发的时刻</h2>
+        <div class="scenes">
+          <div class="scene">看到很普通却很温暖的家庭日常时。</div>
+          <div class="scene">被卷入比较、绩效、焦虑叙事的时候。</div>
+          <div class="scene">突然意识到“原来平凡也可以很幸福”的时候。</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>温柔结尾</h2>
+        <div class="closing">你不是没有追求，你只是比很多人更早明白：真正能留在生活里的幸福，常常不是宏大的，而是具体的、平静的、有人陪的。</div>
+        <div class="actions"><div class="btn">保存这份报告</div><div class="btn">查看其他类型</div></div>
+      </div>
+    </section>
+
+    <section class="screen regret">
+      <div class="hero">
+        <div class="eyebrow">Assessment Result</div>
+        <h1>你正在回看那些<br>没被满足的过去</h1>
+        <p>你对遗憾、羡慕、缺失和成长里的伤口更敏感。你已经开始觉察它们，只是还没有完全把它们安放好。</p>
+        <div class="result-pill"><span>你的主类型</span><strong>反思遗憾表达型</strong></div>
+      </div>
+
+      <div class="section">
+        <h2>结果摘要</h2>
+        <div class="summary-list">
+          <div class="summary-item"><div class="label">你最敏感的点</div><div class="text">别人拥有而自己没有的温暖、接纳和家庭感。</div></div>
+          <div class="summary-item"><div class="label">你最在意的事</div><div class="text">过去到底给我留下了什么，我还能不能慢慢修复自己。</div></div>
+          <div class="summary-item"><div class="label">你现在最需要的</div><div class="text">把“反复回看”变成“逐步整理”，把痛感变成理解。</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>五维度画像</h2>
+        <div class="bars">
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系安全感</div><div class="bar-score">36 / 100</div></div><div class="track"><div class="fill" style="width:36%"></div></div><p>你更容易在关系里感到不确定，也更容易被忽视感触发。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">关系/胜任需要满足</div><div class="bar-score">40 / 100</div></div><div class="track"><div class="fill" style="width:40%"></div></div><p>你常常既缺关系里的确认，也缺价值上的安稳感。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">普通容忍度</div><div class="bar-score">43 / 100</div></div><div class="track"><div class="fill" style="width:43%"></div></div><p>你能理解普通的意义，但情绪上仍会觉得自己缺了什么。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">自我安抚能力</div><div class="bar-score">31 / 100</div></div><div class="track"><div class="fill" style="width:31%"></div></div><p>你已经能看见伤口，但还不太能稳稳安抚它。</p></div>
+          <div class="bar"><div class="bar-head"><div class="bar-name">修复准备度</div><div class="bar-score">47 / 100</div></div><div class="track"><div class="fill" style="width:47%"></div></div><p>你已经站在修复的门口，只是还没有真正走进去。</p></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>你真正的需要</h2>
+        <div class="need">你需要的不是赶快忘掉过去，而是给那些遗憾一个更稳定的理解，让自己不再总被它们突然拉回去。</div>
+      </div>
+
+      <div class="section">
+        <h2>你容易被触发的时刻</h2>
+        <div class="scenes">
+          <div class="scene">看到别人拥有温暖家庭、被无条件接纳的时候。</div>
+          <div class="scene">想起童年、父母、成长经历里的缺失时。</div>
+          <div class="scene">夜深、独处或心情低落时，旧情绪反复涌上来。</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>温柔结尾</h2>
+        <div class="closing">你并不是走不出来，你只是已经看见了那些伤口，却还没有足够温柔地陪自己走完这段路。能看见，本身就是开始。</div>
+        <div class="actions"><div class="btn">保存这份报告</div><div class="btn">查看其他类型</div></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const screens = document.querySelectorAll('.screen');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.target;
+        tabs.forEach((item) => item.classList.remove('active'));
+        screens.forEach((screen) => screen.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelector(`.screen.${target}`).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

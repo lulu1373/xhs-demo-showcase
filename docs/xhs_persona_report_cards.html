@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>四类用户测评结果报告</title>
+  <style>
+    :root {
+      --bg: #f6f1ea;
+      --ink: #1d1a17;
+      --muted: #6c6258;
+      --paper: rgba(255, 251, 246, 0.82);
+      --line: rgba(70, 50, 28, 0.1);
+      --shadow: 0 18px 60px rgba(44, 28, 16, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 188, 120, 0.24), transparent 28%),
+        radial-gradient(circle at top right, rgba(173, 176, 255, 0.18), transparent 24%),
+        linear-gradient(180deg, #f8f3ec 0%, #f1ece4 100%);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    .wrap {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 28px 22px 40px;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 720px;
+    }
+
+    .hero .tip {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 560px;
+      overflow: hidden;
+      border-radius: 30px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.55);
+    }
+
+    .card::before,
+    .card::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(4px);
+      opacity: 0.9;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.58);
+      border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    .count {
+      margin-top: 16px;
+      font-size: 14px;
+      color: rgba(0,0,0,0.55);
+    }
+
+    h2 {
+      margin: 18px 0 10px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+    }
+
+    .summary {
+      font-size: 20px;
+      line-height: 1.65;
+      margin: 0 0 18px;
+      max-width: 92%;
+    }
+
+    .quote {
+      margin-top: auto;
+      padding: 18px 18px 16px;
+      border-radius: 22px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .quote .label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .quote .text {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.58);
+      border: 1px solid rgba(255,255,255,0.55);
+      backdrop-filter: blur(10px);
+    }
+
+    .family {
+      background:
+        radial-gradient(circle at 22% 16%, rgba(255, 223, 199, 0.92), transparent 26%),
+        linear-gradient(145deg, #f8d8ca 0%, #f5e4d7 45%, #e8d7ff 100%);
+    }
+    .family::before {
+      width: 260px;
+      height: 260px;
+      right: -50px;
+      top: -50px;
+      background: rgba(183, 132, 255, 0.18);
+    }
+    .family::after {
+      width: 180px;
+      height: 180px;
+      left: -30px;
+      bottom: -30px;
+      background: rgba(255, 204, 158, 0.22);
+    }
+
+    .heal {
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255, 233, 198, 0.88), transparent 28%),
+        linear-gradient(145deg, #dbe7ff 0%, #f6edff 48%, #ffe8e0 100%);
+    }
+    .heal::before {
+      width: 280px;
+      height: 280px;
+      left: -70px;
+      top: -40px;
+      background: rgba(146, 171, 255, 0.18);
+    }
+    .heal::after {
+      width: 170px;
+      height: 170px;
+      right: 10px;
+      bottom: -20px;
+      background: rgba(255, 196, 170, 0.2);
+    }
+
+    .life {
+      background:
+        radial-gradient(circle at 26% 24%, rgba(255, 237, 186, 0.9), transparent 24%),
+        linear-gradient(145deg, #f7efd0 0%, #f2ead8 40%, #dde9d8 100%);
+    }
+    .life::before {
+      width: 220px;
+      height: 220px;
+      right: -30px;
+      top: 20px;
+      background: rgba(180, 216, 162, 0.18);
+    }
+    .life::after {
+      width: 180px;
+      height: 180px;
+      left: -20px;
+      bottom: -30px;
+      background: rgba(255, 216, 136, 0.18);
+    }
+
+    .regret {
+      background:
+        radial-gradient(circle at 82% 16%, rgba(222, 211, 255, 0.92), transparent 24%),
+        linear-gradient(145deg, #dfe1f3 0%, #ede7f7 42%, #f4dfd7 100%);
+    }
+    .regret::before {
+      width: 240px;
+      height: 240px;
+      left: -40px;
+      top: 30px;
+      background: rgba(180, 175, 232, 0.16);
+    }
+    .regret::after {
+      width: 190px;
+      height: 190px;
+      right: -20px;
+      bottom: -20px;
+      background: rgba(245, 193, 182, 0.18);
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { min-height: 480px; }
+      .hero { flex-direction: column; align-items: start; }
+      .hero .tip { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <h1>四类用户测评结果报告</h1>
+        <p>以下展示的是四种典型结果页模板。每一页都遵循“结果摘要、核心特征、当前需要”的结构，目的是帮助用户被理解，而不是被贴标签。</p>
+      </div>
+      <div class="tip">适合直接作为测评结果页视觉稿</div>
+    </section>
+
+    <section class="grid">
+      <article class="card family">
+        <div class="content">
+          <div class="eyebrow">测评结果 01</div>
+          <div class="count">结果类型占比：19.1%</div>
+          <h2>家庭情感<br />共鸣型</h2>
+          <p class="summary">你对家庭、亲子、父母关系里的情绪温度特别敏感。比起“事情对不对”，你更容易先感受到“关系里有没有爱”。</p>
+          <div class="meta">
+            <span class="pill">结果摘要：关系温度高敏</span>
+            <span class="pill">核心特征：亲子议题强触发</span>
+            <span class="pill">表达方式：愿意讲真实故事</span>
+          </div>
+          <div class="quote">
+            <div class="label">当前你更需要的</div>
+            <div class="text">不是更多道理，而是更稳定地确认：即使我没有做到很好，我也仍然值得被爱。</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card heal">
+        <div class="content">
+          <div class="eyebrow">测评结果 02</div>
+          <div class="count">结果类型占比：15.2%</div>
+          <h2>治愈补偿<br />型</h2>
+          <p class="summary">你很容易被“温柔”“被爱”“被接纳”打动。这些内容对你来说，不只是感人，也是某种情绪修复。</p>
+          <div class="meta">
+            <span class="pill">结果摘要：安抚需求较高</span>
+            <span class="pill">核心特征：容易被温柔触动</span>
+            <span class="pill">表达方式：收藏型修复习惯</span>
+          </div>
+          <div class="quote">
+            <div class="label">当前你更需要的</div>
+            <div class="text">不只是从外界获得温柔，而是慢慢把这种“被安慰的感觉”变成你也能给自己的东西。</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card life">
+        <div class="content">
+          <div class="eyebrow">测评结果 03</div>
+          <div class="count">结果类型占比：8.9%</div>
+          <h2>生活价值<br />认同型</h2>
+          <p class="summary">你认同平凡生活本身的价值。比起宏大成功，你更容易被日常细节、烟火气和稳定感打动。</p>
+          <div class="meta">
+            <span class="pill">结果摘要：普通生活认同</span>
+            <span class="pill">核心特征：细节感受力强</span>
+            <span class="pill">表达方式：偏好稳定温暖</span>
+          </div>
+          <div class="quote">
+            <div class="label">当前你更需要的</div>
+            <div class="text">继续相信：平凡不是退而求其次，而是另一种真实、扎实、可持续的幸福路径。</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card regret">
+        <div class="content">
+          <div class="eyebrow">测评结果 04</div>
+          <div class="count">结果类型占比：3.0%</div>
+          <h2>反思遗憾<br />表达型</h2>
+          <p class="summary">你对遗憾、羡慕、缺失和成长伤口更敏感。你已经能意识到这些感受正在影响现在的自己。</p>
+          <div class="meta">
+            <span class="pill">结果摘要：遗憾意识较强</span>
+            <span class="pill">核心特征：情绪浓度高</span>
+            <span class="pill">表达方式：修复动机已启动</span>
+          </div>
+          <div class="quote">
+            <div class="label">当前你更需要的</div>
+            <div class="text">不是压住这些遗憾，而是给它们一个更清晰的理解框架，并慢慢从回看过去，走向重新照顾自己。</div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>

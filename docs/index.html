@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小红书亲子评论研究作品集</title>
+  <style>
+    :root {
+      --bg: #f5f2fb;
+      --ink: #201a34;
+      --muted: #6e6789;
+      --line: rgba(93, 73, 173, 0.12);
+      --panel: rgba(255,255,255,0.84);
+      --purple: #7b63f1;
+      --purple-soft: #c2b5ff;
+      --rose: #f1aab3;
+      --mint: #cbe9d8;
+      --gold: #f4ddb0;
+      --shadow: 0 18px 48px rgba(76, 57, 145, 0.10);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(194,181,255,0.35), transparent 24%),
+        radial-gradient(circle at top right, rgba(241,170,179,0.18), transparent 18%),
+        linear-gradient(180deg, #faf8ff 0%, #f2eef8 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 28px 22px 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px;
+      border-radius: 36px;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.35), transparent 22%),
+        linear-gradient(135deg, #866af5 0%, #9a81ff 48%, #7b63f1 100%);
+      box-shadow: var(--shadow);
+      color: #fff;
+      margin-bottom: 18px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -40px;
+      width: 240px;
+      height: 240px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      filter: blur(6px);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(38px, 5vw, 70px);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 940px;
+      line-height: 1.9;
+      font-size: 17px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .hero-meta {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-meta span {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      padding: 20px 22px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .stat .value {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat .desc {
+      color: #544d6a;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .section {
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .section p.lead {
+      margin: 8px 0 0;
+      max-width: 920px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 15px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+    }
+
+    .table-card, .list-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(93,73,173,0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(93,73,173,0.08);
+      vertical-align: top;
+      line-height: 1.7;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .list-card ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.9;
+      color: #4f4866;
+    }
+
+    .embed-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 16px;
+    }
+
+    .embed-card {
+      border-radius: 26px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(93,73,173,0.08);
+    }
+
+    .embed-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(93,73,173,0.08);
+      background: rgba(255,255,255,0.9);
+    }
+
+    .embed-head .title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .open-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(123,99,241,0.12);
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    iframe {
+      width: 100%;
+      border: 0;
+      display: block;
+      background: #fff;
+    }
+
+    .phone-frame {
+      max-width: 430px;
+      margin: 0 auto;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(59, 47, 113, 0.12);
+    }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .process-card {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(93,73,173,0.08);
+      background: rgba(255,255,255,0.8);
+    }
+
+    .process-card .step {
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .process-card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .process-card p {
+      margin: 0;
+      color: #4f4866;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .footer {
+      margin-top: 22px;
+      padding: 18px 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(93,73,173,0.08);
+      color: #554d6d;
+      line-height: 1.85;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1100px) {
+      .stats,
+      .quick-grid,
+      .embed-grid,
+      .process {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Demo Showcase</div>
+      <h1>小红书亲子评论研究<br>面试作品集</h1>
+      <p>这是我把一次笔试任务推进成完整作品集的过程展示。它不仅包含数据抓取和用户画像，也突出我在执行中如何定义问题、识别瓶颈、切换方案、协同 AI，并最终把结果转化为可展示、可解释、可产品化的交付物。</p>
+      <div class="hero-meta">
+        <span>研究对象：小红书亲子评论区</span>
+        <span>目标样本：4429 条有效评论</span>
+        <span>作品结构：研究 + 分析 + 产品化表达</span>
+        <span>协同方式：主动判断 + AI 提效</span>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <div class="label">目标帖子</div>
+        <div class="value">1</div>
+        <div class="desc">锁定“小婵姨”《如何培养一个普通女儿》作为高共鸣样本入口。</div>
+      </div>
+      <div class="stat">
+        <div class="label">最终样本</div>
+        <div class="value">4429</div>
+        <div class="desc">包含一级评论、二级评论、昵称、地点、点赞数与具体评论内容。</div>
+      </div>
+      <div class="stat">
+        <div class="label">核心类型</div>
+        <div class="value">4</div>
+        <div class="desc">家庭情感共鸣型、治愈补偿型、生活价值认同型、反思遗憾表达型。</div>
+      </div>
+      <div class="stat">
+        <div class="label">最终产出</div>
+        <div class="value">Showcase</div>
+        <div class="desc">将文档、洞察看板、流程图和测评结果页统一整合为网页作品集。</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>我在这个项目中体现的能力</h2>
+          <p class="lead">这一页不只是展示结果，也展示我是如何把一个模糊的笔试任务，推进成一套结构完整的研究与产品化 demo。</p>
+        </div>
+      </div>
+      <div class="process">
+        <div class="process-card">
+          <div class="step">Problem Framing</div>
+          <h3>问题定义能力</h3>
+          <p>先锁定“亲子”标签，再从高互动内容中选择最适合做研究样本的帖子，而不是随机抓数据。</p>
+        </div>
+        <div class="process-card">
+          <div class="step">Execution</div>
+          <h3>复杂任务推进能力</h3>
+          <p>网页端抓取受限后，没有停留在原方案上反复试错，而是及时切换到 App + Proxyman 路径。</p>
+        </div>
+        <div class="process-card">
+          <div class="step">Analysis</div>
+          <h3>用户洞察能力</h3>
+          <p>从评论中提炼出四类核心用户，识别出这批人真正关心的是被爱、被接纳与普通生活的价值感。</p>
+        </div>
+        <div class="process-card">
+          <div class="step">Product Thinking</div>
+          <h3>产品化思维</h3>
+          <p>不止停留在用户画像，而是继续把画像反推到心理测评维度、结果页结构和产品表达方式。</p>
+        </div>
+        <div class="process-card">
+          <div class="step">AI Collaboration</div>
+          <h3>AI 协同能力</h3>
+          <p>AI 负责加快试错和生成效率，我负责判断路径、验证结果和决定下一步，不把 AI 当作替代思考。</p>
+        </div>
+        <div class="process-card">
+          <div class="step">Delivery</div>
+          <h3>交付整合能力</h3>
+          <p>把零散的抓取、分析、海报和文档重新组织成可直接对外展示的作品集页面。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>项目概览</h2>
+          <p class="lead">整个项目不是单纯的数据抓取，而是一条完整的验证链路：先找到合适的研究样本，再解决抓取瓶颈，然后把评论转化为用户画像，最后延伸到心理测评开发方向。</p>
+        </div>
+      </div>
+      <div class="quick-grid">
+        <div class="table-card">
+          <table>
+            <tr><th style="width:18%;">阶段</th><th style="width:28%;">工作内容</th><th>产出结果</th></tr>
+            <tr><td>阶段1</td><td>网页版评论抓取</td><td>抓取 1470 条评论，完成初步画像分析</td></tr>
+            <tr><td>阶段2</td><td>识别样本量不足问题</td><td>确认网页版样本不足以支撑更稳健分析</td></tr>
+            <tr><td>阶段3</td><td>切换 App 抓取方案</td><td>使用 Proxyman 成功突破抓取瓶颈</td></tr>
+            <tr><td>阶段4</td><td>评论数据清洗整理</td><td>得到 4429 条有效评论样本</td></tr>
+            <tr><td>阶段5</td><td>用户画像精细分析</td><td>形成四类核心用户画像</td></tr>
+            <tr><td>阶段6</td><td>心理测评方向确认</td><td>形成测评开发简化流程</td></tr>
+          </table>
+        </div>
+        <div class="list-card">
+          <ul>
+            <li>研究标签：亲子</li>
+            <li>目标帖子：小婵姨《如何培养一个普通女儿》</li>
+            <li>原帖互动：点赞 10 万+，收藏 1.5 万+，评论 7963 条</li>
+            <li>关键判断：网页端受限，不继续硬抓，及时切到 App 数据入口</li>
+            <li>核心发现：这不是“知识获取型”评论区，而是“人生经验投射型”评论区</li>
+            <li>最核心用户：家庭情感共鸣型 + 治愈补偿型</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>阶段里程碑</h2>
+          <p class="lead">用项目管理视角呈现整个执行过程，方便快速说明我在过程中如何识别问题、切换方案并推进结果落地。</p>
+        </div>
+        <a class="open-btn" href="xhs_workflow_milestone.html" target="_blank">单独打开</a>
+      </div>
+      <div class="embed-grid">
+        <div class="embed-card">
+          <div class="embed-head">
+            <div class="title">项目阶段里程碑</div>
+            <a class="open-btn" href="xhs_workflow_milestone.html" target="_blank">查看原页</a>
+          </div>
+          <div class="phone-frame">
+            <iframe src="xhs_workflow_milestone.html" title="项目阶段里程碑" style="height:1350px;"></iframe>
+          </div>
+        </div>
+        <div class="process">
+          <div class="process-card">
+            <div class="step">Problem</div>
+            <h3>识别真实瓶颈</h3>
+            <p>网页版并不是“脚本不够好”，而是平台风控、懒加载与安全验证共同造成的数据上限。</p>
+          </div>
+          <div class="process-card">
+            <div class="step">Decision</div>
+            <h3>切换数据入口</h3>
+            <p>不在错误路径上死磕，及时从网页端切到 App 端，并用 Proxyman 找到更稳定的评论流量。</p>
+          </div>
+          <div class="process-card">
+            <div class="step">Result</div>
+            <h3>扩大有效样本</h3>
+            <p>最终把评论样本从 1470 条提升到 4429 条，为后续用户画像和测评设计提供更稳定基础。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>用户画像看板</h2>
+          <p class="lead">这是基于 4429 条评论样本完成的用户画像可视化页，包含四类核心用户、地域、关键词、昵称风格和一句话画像。</p>
+        </div>
+        <a class="open-btn" href="xhs_user_profile_visual_4429.html" target="_blank">单独打开</a>
+      </div>
+      <div class="embed-card">
+        <div class="embed-head">
+          <div class="title">小红书评论区用户画像数据洞察</div>
+          <a class="open-btn" href="xhs_user_profile_visual_4429.html" target="_blank">查看原页</a>
+        </div>
+        <iframe src="xhs_user_profile_visual_4429.html" title="用户画像看板" style="height:1120px;"></iframe>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>测评结果页 Demo</h2>
+          <p class="lead">在用户画像基础上，我进一步把“痛点、需求、维度”转化为更接近产品化的心理测评结果页，用网页/小程序风格展示四类类型的输出方式。</p>
+        </div>
+        <a class="open-btn" href="xhs_assessment_result_demo.html" target="_blank">单独打开</a>
+      </div>
+      <div class="embed-grid">
+        <div class="embed-card">
+          <div class="embed-head">
+            <div class="title">小程序风格结果页</div>
+            <a class="open-btn" href="xhs_assessment_result_demo.html" target="_blank">查看原页</a>
+          </div>
+          <div class="phone-frame">
+            <iframe src="xhs_assessment_result_demo.html" title="测评结果页 Demo" style="height:1620px;"></iframe>
+          </div>
+        </div>
+        <div class="process">
+          <div class="process-card">
+            <div class="step">Framework</div>
+            <h3>结果页结构</h3>
+            <p>结果封面、摘要卡、五维度画像、主类型解读、心理需求、触发场景、温柔结尾。</p>
+          </div>
+          <div class="process-card">
+            <div class="step">User Feel</div>
+            <h3>文案原则</h3>
+            <p>少一点诊断感，多一点理解感；少一点标签，多一点安放，让用户先觉得“被看懂”。</p>
+          </div>
+          <div class="process-card">
+            <div class="step">Product</div>
+            <h3>落地意义</h3>
+            <p>证明我不仅能做数据分析，也能把画像进一步转成更贴近产品体验的结果呈现。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>完整工作文档</h2>
+          <p class="lead">这一部分把原来的 Word Demo 内容也保留成网页版本，便于完整查看项目背景、工作路径、样本数据、用户画像和测评方向。</p>
+        </div>
+        <a class="open-btn" href="xhs_project_demo_word_from_desktop.html" target="_blank">单独打开</a>
+      </div>
+      <div class="embed-card">
+        <div class="embed-head">
+          <div class="title">工作 Demo 文档网页版</div>
+          <a class="open-btn" href="xhs_project_demo_word_from_desktop.html" target="_blank">查看原页</a>
+        </div>
+        <iframe src="xhs_project_demo_word_from_desktop.html" title="工作 Demo 文档" style="height:980px;"></iframe>
+      </div>
+    </section>
+
+    <div class="footer">
+      这份作品集想证明的，不是我“会不会抓评论”，而是我是否具备把一个模糊任务做成完整成果的能力：先定义问题，再判断样本质量，遇到技术瓶颈后及时调整路径，最后把数据分析进一步转化为用户画像、测评框架和可展示的产品 demo。整个过程中，AI 对我来说是协同工具而不是替代思考的答案生成器，我负责做关键判断，AI 负责帮助我提高试错和生成效率。
+    </div>
+  </div>
+</body>
+</html>

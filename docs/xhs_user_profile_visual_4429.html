@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小红书评论用户画像汇报看板</title>
+  <style>
+    :root {
+      --bg: #f4f0fb;
+      --panel: #fbf9ff;
+      --line: #e5dcfb;
+      --purple: #7c64f2;
+      --purple-2: #a98dff;
+      --purple-3: #ebe4ff;
+      --text: #2e2555;
+      --muted: #7d73a5;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+    }
+
+    .page {
+      width: 1365px;
+      min-height: 768px;
+      margin: 0 auto;
+      background: #f7f4fd;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #7f63f3 0%, #8b6cf4 50%, #795ceb 100%);
+      color: #fff;
+      padding: 48px 56px 34px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 72px;
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .hero .sub {
+      margin-top: 18px;
+      font-size: 26px;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: 0.03em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 290px 1fr 300px;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .col {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 14px 16px 16px;
+      box-shadow: 0 8px 28px rgba(124, 100, 242, 0.06);
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .title::before {
+      content: "";
+      width: 6px;
+      height: 20px;
+      background: linear-gradient(180deg, var(--purple), var(--purple-2));
+      border-radius: 999px;
+    }
+
+    .metric {
+      background: linear-gradient(180deg, #f3edff, #fff);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .metric .k {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--purple), var(--purple-2));
+      color: #fff;
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .metric .v {
+      font-size: 42px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .metric .s {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .metric-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .rings {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .ring-item {
+      text-align: center;
+    }
+
+    .ring {
+      --p: 50;
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      background:
+        radial-gradient(closest-side, #fff 72%, transparent 73% 100%),
+        conic-gradient(var(--purple) calc(var(--p) * 1%), #eadfff 0);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--purple);
+    }
+
+    .ring-item .name {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .bars {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar {
+      display: grid;
+      grid-template-columns: 100px 1fr 62px;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .track {
+      height: 16px;
+      background: #ede6ff;
+      overflow: hidden;
+      border-radius: 999px;
+    }
+
+    .fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple-2), var(--purple));
+    }
+
+    .value {
+      text-align: right;
+      color: var(--purple);
+      font-weight: 700;
+    }
+
+    .mid-top {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 16px;
+    }
+
+    .source-box {
+      background: linear-gradient(180deg, #f6f0ff, #fff);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: #3e3563;
+    }
+
+    .source-box .label {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-2));
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .source-box a {
+      color: #6449e6;
+      text-decoration: none;
+    }
+
+    .source-box a:hover {
+      text-decoration: underline;
+    }
+
+    .source-layout {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .cover-slot {
+      border: 1px solid #d8cdfa;
+      border-radius: 14px;
+      width: 118px;
+      min-height: 166px;
+      overflow: hidden;
+      background: #fff;
+      position: relative;
+    }
+
+    .cover-topbar {
+      height: 28px;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid #f0ebfb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7px;
+      font-size: 8px;
+      color: #2a224b;
+    }
+
+    .cover-author {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+    }
+
+    .cover-avatar {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6d6764, #bbb3ae);
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .cover-badge {
+      padding: 2px 5px;
+      border: 1px solid #ddd4f6;
+      border-radius: 999px;
+      font-size: 8px;
+      color: #6d6396;
+      background: #fff;
+    }
+
+    .cover-scene {
+      position: relative;
+      height: calc(100% - 28px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.1) 20%, rgba(0,0,0,0.04) 100%),
+        radial-gradient(circle at 20% 22%, rgba(120,120,120,0.22), transparent 20%),
+        linear-gradient(180deg, #d7d7d7 0 26%, #b7b7b7 26% 44%, #7b746f 44% 100%);
+    }
+
+    .dough {
+      position: absolute;
+      background: radial-gradient(circle at 35% 30%, #faf2c7, #efe6b0 70%, #ddd39d 100%);
+      border-radius: 50% 50% 48% 52%;
+      box-shadow: inset 0 -6px 10px rgba(194,182,128,0.18);
+    }
+
+    .d1 { width: 36px; height: 21px; left: 6px; bottom: 18px; }
+    .d2 { width: 33px; height: 19px; left: 31px; bottom: 7px; }
+    .d3 { width: 40px; height: 22px; left: 38px; bottom: 20px; }
+    .d4 { width: 34px; height: 20px; left: 73px; bottom: 11px; }
+    .d5 { width: 28px; height: 17px; left: 79px; bottom: 33px; }
+    .d6 { width: 23px; height: 14px; left: 55px; bottom: 42px; }
+    .d7 { width: 22px; height: 13px; left: 90px; bottom: 39px; }
+
+    .cover-title-overlay {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: 40px;
+      background: rgba(255,255,255,0.92);
+      color: #121212;
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.35;
+      padding: 4px 5px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+
+    .source-headline {
+      margin: 2px 0 10px;
+      font-size: 17px;
+      color: #5f46df;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: #483f70;
+      line-height: 1.6;
+    }
+
+    .source-item strong {
+      color: #5a46cd;
+    }
+
+    .persona-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .persona {
+      background: linear-gradient(180deg, #f7f2ff, #fff);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 12px 10px;
+      min-height: 156px;
+    }
+
+    .persona h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      color: #6a51ea;
+    }
+
+    .persona .meta {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .persona p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.66;
+      color: #403768;
+    }
+
+    .summary-box {
+      height: 100%;
+      background: linear-gradient(180deg, #f5efff, #fff);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 15px;
+      line-height: 1.85;
+      color: #3e3563;
+    }
+
+    .summary-box strong {
+      color: #6b50eb;
+    }
+
+    .word-cloud {
+      min-height: 170px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      align-content: center;
+      justify-content: center;
+    }
+
+    .w1 { font-size: 56px; font-weight: 900; color: #5f45df; }
+    .w2 { font-size: 42px; font-weight: 800; color: #6e51e9; }
+    .w3 { font-size: 34px; font-weight: 800; color: #8666f0; }
+    .w4 { font-size: 26px; font-weight: 700; color: #9a7df4; }
+    .w5 { font-size: 20px; font-weight: 700; color: #b092fb; }
+
+    .tag-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .tag {
+      padding: 16px 12px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, #7a61ef, #a286ff);
+      border-radius: 12px;
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .city-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .city-table th,
+    .city-table td {
+      border: 1px solid var(--line);
+      padding: 8px 6px;
+      text-align: center;
+    }
+
+    .city-table th {
+      background: #f2ecff;
+      color: #6e56e6;
+    }
+
+    .foot {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <h1>小红书评论区<br />用户画像数据洞察</h1>
+      <div class="sub">家庭情感共鸣　治愈补偿　生活价值认同　反思遗憾表达</div>
+    </section>
+
+    <section class="grid">
+      <div class="col">
+        <div class="card">
+          <div class="title">评论声量</div>
+          <div class="metric-stack">
+            <div class="metric">
+              <div class="k">当前样本量</div>
+              <div class="v">4429</div>
+              <div class="s">已抓取并整理的最终评论样本</div>
+            </div>
+            <div class="metric">
+              <div class="k">互动结构</div>
+              <div class="v" style="font-size:34px;">2678 / 1751</div>
+              <div class="s">一级评论 2678 条，二级评论 1751 条</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">四类用户占比</div>
+          <div class="rings">
+            <div class="ring-item">
+              <div class="ring" style="--p:19.1">19.1%</div>
+              <div class="name">家庭情感共鸣型</div>
+            </div>
+            <div class="ring-item">
+              <div class="ring" style="--p:15.2">15.2%</div>
+              <div class="name">治愈补偿型</div>
+            </div>
+            <div class="ring-item">
+              <div class="ring" style="--p:8.9">8.9%</div>
+              <div class="name">生活价值认同型</div>
+            </div>
+            <div class="ring-item">
+              <div class="ring" style="--p:3.0">3.0%</div>
+              <div class="name">反思遗憾表达型</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">地域分布</div>
+          <table class="city-table">
+            <tr><th>地区</th><th>数量</th><th>地区</th><th>数量</th></tr>
+            <tr><td>广东</td><td>87</td><td>浙江</td><td>38</td></tr>
+            <tr><td>北京</td><td>37</td><td>江苏</td><td>35</td></tr>
+            <tr><td>四川</td><td>24</td><td>上海</td><td>22</td></tr>
+            <tr><td>陕西</td><td>19</td><td>山东</td><td>17</td></tr>
+            <tr><td>湖南</td><td>16</td><td>湖北</td><td>10</td></tr>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="title">点赞长尾结构</div>
+          <div class="bars">
+            <div class="bar"><div>0赞</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="value">2776</div></div>
+            <div class="bar"><div>1-9赞</div><div class="track"><div class="fill" style="width:52.3%"></div></div><div class="value">1453</div></div>
+            <div class="bar"><div>10-99赞</div><div class="track"><div class="fill" style="width:5.3%"></div></div><div class="value">147</div></div>
+            <div class="bar"><div>100-999赞</div><div class="track"><div class="fill" style="width:1.3%"></div></div><div class="value">37</div></div>
+            <div class="bar"><div>1000+</div><div class="track"><div class="fill" style="width:0.6%"></div></div><div class="value">16</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card">
+          <div class="title">四类核心用户画像</div>
+          <div class="persona-grid">
+            <div class="persona">
+              <h3>家庭情感共鸣型</h3>
+              <div class="meta">847 条 · 19.1% · 四类内部占比 41.3%</div>
+              <p>最核心的人群。会把内容迅速代入自己的父母、孩子、女儿和家庭经历，评论更愿意讲真实故事。</p>
+            </div>
+            <div class="persona">
+              <h3>治愈补偿型</h3>
+              <div class="meta">674 条 · 15.2% · 四类内部占比 32.9%</div>
+              <p>最容易被“被爱、被接纳、普通也很好”击中，评论常出现自我安慰、自我修复和情绪补偿。</p>
+            </div>
+            <div class="persona">
+              <h3>生活价值认同型</h3>
+              <div class="meta">396 条 · 8.9% · 四类内部占比 19.3%</div>
+              <p>认同平凡生活本身的幸福感，容易被家庭细节、烟火气、稳定感和普通日常打动。</p>
+            </div>
+            <div class="persona">
+              <h3>反思遗憾表达型</h3>
+              <div class="meta">135 条 · 3.0% · 四类内部占比 6.6%</div>
+              <p>更容易表达羡慕、遗憾、童年缺失和原生家庭创伤，情绪浓度高，容易形成深回复链。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mid-top">
+          <div class="card">
+            <div class="title">一句话画像</div>
+            <div class="summary-box">
+              这批用户最在意的不是<strong>学会什么</strong>，而是确认自己是否也能拥有
+              <strong>普通但被认真爱着</strong>的人生。<br /><br />
+              他们对<strong>家庭里的接纳感</strong>、<strong>平凡生活的幸福感</strong>、
+              <strong>被看见和被安慰的情绪价值</strong>反应最强，
+              是一批典型的<strong>高情绪共鸣型用户</strong>。
+            </div>
+          </div>
+          <div class="card">
+            <div class="title">数据来源</div>
+            <div class="source-box">
+              <div class="label">SOURCE NOTE</div>
+              <div class="source-layout">
+                <div class="cover-slot">
+                  <div class="cover-topbar">
+                    <div class="cover-author">
+                      <div class="cover-avatar"></div>
+                      <span>小婶婶</span>
+                    </div>
+                    <div class="cover-badge">已关注</div>
+                  </div>
+                  <div class="cover-scene">
+                    <div class="cover-title-overlay">如何培养一个普通的女儿</div>
+                    <div class="dough d1"></div>
+                    <div class="dough d2"></div>
+                    <div class="dough d3"></div>
+                    <div class="dough d4"></div>
+                    <div class="dough d5"></div>
+                    <div class="dough d6"></div>
+                    <div class="dough d7"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="source-headline">《大陆版俗女养成记》相关内容评论区用户画像</div>
+                  <div class="source-list">
+                    <div class="source-item"><strong>笔记标题：</strong>如何培养一个普通的女儿</div>
+                    <div class="source-item"><strong>发布账号：</strong>小婶婶</div>
+                    <div class="source-item"><strong>内容主题：</strong>普通生活、家庭叙事、女儿成长、被爱与被接纳</div>
+                    <div class="source-item"><strong>数据口径：</strong>基于该篇笔记当前已抓取到的 4429 条评论样本</div>
+                    <div class="source-item"><strong>画像含义：</strong>反映这篇内容吸引来的评论人群，而非小红书全平台用户</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">关键词热度</div>
+          <div class="bars">
+            <div class="bar"><div>普通</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="value">805</div></div>
+            <div class="bar"><div>幸福</div><div class="track"><div class="fill" style="width:90.4%"></div></div><div class="value">728</div></div>
+            <div class="bar"><div>爱</div><div class="track"><div class="fill" style="width:71.3%"></div></div><div class="value">574</div></div>
+            <div class="bar"><div>家</div><div class="track"><div class="fill" style="width:66.0%"></div></div><div class="value">531</div></div>
+            <div class="bar"><div>女儿</div><div class="track"><div class="fill" style="width:34.7%"></div></div><div class="value">279</div></div>
+            <div class="bar"><div>妈妈</div><div class="track"><div class="fill" style="width:32.5%"></div></div><div class="value">262</div></div>
+            <div class="bar"><div>孩子</div><div class="track"><div class="fill" style="width:30.9%"></div></div><div class="value">249</div></div>
+            <div class="bar"><div>普通人</div><div class="track"><div class="fill" style="width:27.1%"></div></div><div class="value">218</div></div>
+            <div class="bar"><div>温暖</div><div class="track"><div class="fill" style="width:22.9%"></div></div><div class="value">184</div></div>
+            <div class="bar"><div>父母</div><div class="track"><div class="fill" style="width:21.7%"></div></div><div class="value">175</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">高频语义云</div>
+          <div class="word-cloud">
+            <span class="w1">普通</span>
+            <span class="w2">幸福</span>
+            <span class="w2">爱</span>
+            <span class="w3">家</span>
+            <span class="w3">女儿</span>
+            <span class="w4">妈妈</span>
+            <span class="w4">孩子</span>
+            <span class="w4">普通人</span>
+            <span class="w5">温暖</span>
+            <span class="w5">父母</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card">
+          <div class="title">四类用户标签</div>
+          <div class="tag-stack">
+            <div class="tag">家庭情感<br />共鸣型</div>
+            <div class="tag">治愈补偿型</div>
+            <div class="tag">生活价值<br />认同型</div>
+            <div class="tag">反思遗憾<br />表达型</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">昵称风格</div>
+          <div class="bars">
+            <div class="bar"><div>中文/其他</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="value">3020</div></div>
+            <div class="bar"><div>英文数字型</div><div class="track"><div class="fill" style="width:22.0%"></div></div><div class="value">665</div></div>
+            <div class="bar"><div>中英混合</div><div class="track"><div class="fill" style="width:12.2%"></div></div><div class="value">368</div></div>
+            <div class="bar"><div>momo</div><div class="track"><div class="fill" style="width:10.0%"></div></div><div class="value">303</div></div>
+            <div class="bar"><div>小红薯默认名</div><div class="track"><div class="fill" style="width:2.4%"></div></div><div class="value">73</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">画像判断</div>
+          <div class="summary-box" style="font-size:14px; line-height:1.78;">
+            这不是一个“知识获取型”评论区，而是一个“人生经验投射型”评论区。<br /><br />
+            用户更关注：
+            <strong>普通是否值得被爱</strong>、
+            <strong>家里有没有接纳感</strong>、
+            <strong>自己有没有被理解</strong>。<br /><br />
+            所以最终的受众底色是：
+            <strong>家庭情感高敏、情绪价值驱动、普通生活认同</strong>。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">基于 4429 条评论样本生成 · 2026-03-11</div>
+  </div>
+</body>
+</html>

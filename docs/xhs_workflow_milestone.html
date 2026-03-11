@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>项目阶段里程碑</title>
+  <style>
+    :root {
+      --bg: #f5f3fa;
+      --ink: #2b2440;
+      --muted: #7a7294;
+      --line: #e3daf8;
+      --purple: #7b63f1;
+      --purple-soft: #b9a7ff;
+      --panel: rgba(255,255,255,0.86);
+      --shadow: 0 16px 38px rgba(91, 73, 173, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(185,167,255,0.2), transparent 26%),
+        linear-gradient(180deg, #f8f6fd 0%, #f1edf8 100%);
+    }
+    .wrap {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 30px 24px 44px;
+    }
+    .hero {
+      margin-bottom: 24px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(123,99,241,0.1);
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 920px;
+    }
+    .board {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 18px 18px 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .header-grid,
+    .row {
+      display: grid;
+      grid-template-columns: 120px 230px 1fr 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .header-grid {
+      padding: 8px 10px 12px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .rows {
+      display: grid;
+      gap: 14px;
+      padding-top: 16px;
+    }
+    .row {
+      background: #fff;
+      border: 1px solid #eee8ff;
+      border-radius: 22px;
+      padding: 14px;
+      box-shadow: 0 8px 22px rgba(91,73,173,0.05);
+    }
+    .stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-soft));
+      color: #fff;
+      font-weight: 800;
+      font-size: 16px;
+      text-align: center;
+      min-height: 92px;
+    }
+    .module {
+      min-height: 92px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: #faf8ff;
+      border: 1px solid #eee8ff;
+    }
+    .module .title {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .module .text {
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .milestone {
+      min-height: 92px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(123,99,241,0.10), rgba(123,99,241,0.04));
+      border: 1px solid rgba(123,99,241,0.18);
+    }
+    .milestone .title {
+      font-size: 13px;
+      color: var(--purple);
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .milestone .text {
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 600;
+      color: #43376b;
+    }
+    .timeline {
+      margin-top: 22px;
+      padding: 18px 12px 0;
+    }
+    .timeline-track {
+      height: 10px;
+      border-radius: 999px;
+      background: #ece5ff;
+      position: relative;
+      overflow: hidden;
+    }
+    .timeline-fill {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple), var(--purple-soft));
+    }
+    .timeline-points {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .point {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .point strong {
+      display: block;
+      color: var(--ink);
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 1100px) {
+      .header-grid { display: none; }
+      .row {
+        grid-template-columns: 1fr;
+      }
+      .stage,
+      .module,
+      .milestone { min-height: auto; }
+      .timeline-points { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="tag">Project Milestone</div>
+      <h1>项目阶段里程碑</h1>
+      <p>把本次笔试工作拆解为 6 个连续推进的阶段，强调每一步的任务目标、执行方式与阶段产出，更适合用项目管理和里程碑视角进行展示。</p>
+    </section>
+
+    <section class="board">
+      <div class="header-grid">
+        <div>阶段</div>
+        <div>阶段主题</div>
+        <div>工作内容</div>
+        <div>操作方式</div>
+        <div>里程碑产出</div>
+      </div>
+
+      <div class="rows">
+        <div class="row">
+          <div class="stage">阶段 1</div>
+          <div class="module">
+            <div class="title">阶段主题</div>
+            <div class="text">网页版评论抓取</div>
+          </div>
+          <div class="module">
+            <div class="title">工作内容</div>
+            <div class="text">使用 GPT 辅助抓取小红书网页版评论，完成首轮数据获取与样本验证。</div>
+          </div>
+          <div class="module">
+            <div class="title">操作方式</div>
+            <div class="text">围绕目标笔记进行页面评论抓取、滚动加载与导出尝试。</div>
+          </div>
+          <div class="milestone">
+            <div class="title">Milestone</div>
+            <div class="text">最多抓取 1470 条评论，完成初步画像分析。</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage">阶段 2</div>
+          <div class="module">
+            <div class="title">阶段主题</div>
+            <div class="text">识别样本量不足问题</div>
+          </div>
+          <div class="module">
+            <div class="title">工作内容</div>
+            <div class="text">对初步画像结果做数量检查，判断样本是否足以支撑更稳健的心理学解释。</div>
+          </div>
+          <div class="module">
+            <div class="title">操作方式</div>
+            <div class="text">按分类结果检查样本规模与类型分布，识别分析边界。</div>
+          </div>
+          <div class="milestone">
+            <div class="title">Milestone</div>
+            <div class="text">确认部分类型样本数不足，需要切换抓取方案。</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage">阶段 3</div>
+          <div class="module">
+            <div class="title">阶段主题</div>
+            <div class="text">切换 App 抓取方案</div>
+          </div>
+          <div class="module">
+            <div class="title">工作内容</div>
+            <div class="text">从网页端切换到 App 端，寻找更稳定、可扩样的数据入口。</div>
+          </div>
+          <div class="module">
+            <div class="title">操作方式</div>
+            <div class="text">下载小红书应用程序，使用 Proxyman 监控 App 流量并识别评论接口。</div>
+          </div>
+          <div class="milestone">
+            <div class="title">Milestone</div>
+            <div class="text">成功获取更完整评论数据，突破网页端抓取瓶颈。</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage">阶段 4</div>
+          <div class="module">
+            <div class="title">阶段主题</div>
+            <div class="text">评论数据清洗与整理</div>
+          </div>
+          <div class="module">
+            <div class="title">工作内容</div>
+            <div class="text">对抓取结果进行结构化整理，保留后续研究所需的关键信息。</div>
+          </div>
+          <div class="module">
+            <div class="title">操作方式</div>
+            <div class="text">提取一级评论、二级评论、昵称、地点、点赞数、评论内容，并进行合并去重。</div>
+          </div>
+          <div class="milestone">
+            <div class="title">Milestone</div>
+            <div class="text">得到 4429 条有效评论样本。</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage">阶段 5</div>
+          <div class="module">
+            <div class="title">阶段主题</div>
+            <div class="text">用户画像精细分析</div>
+          </div>
+          <div class="module">
+            <div class="title">工作内容</div>
+            <div class="text">基于大样本评论做更稳定的人群分类，提炼真实的情绪与关系特征。</div>
+          </div>
+          <div class="module">
+            <div class="title">操作方式</div>
+            <div class="text">根据评论主题、情绪表达与关系投射特征进行归纳与分类。</div>
+          </div>
+          <div class="milestone">
+            <div class="title">Milestone</div>
+            <div class="text">形成四类核心用户画像，明确主力人群结构。</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="stage">阶段 6</div>
+          <div class="module">
+            <div class="title">阶段主题</div>
+            <div class="text">心理测评开发方向确认</div>
+          </div>
+          <div class="module">
+            <div class="title">工作内容</div>
+            <div class="text">将用户画像转化为测评开发输入，建立从洞察到产品设计的连接。</div>
+          </div>
+          <div class="module">
+            <div class="title">操作方式</div>
+            <div class="text">从用户痛点、需求和类型特征反推测评维度与编制方向。</div>
+          </div>
+          <div class="milestone">
+            <div class="title">Milestone</div>
+            <div class="text">形成心理测评简化开发流程。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-track">
+          <div class="timeline-fill"></div>
+        </div>
+        <div class="timeline-points">
+          <div class="point"><strong>阶段1</strong>初始抓取</div>
+          <div class="point"><strong>阶段2</strong>问题识别</div>
+          <div class="point"><strong>阶段3</strong>方案切换</div>
+          <div class="point"><strong>阶段4</strong>样本稳定</div>
+          <div class="point"><strong>阶段5</strong>画像精细化</div>
+          <div class="point"><strong>阶段6</strong>产品方向确认</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
