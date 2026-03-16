@@ -449,6 +449,177 @@
       color: #2d4c78;
     }
 
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .module-card {
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(247, 251, 255, 0.98), rgba(255,255,255,0.98));
+      border: 1px solid rgba(72, 124, 193, 0.12);
+    }
+
+    .module-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.35;
+      color: var(--blue-1);
+      letter-spacing: -0.03em;
+    }
+
+    .module-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.82;
+      color: #2d4c78;
+    }
+
+    .module-points {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .module-point {
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(211, 230, 255, 0.52);
+      color: #29507d;
+      font-size: 13px;
+      line-height: 1.72;
+    }
+
+    .phone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .phone-ui {
+      border-radius: 30px;
+      padding: 14px;
+      background: linear-gradient(180deg, #eef5ff, #ffffff);
+      border: 1px solid rgba(72, 124, 193, 0.12);
+      box-shadow: 0 18px 42px rgba(24, 88, 199, 0.14);
+    }
+
+    .phone-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .phone-screen {
+      border-radius: 24px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid rgba(72, 124, 193, 0.08);
+    }
+
+    .chapter-pill {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(17, 88, 226, 0.08);
+      color: var(--blue-1);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .phone-screen h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    .phone-screen p {
+      margin: 0;
+      color: #45648d;
+      font-size: 13px;
+      line-height: 1.72;
+    }
+
+    .done-badge {
+      display: inline-block;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(17, 88, 226, 0.1), rgba(114, 183, 255, 0.16));
+      color: var(--blue-1);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .task-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task-card {
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(247, 251, 255, 0.98);
+      border: 1px solid rgba(72, 124, 193, 0.1);
+    }
+
+    .task-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--blue-1);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .task-card span {
+      display: block;
+      color: #45648d;
+      font-size: 12px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .option-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .option-chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 88, 226, 0.14);
+      background: #fff;
+      color: #3d5e8d;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .option-chip.active {
+      background: linear-gradient(135deg, rgba(17, 88, 226, 0.1), rgba(114, 183, 255, 0.2));
+      color: var(--blue-1);
+      border-color: rgba(17, 88, 226, 0.24);
+    }
+
+    .effect-line {
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(211, 230, 255, 0.4);
+      color: #567495;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
     .metrics {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -504,6 +675,8 @@
       .grid-2,
       .grid-3,
       .grid-4,
+      .module-grid,
+      .phone-grid,
       .flow,
       .metrics,
       .data-strip {
@@ -804,39 +977,245 @@
         <section class="card section">
           <div class="section-header">
             <span class="section-no">08</span>
-            <h2>补充说明：适合放进书里的正式测评工具</h2>
+            <h2>书内测评与打卡闭环设计</h2>
           </div>
-          <p class="section-summary">这本书聚焦亲子沟通、关系修复和作业冲突管理，适合搭配能够判断家长压力、亲子互动质量和孩子行为状态的正式测评工具。</p>
+          <p class="section-summary">这部分不再只是列量表，而是直接说明书内如何做前测、每日打卡、章节复测、社群运营和课程承接。结构按“先框架，再章节，再原型，再运营”展开。</p>
+          <div class="data-strip">
+            <div class="data-box">
+              <strong>5</strong>
+              <span>核心量表</span>
+            </div>
+            <div class="data-box">
+              <strong>13</strong>
+              <span>章节设计</span>
+            </div>
+            <div class="data-box">
+              <strong>微信群</strong>
+              <span>打卡与行为分层</span>
+            </div>
+            <div class="data-box">
+              <strong>课程转化</strong>
+              <span>线上 + 线下承接</span>
+            </div>
+          </div>
           <div class="grid-3">
             <article class="subcard">
-              <h3>PSI-4-SF</h3>
-              <p>适合判断家长当前的养育压力水平。对高压陪读、情绪透支、长期自责这类问题有直接解释力，适合放在书前或书后做压力自检。</p>
+              <h3>章节前测</h3>
+              <p>每章开始先做一份短版行为量表，先判断这一章最主要的问题，不靠主观感觉开练。</p>
             </article>
             <article class="subcard">
-              <h3>亲子关系量表</h3>
-              <p>适合判断亲密度、冲突度、回应方式和互动阻力。它和这本书的核心主题最贴近，能直接帮助读者识别关系卡点。</p>
+              <h3>每日打卡</h3>
+              <p>把书里的方法拆成 3 个多选任务，家长每天完成 1 到 3 项，记录行为变化和实际效果。</p>
             </article>
             <article class="subcard">
-              <h3>SDQ</h3>
-              <p>适合补充了解孩子的情绪、行为、同伴互动和亲社会表现，帮助家长把注意力从单一成绩扩展到整体状态。</p>
+              <h3>章节复测</h3>
+              <p>章节结束再测同一量表，确认进步点、停滞点和仍需继续练的动作。</p>
             </article>
           </div>
-          <div class="grid-3">
-            <article class="subcard">
-              <h3>CBCL</h3>
-              <p>适合做更完整的行为与情绪筛查，帮助家长识别外化行为、内化情绪和学习相关困难，适合作为深度工具使用。</p>
+          <div class="tagline">书内测评不做知识考试，只看行为变化。重点是让家长看见自己在认知、情绪、沟通、规则和关系上的真实进步。</div>
+
+          <div class="module-grid">
+            <article class="module-card">
+              <h3>第一章 做好家长</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>认知偏差、完美主义、自我价值感不足。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>养育自我效能感量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>自信程度、问题解决能力、情绪稳定性。</div>
+              </div>
             </article>
-            <article class="subcard">
-              <h3>Conners 家长问卷</h3>
-              <p>适合在家长高度关注专注力、冲动性、课堂坐不住、作业拖拉时使用，帮助进一步判断孩子是否存在注意力相关风险。</p>
+            <article class="module-card">
+              <h3>第二章 重识铁三角</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>边界模糊、角色错位、过度控制。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>亲子边界感知行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>包办、干涉、价值依附。</div>
+              </div>
             </article>
-            <article class="subcard">
-              <h3>工具组合建议</h3>
-              <p>书内主工具建议放 PSI-4-SF 和亲子关系量表，形成“家长压力 + 关系质量”的核心判断。SDQ、CBCL、Conners 更适合做补充页或附录工具。</p>
+            <article class="module-card">
+              <h3>第三章 不与时间赛跑</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>超前教育焦虑、违背成长规律。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>育儿节奏与发展阶段匹配行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>教育节奏是否适龄。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第四章 学会照顾自己</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>独立性差、抗挫力弱、生活技能不足。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>儿童生活自理与独立能力量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>自理、责任承担、解决问题。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第五章 掌控情绪</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>家长 / 孩子情绪管理能力弱。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>情绪调节行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>情绪识别、表达、调节。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第六章 有效沟通</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>沟通不畅、倾听不足、指责式沟通。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>亲子沟通行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>倾听、共情、表达。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第七章 处理行为问题</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>规则不清、惩罚过度、问题反复。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>儿童行为问题与管教方式量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>惩罚、后果、温和坚定。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第八章 做 EQ 型家长</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>否定情绪、缺乏共情、处理不当。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>EQ 型家长行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>接纳、共情、引导、解决。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第九章 和谐亲子关系</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>关系维护不足、冲突反复。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>家庭关系满意度与互动行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>互动频率、解决方式、满意度。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第十章 特殊家庭关系</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>安全感和归属感不足。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>特殊家庭亲子安全感与归属行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>分离沟通、爱的表达、家族连接。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第十一章 调节好心态</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>期待投射、性别偏见、把希望压在孩子身上。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>家长期待投射与心态调整量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>是否把自己的压力押给孩子。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第十二章 放下压力</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>压力循环、紧张状态、共同价值松散。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>家庭压力循环与减压行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>压力触发与缓解能力。</div>
+              </div>
+            </article>
+            <article class="module-card">
+              <h3>第十三章 婚姻问题家长建议</h3>
+              <div class="module-points">
+                <div class="module-point"><strong>核心问题：</strong>婚姻冲突外溢、家庭暴力风险、修复不足。</div>
+                <div class="module-point"><strong>前测 / 复测：</strong>婚姻冲突外溢与家庭修复行为量表。</div>
+                <div class="module-point"><strong>测评重点：</strong>反思、隔离冲突、修复行动。</div>
+              </div>
             </article>
           </div>
-          <div class="tagline">放进书里的正式工具，重点服务三个目标：增强专业感，帮助读者自我判断，提升这本书的实用价值和口碑传播力。</div>
-          <div class="stamp">生成于 2026-03-15</div>
+
+          <div class="phone-grid">
+            <article class="phone-ui">
+              <div class="phone-topbar"><span>09:41</span><span>今日打卡</span></div>
+              <div class="phone-screen">
+                <div class="chapter-pill">第 1 章</div>
+                <h3>做好家长，正确的信念比行动更重要</h3>
+                <p>支持 1 到 3 项多选，完成后单独记录效果。</p>
+                <div class="done-badge">今日完成 2 / 3 项</div>
+                <div class="task-stack">
+                  <div class="task-card">
+                    <strong>1. 接纳自己的不完美</strong>
+                    <span>犯错后不说“我真没用”，改说“这次没做好，下次试试 XX 方法”</span>
+                    <div class="option-row"><span class="option-chip active">完成</span><span class="option-chip">未完成</span></div>
+                    <div class="effect-line">效果记录：今天没有继续自责，后面沟通更平稳。</div>
+                  </div>
+                  <div class="task-card">
+                    <strong>2. 不传递焦虑</strong>
+                    <span>不说“你再不努力就完了”，改说“我们一起找办法”</span>
+                    <div class="option-row"><span class="option-chip active">完成</span><span class="option-chip">未完成</span></div>
+                    <div class="effect-line">效果记录：孩子没有马上防御，愿意继续听。</div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="phone-ui">
+              <div class="phone-topbar"><span>09:41</span><span>今日打卡</span></div>
+              <div class="phone-screen">
+                <div class="chapter-pill">第 6 章</div>
+                <h3>良好和有效的亲子沟通技巧</h3>
+                <p>重点看倾听、具体表扬和去指责化表达。</p>
+                <div class="done-badge">今日完成 1 / 3 项</div>
+                <div class="task-stack">
+                  <div class="task-card">
+                    <strong>1. 认真倾听不打断</strong>
+                    <span>孩子说学校的事时，放下手机，不中途插话</span>
+                    <div class="option-row"><span class="option-chip active">完成</span><span class="option-chip">未完成</span></div>
+                    <div class="effect-line">效果记录：孩子讲得更完整，情绪更放松。</div>
+                  </div>
+                  <div class="task-card">
+                    <strong>2. 不指责沟通</strong>
+                    <span>不说“你怎么又磨蹭”，改说“我们还有 10 分钟就出门”</span>
+                    <div class="option-row"><span class="option-chip">完成</span><span class="option-chip active">未完成</span></div>
+                    <div class="effect-line">效果记录：孩子是否更愿意配合。</div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="phone-ui">
+              <div class="phone-topbar"><span>09:41</span><span>今日打卡</span></div>
+              <div class="phone-screen">
+                <div class="chapter-pill">第 12 章</div>
+                <h3>放下压力，轻松的家长更可爱</h3>
+                <p>重点练减压动作和共同价值确认。</p>
+                <div class="done-badge">今日完成 2 / 3 项</div>
+                <div class="task-stack">
+                  <div class="task-card">
+                    <strong>1. 测一测共同信念和共同价值</strong>
+                    <span>今天和家人确认一次“我们家最重要的是什么”</span>
+                    <div class="option-row"><span class="option-chip active">完成</span><span class="option-chip">未完成</span></div>
+                    <div class="effect-line">效果记录：家庭目标有没有更统一。</div>
+                  </div>
+                  <div class="task-card">
+                    <strong>2. 快速缓压</strong>
+                    <span>今天使用一种减压方法处理紧张状态</span>
+                    <div class="option-row"><span class="option-chip active">完成</span><span class="option-chip">未完成</span></div>
+                    <div class="effect-line">效果记录：哪种方法最有效。</div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="grid-2">
+            <article class="subcard">
+              <h3>微信群打卡</h3>
+              <p>家长按章节在群里晒打卡截图、完成项和效果记录。群里固定时间提醒，提升连续完成率。</p>
+            </article>
+            <article class="subcard">
+              <h3>行为分层</h3>
+              <p>根据完成率、复测变化和高频卡点，把家长分成轻度自助型、需要陪跑型、复杂问题型。</p>
+            </article>
+            <article class="subcard">
+              <h3>线上转化</h3>
+              <p>轻度问题承接直播答疑、线上微课和主题训练营，让家长在打卡基础上继续精练。</p>
+            </article>
+            <article class="subcard">
+              <h3>线下转化</h3>
+              <p>婚姻冲突明显、家庭系统复杂、行为问题持续的家庭承接线下工作坊和深度课程。</p>
+            </article>
+          </div>
+
+          <div class="conclusion">
+            <p>这一部分最终要形成“测评找问题、打卡练动作、复测看进步、社群做陪跑、课程做承接”的完整闭环。这样书不只是内容载体，也能成为长期产品链路的起点。</p>
+          </div>
+          <div class="stamp">08 模块更新于 2026-03-16</div>
         </section>
       </div>
     </section>
