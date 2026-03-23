@@ -1,89 +1,92 @@
 # Xiaohongshu Comment Crawler Design
 
-**Goal:** Build a Xiaohongshu crawling skill that can discover target notes from keyword search or direct note input, then capture first-level and second-level comments as completely as practical with resumable jobs and completeness verification.
+**Goal:** Build a Xiaohongshu crawler that automatically finds target notes and captures first-level and second-level comments as completely as practical, with resumable execution and explicit completeness reporting.
 
-**Status:** Approved at design level by user on 2026-03-22. Final completeness target is "best-effort full capture with automatic resume and explicit missing-data reporting", not zero-failure guarantees.
+**Status:** Revised on 2026-03-23 after scope correction from web-first discovery to app-first capture. Final completeness target remains "best-effort full capture with automatic resume and explicit missing-data reporting", not zero-failure guarantees.
 
 ## Problem Statement
 
-The user wants a reusable skill for Xiaohongshu that:
+The user wants a reusable workflow that:
 
-- Accepts a keyword and searches `https://www.xiaohongshu.com/explore`
-- Sorts results by "most comments"
-- Selects the top 10 notes
-- Enters each note and captures all first-level and second-level comments
-- Expands comments automatically without manual clicking
-- Can also accept direct `note_url` or `note_id` inputs for targeted backfill
-- Minimizes security-limit failures and supports resumable recovery
+- Searches a keyword in the Xiaohongshu desktop app
+- Chooses the equivalent of "most comments"
+- Selects the top 10 notes in ranked order
+- Enters each note one by one
+- Captures all first-level and second-level comments
+- Does not require the user to manually click, scroll, or expand comments
+- Does not silently undercount or present partial data as complete
 
-The user explicitly does **not** accept a workflow that silently loses comments or depends on manual comment expansion.
+The user explicitly prioritizes near-full comment capture over the choice of discovery surface. If app-side interface automation is needed only to identify target notes, that is acceptable. The primary requirement is that comment extraction itself must use the route most likely to reach full pagination.
 
 ## Constraints
 
-- Xiaohongshu uses dynamic anti-abuse controls, login checks, and changing client behavior.
+- Xiaohongshu uses dynamic anti-abuse controls, login checks, and changing request signatures.
 - The system cannot guarantee literal zero failure probability.
 - The design must prefer durability, resumability, and visibility of incompleteness over raw speed.
-- The user accepts reuse of a dedicated logged-in Chrome profile.
-- First version should focus on Xiaohongshu web discovery plus comment capture, not native desktop app automation.
+- The user does not want to participate in the run once it starts.
+- Native desktop app automation is harder to stabilize than browser DOM automation because accessibility exposure is weak and some controls may require coordinate-driven interaction.
+- Web DOM comment expansion has already been shown to underexpose large comment trees and is therefore not acceptable as the primary comment-capture path.
 
 ## Recommended Approach
 
-Use a hybrid architecture:
+Use an app-first hybrid architecture:
 
-1. Browser automation for light discovery only
-2. Logged-in session reuse for authenticated requests
-3. Comment extraction through paginated comment APIs where available
+1. Native app automation only for finding target notes
+2. Fresh app-session request capture for authenticated comment traffic
+3. Direct comment extraction through paginated app APIs
 4. Local job state persistence for restart and verification
 
-This is preferred over pure DOM scraping because it reduces UI churn, reduces repeated heavy scrolling, and gives cleaner pagination control for first-level and second-level comments.
+This is preferred over DOM scraping because the desktop app shows higher visible comment counts than the web DOM exposes, while API pagination gives better control over first-level and second-level comment coverage.
 
 ## Alternatives Considered
 
-### Option A: Pure Playwright DOM scraping
+### Option A: Continue with web DOM expansion
 
-Use Playwright to search, open notes, scroll the comments panel, click "show more replies", and extract visible comments from the DOM.
+Use browser automation to search, open notes, scroll the comments panel, click "show more replies", and extract visible comments from the DOM.
 
 Pros:
 
 - Straightforward mental model
-- No API reverse engineering required
+- No request-signature maintenance
 
 Cons:
 
-- Highest instability
+- Already proven incomplete on high-comment notes
 - Slowest runtime
-- Most likely to trigger limits
-- Hardest to verify completeness
+- Weakest completeness guarantees
+- Not acceptable for the user's target
 
-### Option B: Hybrid browser discovery plus comment API capture
+### Option B: Native app discovery plus app API comment capture
 
-Use browser automation only for finding candidate notes, then fetch all comments through API pagination using the same authenticated session context.
-
-Pros:
-
-- Best balance of stability and completeness
-- Easier resume behavior
-- Easier duplicate detection and page-state validation
-- Avoids repeatedly stressing the visual comment UI
-
-Cons:
-
-- Requires maintenance of request headers/cookies/session handling
-- Requires fallback logic when one request path fails
-
-### Option C: Fully API-driven search plus comments
-
-Use APIs for both discovery and comment extraction.
+Use the desktop app to search and identify target notes, then capture fresh authenticated request context from the running app and fetch all comments through paginated app endpoints.
 
 Pros:
 
-- Fastest in theory
+- Best match to the user's observed comment totals
+- Most likely to support full first-level and second-level pagination
+- Easier to detect and retry partial runs
+- Avoids relying on the app UI for repeated comment expansion
 
 Cons:
 
-- Search path is likely to be more brittle
-- Harder to bootstrap reliably in v1
-- More likely to break unexpectedly
+- Requires fresh signed headers from live app traffic
+- Requires more operational care around anti-abuse events
+- App-side UI automation may need screenshot or coordinate based fallbacks
+
+### Option C: Reverse web signatures and use web APIs only
+
+Use web-side discovery and web comment APIs after reproducing request signing.
+
+Pros:
+
+- Potentially cleaner automation surface than the desktop app
+- Less dependency on screenshot-driven desktop control
+
+Cons:
+
+- Higher reverse-engineering cost
+- Current evidence suggests web-side comment exposure is less trustworthy for this use case
+- Not the fastest path to a practical v1
 
 ## Decision
 
@@ -91,24 +94,26 @@ Implement **Option B** for v1.
 
 ## User-Facing Capabilities
 
-The skill should support two entry paths:
+The workflow should support two entry paths:
 
-1. Search path
-   - Search by keyword
-   - Sort by "most comments"
+1. Keyword discovery path
+   - Search by keyword in the desktop app
+   - Choose the equivalent of "most comments"
    - Collect the top N notes, default 10
    - Crawl all comments for each note
 
 2. Direct note path
    - Accept one or more `note_url` or `note_id` values
-   - Crawl comments directly without search
+   - Crawl comments directly without discovery
    - Useful for backfill or retry workflows
+
+The keyword path is the main user scenario. The direct note path is retained because it is operationally useful when a note must be retried or backfilled without rediscovery.
 
 ## Proposed Command Surface
 
 The first version should expose a small, task-oriented interface:
 
-- `search-top-notes <keyword> --limit 10 --sort most_comments`
+- `discover-top-notes <keyword> --limit 10 --sort most_comments`
 - `crawl-note-comments <note_url_or_id>`
 - `crawl-batch <file>`
 - `resume-job <job_id>`
@@ -122,16 +127,16 @@ These commands may be exposed through a skill wrapper, a Python CLI, or both. Th
 
 Responsibility:
 
-- Open Xiaohongshu web search
-- Reuse a dedicated Chrome profile with persisted login
-- Submit keyword
-- Set the sort order to "most comments"
-- Collect note metadata for the top N notes
+- Launch or attach to the Xiaohongshu desktop app
+- Search the keyword inside the app
+- Select the "most comments" sort equivalent
+- Collect metadata for the top N notes
+- Preserve ranked order so notes are crawled one by one
 
 Outputs:
 
 - `note_id`
-- note URL
+- note URL if derivable
 - title if present
 - author if present
 - visible comment count if present
@@ -139,25 +144,35 @@ Outputs:
 
 This layer should remain intentionally shallow:
 
-- No deep search-result pagination in v1
-- No aggressive scrolling through many result pages
-- No repeated refresh loops
+- No deep result pagination in v1
+- No aggressive list scrolling beyond what is needed for the top 10
+- No manual user intervention once the run starts
 
-### 2. Comment Capture Layer
+### 2. Session Capture Layer
 
 Responsibility:
 
-- Use authenticated session context to request first-level comments page by page
+- Observe fresh comment-related app traffic from the running desktop app
+- Extract current headers, cookies, and signed fields required for comment pagination
+- Refresh those fields when signatures expire or the app rotates them
+
+This layer exists because replaying stale app headers returns authorization or signature errors. The crawler therefore needs a current, runtime-derived request context rather than static templates.
+
+### 3. Comment Capture Layer
+
+Responsibility:
+
+- Use current app-session context to request first-level comments page by page
 - For each first-level comment, request second-level comments page by page
 - Normalize each comment into a stable internal schema
 
 Preferred order:
 
-1. Web comment API path
-2. App-style comment API path using stored header templates
-3. DOM fallback only for metadata or emergency debugging, not primary extraction
+1. App comment API path with fresh live headers
+2. App comment API retry with refreshed live headers
+3. DOM fallback only for metadata checks or debugging, never as the primary completeness path
 
-### 3. Job State Layer
+### 4. Job State Layer
 
 Responsibility:
 
@@ -168,7 +183,7 @@ Responsibility:
 
 The crawler must be able to stop after any completed request and continue later without discarding already collected data.
 
-### 4. Verification Layer
+### 5. Verification Layer
 
 Responsibility:
 
@@ -198,7 +213,7 @@ Each job should have a durable record containing:
 Each note should track:
 
 - `note_id`
-- URL
+- URL if known
 - note metadata
 - discovery rank if applicable
 - expected visible comment count if available
@@ -258,6 +273,7 @@ After each note:
 For notes marked `partial`:
 
 - Retry the note in a second pass
+- Refresh app-session headers before retry
 - Resume from last stable cursor where possible
 - If still incomplete, persist an explicit reason code
 
@@ -268,6 +284,7 @@ Possible reason codes:
 - `captcha_or_security_check`
 - `api_shape_changed`
 - `cursor_inconsistent`
+- `signature_expired`
 - `count_mismatch_unresolved`
 
 ## Anti-Abuse Strategy
@@ -276,13 +293,13 @@ The design should reduce risk rather than pretending to eliminate it.
 
 ### Required practices
 
-- Use a dedicated Chrome profile that stays logged in
-- Reuse the same browser identity rather than reauthenticating repeatedly
-- Keep browser discovery shallow
+- Reuse a stable logged-in desktop app session
+- Discover only the target top 10 notes rather than crawling broad result sets
 - Process notes serially in v1
-- Add delay and jitter between requests
+- Add delay and jitter between comment requests
 - Save after every note and at intermediate pagination checkpoints
 - Pause on security events instead of hammering retries
+- Refresh request context from live app traffic when signatures expire
 - Resume later from saved state
 
 ### Explicit non-goals
@@ -293,15 +310,16 @@ V1 should not include:
 - forced bypass of security checks
 - proxy rotation systems
 - concurrent multi-account distribution
-- native desktop app UI automation
+- reliance on web DOM expansion as the main capture path
 
 ## Error Handling
 
 Expected failure modes:
 
-- browser session expired
+- desktop app session expired
 - comment endpoint returns auth error
-- security challenge interrupts browsing
+- signature fields expire mid-run
+- security challenge interrupts app traffic
 - endpoint schema changes
 - note becomes unavailable
 - comments are deleted or hidden between pages
@@ -343,10 +361,11 @@ output/xhs-comment-jobs/<job_id>/
 
 V1 includes:
 
-- keyword search entry
+- desktop app keyword search entry
 - direct note entry
 - "most comments" sort handling
 - top 10 note discovery
+- fresh app request-context capture
 - first-level comment pagination
 - second-level comment pagination
 - resumable job state
@@ -357,7 +376,6 @@ V1 excludes:
 
 - multiple keyword campaigns in one run
 - scheduled recurring jobs
-- desktop app automation
 - auto-captcha handling
 - unlimited search-result pagination
 - claims of guaranteed zero-failure extraction
@@ -373,10 +391,12 @@ Testing should cover:
 - job resume from interrupted state
 - note verification outcomes
 - serialization of manifests and output files
+- header-refresh behavior after signature expiration
 
 Manual verification should cover:
 
-- browser search workflow with logged-in profile
+- desktop app search workflow
+- app-side "most comments" selection
 - one low-comment note
 - one high-comment note with second-level replies
 - forced interruption followed by resume
@@ -384,17 +404,18 @@ Manual verification should cover:
 
 ## Open Implementation Notes
 
-- Existing local scripts already cover parts of the required behavior and should be reused where possible, especially comment export and captured header flows.
+- Existing local scripts already cover parts of the required behavior and should be reused where possible, especially comment export, HAR parsing, and captured-header flows.
 - The first implementation pass should unify those scripts behind one coherent job model instead of adding yet another standalone script.
-- DOM scraping should remain a debugging aid, not the main completeness path.
+- Native app automation should be treated as a discovery aid. Comment completeness should come from app API pagination rather than UI expansion.
 
 ## Success Criteria
 
 The first release is successful if it can:
 
-- discover the top 10 notes for a keyword from Xiaohongshu web search
+- discover the top 10 notes for a keyword from the Xiaohongshu desktop app
 - crawl comments for each discovered note or directly supplied note input
-- capture first-level and second-level comments through resumable pagination
+- capture first-level and second-level comments through resumable app-side pagination
+- refresh live request context when signatures expire
 - pause and resume without losing prior results
 - mark each note as `complete`, `partial`, or `failed`
 - produce output that makes missing data explicit instead of hidden
