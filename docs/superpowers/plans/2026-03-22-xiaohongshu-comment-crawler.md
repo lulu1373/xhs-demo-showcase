@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a resumable Xiaohongshu comment crawler that discovers notes from keyword search or direct note input, then captures first-level and second-level comments through a job-based workflow with verification.
+**Goal:** Build a resumable Xiaohongshu comment crawler that discovers notes from the desktop app or direct note input, then captures first-level and second-level comments through app-side pagination with verification.
 
-**Architecture:** Reuse the existing Xiaohongshu scripts as extraction backends, but move orchestration into a single job-driven CLI. Use a shallow browser discovery layer to find note IDs, a comment-fetch layer with web/app API adapters, and a persisted job state model that supports resume and completeness checks.
+**Architecture:** Reuse the existing Xiaohongshu scripts as extraction backends, but move orchestration into a single job-driven CLI. Use a desktop-app discovery layer to identify target notes, a live-session capture layer to keep app headers fresh, and an app-comment pagination layer backed by persisted job state and verification.
 
-**Tech Stack:** Python 3, standard library HTTP/JSON/CSV/path handling, existing Xiaohongshu scripts in this repo, Chrome profile reuse, optional browser automation layer
+**Tech Stack:** Python 3, standard library HTTP/JSON/CSV/path handling, existing Xiaohongshu scripts in this repo, desktop screenshot/automation helpers, Proxyman CLI export flow, app API capture
 
 ---
 
@@ -15,39 +15,39 @@
 Planned files and responsibilities:
 
 - Create: `/Users/lulu/AIWork/xhs_crawler/__init__.py`
-  Purpose: Package marker for the new crawler modules.
+  Purpose: Package marker for the crawler modules.
 - Create: `/Users/lulu/AIWork/xhs_crawler/models.py`
   Purpose: Typed job, note, verification, and comment state helpers.
 - Create: `/Users/lulu/AIWork/xhs_crawler/storage.py`
   Purpose: Read/write job manifests, note manifests, merged exports, and atomic checkpoint persistence.
 - Create: `/Users/lulu/AIWork/xhs_crawler/normalize.py`
   Purpose: Centralize note ID parsing, timestamp conversion, comment normalization, and dedupe keys.
-- Create: `/Users/lulu/AIWork/xhs_crawler/web_api.py`
-  Purpose: Wrap the existing web comment API logic from `xhs_export_comments.py`.
 - Create: `/Users/lulu/AIWork/xhs_crawler/app_api.py`
-  Purpose: Wrap the existing app-style comment API logic from `xhs_export_comments_app_api.py`.
-- Create: `/Users/lulu/AIWork/xhs_crawler/discovery.py`
-  Purpose: Discovery entry points, initially direct note input and a pluggable search-note workflow.
+  Purpose: Wrap the app-style comment API logic from `xhs_export_comments_app_api.py`.
+- Create: `/Users/lulu/AIWork/xhs_crawler/session_capture.py`
+  Purpose: Export fresh app traffic, extract reusable headers, and refresh session state when signatures expire.
+- Create: `/Users/lulu/AIWork/xhs_crawler/app_discovery.py`
+  Purpose: Attach to the desktop app, drive keyword search and sort selection, and collect the top note identifiers in ranked order.
 - Create: `/Users/lulu/AIWork/xhs_crawler/verify.py`
   Purpose: Runtime anomaly checks, note completeness checks, and verification summaries.
 - Create: `/Users/lulu/AIWork/xhs_crawler/runner.py`
-  Purpose: Serial orchestration for jobs, retries, resume, backend fallback, and progress updates.
+  Purpose: Serial orchestration for jobs, retries, session refresh, resume, and progress updates.
 - Create: `/Users/lulu/AIWork/xhs_comment_crawler.py`
-  Purpose: Main CLI entry point exposing `search-top-notes`, `crawl-note-comments`, `crawl-batch`, `resume-job`, and `verify-job`.
+  Purpose: Main CLI entry point exposing `discover-top-notes`, `crawl-note-comments`, `crawl-batch`, `resume-job`, and `verify-job`.
 - Create: `/Users/lulu/AIWork/tests/test_xhs_normalize.py`
   Purpose: Unit tests for note ID parsing, timestamps, and normalization.
 - Create: `/Users/lulu/AIWork/tests/test_xhs_storage.py`
   Purpose: Unit tests for manifest persistence and resume semantics.
-- Create: `/Users/lulu/AIWork/tests/test_xhs_verify.py`
-  Purpose: Unit tests for completeness and anomaly detection.
+- Create: `/Users/lulu/AIWork/tests/test_xhs_session_capture.py`
+  Purpose: Unit tests for header extraction and refresh behavior.
 - Create: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
-  Purpose: Unit tests for backend fallback, pause/resume behavior, and note status updates.
-- Modify: `/Users/lulu/AIWork/xhs_export_comments.py`
-  Purpose: Extract reusable web API functions into library-safe helpers or import from the new module.
+  Purpose: Unit tests for session refresh, pause/resume behavior, and note status updates.
 - Modify: `/Users/lulu/AIWork/xhs_export_comments_app_api.py`
   Purpose: Extract reusable app API functions into library-safe helpers or import from the new module.
-- Modify: `/Users/lulu/AIWork/xhs_export_comments_from_chrome.py`
-  Purpose: Keep as debugging/fallback utility, but align normalization/output schema with the new package where useful.
+- Modify: `/Users/lulu/AIWork/parse_proxyman_har_xhs_comments.py`
+  Purpose: Reuse or expose HAR parsing helpers for fresh app header extraction.
+- Modify: `/Users/lulu/AIWork/watch_xhs_proxyman_cli.py`
+  Purpose: Reuse or expose Proxyman export helpers for session capture.
 
 ## Task 1: Extract Shared Normalization Helpers
 
@@ -193,60 +193,12 @@ git -C /Users/lulu/AIWork add xhs_crawler/storage.py tests/test_xhs_storage.py
 git -C /Users/lulu/AIWork commit -m "feat: add xhs crawler persistent storage"
 ```
 
-## Task 4: Refactor the Web Comment API into a Reusable Adapter
-
-**Files:**
-- Create: `/Users/lulu/AIWork/xhs_crawler/web_api.py`
-- Modify: `/Users/lulu/AIWork/xhs_export_comments.py`
-- Test: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
-
-- [ ] **Step 1: Write the failing adapter tests**
-
-```python
-from xhs_crawler.web_api import build_web_headers
-
-
-def test_build_web_headers_includes_cookie_and_referer():
-    headers = build_web_headers("a=b", "https://www.xiaohongshu.com/explore/x")
-    assert headers["Cookie"] == "a=b"
-    assert headers["Referer"].startswith("https://www.xiaohongshu.com/")
-```
-
-- [ ] **Step 2: Run test to verify it fails**
-
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: FAIL because the adapter module does not exist
-
-- [ ] **Step 3: Write minimal implementation**
-
-Move or copy the reusable pieces from `/Users/lulu/AIWork/xhs_export_comments.py` into `/Users/lulu/AIWork/xhs_crawler/web_api.py`:
-
-- header construction
-- request helper
-- top-level pagination
-- sub-comment pagination
-- normalized record emission
-
-Keep `/Users/lulu/AIWork/xhs_export_comments.py` runnable by importing from the new adapter where practical.
-
-- [ ] **Step 4: Run test to verify it passes**
-
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: PASS for the web adapter assertion
-
-- [ ] **Step 5: Commit**
-
-```bash
-git -C /Users/lulu/AIWork add xhs_crawler/web_api.py xhs_export_comments.py tests/test_xhs_runner.py
-git -C /Users/lulu/AIWork commit -m "feat: add reusable xhs web comment adapter"
-```
-
-## Task 5: Refactor the App Comment API into a Reusable Adapter
+## Task 4: Refactor the App Comment API into a Reusable Adapter
 
 **Files:**
 - Create: `/Users/lulu/AIWork/xhs_crawler/app_api.py`
 - Modify: `/Users/lulu/AIWork/xhs_export_comments_app_api.py`
-- Modify: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
+- Test: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
 
 - [ ] **Step 1: Add the failing app adapter tests**
 
@@ -262,16 +214,16 @@ def test_sanitize_app_headers_sets_host_when_missing():
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: FAIL because the app adapter does not exist
+Expected: FAIL because the app adapter module does not exist
 
 - [ ] **Step 3: Write minimal implementation**
 
-Move or copy the reusable app-request pieces from `/Users/lulu/AIWork/xhs_export_comments_app_api.py` into `/Users/lulu/AIWork/xhs_crawler/app_api.py`:
+Move or copy the reusable pieces from `/Users/lulu/AIWork/xhs_export_comments_app_api.py` into `/Users/lulu/AIWork/xhs_crawler/app_api.py`:
 
-- header loading/sanitization
-- request helpers
+- header sanitization
+- request helper
 - top-level pagination
-- second-level pagination
+- sub-comment pagination
 - normalized record emission
 
 Keep `/Users/lulu/AIWork/xhs_export_comments_app_api.py` runnable by importing from the new adapter where practical.
@@ -279,7 +231,7 @@ Keep `/Users/lulu/AIWork/xhs_export_comments_app_api.py` runnable by importing f
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: PASS
+Expected: PASS for the adapter assertion
 
 - [ ] **Step 5: Commit**
 
@@ -288,84 +240,172 @@ git -C /Users/lulu/AIWork add xhs_crawler/app_api.py xhs_export_comments_app_api
 git -C /Users/lulu/AIWork commit -m "feat: add reusable xhs app comment adapter"
 ```
 
-## Task 6: Implement Verification Rules
+## Task 5: Add Session Capture and Header Refresh
 
 **Files:**
-- Create: `/Users/lulu/AIWork/xhs_crawler/verify.py`
-- Create: `/Users/lulu/AIWork/tests/test_xhs_verify.py`
+- Create: `/Users/lulu/AIWork/xhs_crawler/session_capture.py`
+- Modify: `/Users/lulu/AIWork/parse_proxyman_har_xhs_comments.py`
+- Modify: `/Users/lulu/AIWork/watch_xhs_proxyman_cli.py`
+- Test: `/Users/lulu/AIWork/tests/test_xhs_session_capture.py`
 
-- [ ] **Step 1: Write the failing verification tests**
+- [ ] **Step 1: Write the failing session-capture tests**
 
 ```python
-from xhs_crawler.verify import detect_repeated_cursor_loop, summarize_note_verification
+from xhs_crawler.session_capture import extract_comment_headers
 
 
-def test_detect_repeated_cursor_loop_when_cursor_repeats():
-    assert detect_repeated_cursor_loop(["a", "b", "b"]) is True
-
-
-def test_summarize_note_verification_marks_partial_on_mismatch():
-    summary = summarize_note_verification(expected_visible_count=100, fetched_count=60)
-    assert summary["status"] == "partial"
+def test_extract_comment_headers_reads_latest_comment_request(sample_har):
+    headers = extract_comment_headers(sample_har)
+    assert headers["Host"] == "edith.xiaohongshu.com"
+    assert "shield" in headers
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_verify.py -v`
-Expected: FAIL because the verification module does not exist
+Run: `pytest /Users/lulu/AIWork/tests/test_xhs_session_capture.py -v`
+Expected: FAIL because the session capture module does not exist
 
 - [ ] **Step 3: Write minimal implementation**
 
-Implement:
+Implement helpers that:
 
-- repeated cursor detection
-- early termination heuristics
-- visible-count mismatch evaluation
-- reason-code generation
+- clear Proxyman sessions
+- export recent app traffic
+- parse HAR for comment-list and sub-comment requests
+- extract a fresh reusable header set
+- return a structured refresh result with timestamp and source file
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_verify.py -v`
+Run: `pytest /Users/lulu/AIWork/tests/test_xhs_session_capture.py -v`
 Expected: PASS
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git -C /Users/lulu/AIWork add xhs_crawler/verify.py tests/test_xhs_verify.py
-git -C /Users/lulu/AIWork commit -m "feat: add xhs crawler verification rules"
+git -C /Users/lulu/AIWork add xhs_crawler/session_capture.py parse_proxyman_har_xhs_comments.py watch_xhs_proxyman_cli.py tests/test_xhs_session_capture.py
+git -C /Users/lulu/AIWork commit -m "feat: add xhs app session capture helpers"
 ```
 
-## Task 7: Implement the Job Runner and Backend Fallback
+## Task 6: Build Desktop App Discovery
 
 **Files:**
-- Create: `/Users/lulu/AIWork/xhs_crawler/runner.py`
+- Create: `/Users/lulu/AIWork/xhs_crawler/app_discovery.py`
 - Modify: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
 
-- [ ] **Step 1: Write the failing runner tests**
+- [ ] **Step 1: Add the failing discovery tests**
 
 ```python
-from xhs_crawler.runner import choose_backend_order
+from xhs_crawler.app_discovery import normalize_ranked_note
 
 
-def test_choose_backend_order_prefers_web_then_app():
-    assert choose_backend_order() == ["web", "app"]
+def test_normalize_ranked_note_preserves_rank():
+    note = normalize_ranked_note({"note_id": "n1", "title": "t"}, rank=3)
+    assert note["rank"] == 3
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: FAIL because the runner does not exist
+Expected: FAIL because the discovery module does not exist
+
+- [ ] **Step 3: Write minimal implementation**
+
+Implement desktop-app discovery helpers that:
+
+- attach to the running app
+- capture window bounds and screenshots
+- click known search and sort targets
+- collect the first 10 ranked note identifiers
+- output normalized note records
+
+Keep app control logic isolated so the runner can replace it later without rewriting pagination code.
+
+- [ ] **Step 4: Run test to verify it passes**
+
+Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
+Expected: PASS for the discovery assertion
+
+- [ ] **Step 5: Commit**
+
+```bash
+git -C /Users/lulu/AIWork add xhs_crawler/app_discovery.py tests/test_xhs_runner.py
+git -C /Users/lulu/AIWork commit -m "feat: add xhs desktop app discovery helpers"
+```
+
+## Task 7: Add Verification Helpers
+
+**Files:**
+- Create: `/Users/lulu/AIWork/xhs_crawler/verify.py`
+- Modify: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
+
+- [ ] **Step 1: Extend tests for note completeness**
+
+```python
+from xhs_crawler.verify import summarize_note_status
+
+
+def test_summarize_note_status_marks_partial_on_large_gap():
+    summary = summarize_note_status(expected_comments=1000, fetched_comments=200, errors=[])
+    assert summary["status"] == "partial"
+```
+
+- [ ] **Step 2: Run test to verify it fails**
+
+Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
+Expected: FAIL because the verify module does not exist
 
 - [ ] **Step 3: Write minimal implementation**
 
 Implement:
 
-- serial note processing
-- backend order selection
-- web-to-app fallback
-- note status updates
-- retry counters
-- checkpoint save after each note and safe pagination boundaries
+- duplicate cursor detection
+- suspicious early-stop detection
+- status summary generation
+- reason-code selection for partial and failed notes
+
+- [ ] **Step 4: Run test to verify it passes**
+
+Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
+Expected: PASS
+
+- [ ] **Step 5: Commit**
+
+```bash
+git -C /Users/lulu/AIWork add xhs_crawler/verify.py tests/test_xhs_runner.py
+git -C /Users/lulu/AIWork commit -m "feat: add xhs crawler verification helpers"
+```
+
+## Task 8: Build the Job Runner
+
+**Files:**
+- Create: `/Users/lulu/AIWork/xhs_crawler/runner.py`
+- Modify: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
+
+- [ ] **Step 1: Extend tests for refresh and resume**
+
+```python
+from xhs_crawler.runner import should_refresh_headers
+
+
+def test_should_refresh_headers_on_signature_error():
+    assert should_refresh_headers({"error_code": "signature_expired"}) is True
+```
+
+- [ ] **Step 2: Run test to verify it fails**
+
+Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
+Expected: FAIL because the runner module does not exist
+
+- [ ] **Step 3: Write minimal implementation**
+
+Implement serial orchestration that:
+
+- creates jobs from discovery or direct input
+- fetches top-level and sub-level comments note by note
+- refreshes session headers on signature failures
+- checkpoints progress after every stable pagination step
+- marks note status using the verification layer
 
 - [ ] **Step 4: Run test to verify it passes**
 
@@ -379,85 +419,38 @@ git -C /Users/lulu/AIWork add xhs_crawler/runner.py tests/test_xhs_runner.py
 git -C /Users/lulu/AIWork commit -m "feat: add xhs crawler job runner"
 ```
 
-## Task 8: Implement Discovery Inputs
-
-**Files:**
-- Create: `/Users/lulu/AIWork/xhs_crawler/discovery.py`
-- Modify: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
-
-- [ ] **Step 1: Write the failing discovery tests**
-
-```python
-from xhs_crawler.discovery import normalize_direct_note_inputs
-
-
-def test_normalize_direct_note_inputs_accepts_note_urls():
-    notes = normalize_direct_note_inputs([
-        "https://www.xiaohongshu.com/explore/6919e2470000000005002ee1"
-    ])
-    assert notes == ["6919e2470000000005002ee1"]
-```
-
-- [ ] **Step 2: Run test to verify it fails**
-
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: FAIL because the discovery module does not exist
-
-- [ ] **Step 3: Write minimal implementation**
-
-Implement:
-
-- direct note input normalization
-- search request placeholders and result schema
-- search manifest generation for future browser-backed discovery
-
-For v1, it is acceptable for `search-top-notes` to require a dedicated implementation stub if the browser search path is not yet fully automated, but the command contract and data shape must be in place.
-
-- [ ] **Step 4: Run test to verify it passes**
-
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: PASS
-
-- [ ] **Step 5: Commit**
-
-```bash
-git -C /Users/lulu/AIWork add xhs_crawler/discovery.py tests/test_xhs_runner.py
-git -C /Users/lulu/AIWork commit -m "feat: add xhs crawler discovery inputs"
-```
-
-## Task 9: Build the Unified CLI
+## Task 9: Add the CLI Entry Point
 
 **Files:**
 - Create: `/Users/lulu/AIWork/xhs_comment_crawler.py`
 - Modify: `/Users/lulu/AIWork/tests/test_xhs_runner.py`
 
-- [ ] **Step 1: Write the failing CLI tests**
+- [ ] **Step 1: Add the failing CLI tests**
 
 ```python
 from xhs_comment_crawler import build_parser
 
 
-def test_cli_exposes_expected_commands():
+def test_build_parser_supports_discover_top_notes():
     parser = build_parser()
-    help_text = parser.format_help()
-    assert "crawl-note-comments" in help_text
-    assert "resume-job" in help_text
+    args = parser.parse_args(["discover-top-notes", "亲子关系"])
+    assert args.command == "discover-top-notes"
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: FAIL because the CLI module does not exist
+Expected: FAIL because the CLI entry point does not exist
 
 - [ ] **Step 3: Write minimal implementation**
 
-Implement:
+Implement the CLI with commands for:
 
-- parser construction
-- subcommands
-- wiring to discovery, runner, storage, and verify modules
-- output directory selection
-- user-facing error messaging
+- app discovery by keyword
+- direct note crawl
+- batch crawl
+- resume job
+- verify job
 
 - [ ] **Step 4: Run test to verify it passes**
 
@@ -468,77 +461,37 @@ Expected: PASS
 
 ```bash
 git -C /Users/lulu/AIWork add xhs_comment_crawler.py tests/test_xhs_runner.py
-git -C /Users/lulu/AIWork commit -m "feat: add unified xhs crawler cli"
+git -C /Users/lulu/AIWork commit -m "feat: add xhs crawler CLI"
 ```
 
-## Task 10: Align Legacy Scripts to the Unified Modules
-
-**Files:**
-- Modify: `/Users/lulu/AIWork/xhs_export_comments.py`
-- Modify: `/Users/lulu/AIWork/xhs_export_comments_app_api.py`
-- Modify: `/Users/lulu/AIWork/xhs_export_comments_from_chrome.py`
-
-- [ ] **Step 1: Add a smoke test target for legacy imports**
-
-```python
-def test_legacy_scripts_import_without_runtime_side_effects():
-    import xhs_export_comments  # noqa: F401
-    import xhs_export_comments_app_api  # noqa: F401
-```
-
-- [ ] **Step 2: Run test to verify it fails if import side effects remain**
-
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: FAIL only if top-level side effects or import problems exist
-
-- [ ] **Step 3: Write minimal implementation**
-
-Ensure the legacy scripts:
-
-- delegate reusable logic to the new package
-- keep their current CLI behavior where possible
-- do not duplicate normalization or pagination code unnecessarily
-
-- [ ] **Step 4: Run test to verify it passes**
-
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: PASS
-
-- [ ] **Step 5: Commit**
-
-```bash
-git -C /Users/lulu/AIWork add xhs_export_comments.py xhs_export_comments_app_api.py xhs_export_comments_from_chrome.py tests/test_xhs_runner.py
-git -C /Users/lulu/AIWork commit -m "refactor: align legacy xhs scripts with crawler package"
-```
-
-## Task 11: End-to-End Manual Validation
+## Task 10: Manual End-to-End Shakeout
 
 **Files:**
 - Modify: `/Users/lulu/AIWork/docs/superpowers/plans/2026-03-22-xiaohongshu-comment-crawler.md`
 
-- [ ] **Step 1: Run targeted unit tests**
+- [ ] **Step 1: Run a direct-note smoke test**
 
-Run: `pytest /Users/lulu/AIWork/tests/test_xhs_normalize.py /Users/lulu/AIWork/tests/test_xhs_storage.py /Users/lulu/AIWork/tests/test_xhs_verify.py /Users/lulu/AIWork/tests/test_xhs_runner.py -v`
-Expected: PASS
+Run: `python /Users/lulu/AIWork/xhs_comment_crawler.py crawl-note-comments 66548ea90000000005006e41`
+Expected: Job starts, captures fresh headers if needed, and writes note output under `output/xhs-comment-jobs/<job_id>/`
 
-- [ ] **Step 2: Run a direct-note smoke test**
+- [ ] **Step 2: Run a keyword discovery test**
 
-Run: `python /Users/lulu/AIWork/xhs_comment_crawler.py crawl-note-comments 6919e2470000000005002ee1 --output-dir /Users/lulu/AIWork/output/xhs-comment-jobs/manual-smoke`
-Expected: Job manifest and note output created; note status is `complete`, `partial`, or `failed` with explicit reason
+Run: `python /Users/lulu/AIWork/xhs_comment_crawler.py discover-top-notes 亲子关系 --limit 10`
+Expected: The crawler attaches to the desktop app, collects 10 ranked notes, and writes a discovery manifest
 
-- [ ] **Step 3: Run a resume smoke test**
+- [ ] **Step 3: Run a full job test**
 
-Run: `python /Users/lulu/AIWork/xhs_comment_crawler.py resume-job manual-smoke`
-Expected: Existing job is loaded and resumed without duplicating prior results
+Run: `python /Users/lulu/AIWork/xhs_comment_crawler.py crawl-batch output/xhs-comment-jobs/<job_id>/notes.txt`
+Expected: The crawler runs notes serially, checkpoints state, and writes merged JSON output
 
-- [ ] **Step 4: Run verification report generation**
+- [ ] **Step 4: Verify output completeness**
 
-Run: `python /Users/lulu/AIWork/xhs_comment_crawler.py verify-job manual-smoke`
-Expected: `verification.json` and summary output are generated
+Run: `python /Users/lulu/AIWork/xhs_comment_crawler.py verify-job <job_id>`
+Expected: A verification report is written, with each note marked `complete`, `partial`, or `failed`
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git -C /Users/lulu/AIWork add docs/superpowers/plans/2026-03-22-xiaohongshu-comment-crawler.md
-git -C /Users/lulu/AIWork commit -m "docs: update xhs crawler plan after validation"
+git -C /Users/lulu/AIWork commit -m "docs: update xhs crawler manual verification steps"
 ```
