@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第一章 + 第二章二维码插入候选页</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --page-ratio: 71 / 100;
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f1eee8;
+      color: #1d1d1f;
+      line-height: 1.5;
+    }
+    .main {
+      min-height: 100vh;
+      padding: 32px 20px 72px;
+    }
+    .content {
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+    h2 { font-size: 1.6rem; font-weight: 600; margin: 0 0 0.5rem; }
+    h3 { font-size: 1.15rem; font-weight: 600; margin: 0; }
+    .subtitle { color: #6d6b73; margin: 0; line-height: 1.8; }
+    .section { margin-bottom: 2rem; }
+    .label { font-size: 0.72rem; color: #7f7c89; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+
+    .overview {
+      display: grid;
+      gap: 18px;
+    }
+
+    .chapter-block {
+      display: grid;
+      gap: 18px;
+    }
+
+    .chapter-head {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 18px 22px;
+      border-radius: 18px;
+      background: #f3ede4;
+      border: 1px solid #ddd1c3;
+    }
+
+    .chapter-head p {
+      margin: 0;
+      color: #655b50;
+      line-height: 1.7;
+    }
+
+    .candidate-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .candidate-card {
+      max-width: 1140px;
+      width: 100%;
+      margin: 0 auto;
+      border: 1px solid #ddd5cb;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #fcf9f4;
+      box-shadow: 0 16px 36px rgba(34, 28, 20, 0.08);
+    }
+
+    .candidate-meta {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid #e7dfd5;
+      background: #f6f1ea;
+    }
+
+    .candidate-meta h4 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    .candidate-meta p {
+      margin: 0;
+      color: #6c6257;
+      line-height: 1.6;
+    }
+
+    .paper {
+      background: #efe7dc;
+      color: #2f2a25;
+      padding: 26px 24px 32px;
+    }
+
+    .paper-inner {
+      width: min(100%, 710px);
+      margin: 0 auto;
+      padding: 42px 46px 48px;
+      min-height: 1000px;
+      background: linear-gradient(180deg, #fbf7ef 0%, #f7f1e6 100%);
+      border: 1px solid #d8cdbd;
+      border-radius: 10px;
+      box-shadow: 0 16px 34px rgba(66, 49, 34, 0.08);
+      font-family: "Songti SC", "STSong", "Noto Serif SC", Georgia, "Times New Roman", serif;
+      line-height: 1.9;
+    }
+
+    .paper-kicker {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #7c7469;
+      margin-bottom: 16px;
+    }
+
+    .paper-title {
+      font-size: 33px;
+      line-height: 1.22;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .paper p {
+      margin: 0 0 16px;
+      font-size: 17px;
+    }
+
+    .insert-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 154px;
+      gap: 22px;
+      align-items: center;
+      margin: 30px 0;
+      padding: 24px 24px 22px;
+      border: 1px solid #cec2b4;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #fffdf8 0%, #f7f0e4 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+    }
+
+    .insert-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #72685d;
+      margin-bottom: 8px;
+    }
+
+    .insert-copy p {
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1.88;
+      color: #3d352d;
+    }
+
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qr-box {
+      width: 132px;
+      height: 132px;
+      border: 8px solid #fff;
+      border-radius: 10px;
+      background: #fff url("./IMG_9129-web.jpg") center/cover no-repeat;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    .qr-note {
+      font-size: 12px;
+      color: #75695c;
+      line-height: 1.5;
+      text-align: center;
+      max-width: 7em;
+    }
+
+    @media (max-width: 800px) {
+      .paper-inner {
+        min-height: auto;
+        padding: 26px 22px 30px;
+      }
+      .insert-block {
+        grid-template-columns: 1fr;
+      }
+      .qr-wrap { padding-top: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="main">
+    <div class="content">
+      <div class="section">
+        <div class="label">Round 1 Mockups</div>
+        <h2>第一章 + 第二章二维码插入候选页</h2>
+        <p class="subtitle">6 张页统一沿用昨天那版的低压引导逻辑，只替换痛点、插入位置和对应上下文。整体按纸书黑白场景收着做，不靠花哨设计取胜。</p>
+      </div>
+
+      <div class="overview">
+        <div class="chapter-block">
+          <div class="chapter-head">
+            <div class="label">Chapter 1</div>
+            <h3>第一章《做好家长，正确的信念比行动更重要》</h3>
+            <p>三个候选点分别打向：时代压力、家长先改变、母亲自责愧疚。</p>
+          </div>
+
+          <div class="candidate-grid">
+            <div class="candidate-card">
+              <div class="candidate-meta">
+                <h4>1A · 孩子难，家长更难</h4>
+                <p>插在第一节后段，承接“沟通变少、冲突变多、关系变紧”的压力感。</p>
+              </div>
+              <div class="paper">
+                <div class="paper-inner">
+                  <div class="paper-kicker">Part 1 · 第一章 · 第一节</div>
+                  <div class="paper-title">一个“孩子难，家长更难”的时代</div>
+                  <p>家长和孩子之间，本来应该有最亲密的关系，可是今天的家长有时会觉得跟孩子无话可说，孩子也常常不愿把心中的想法跟家长分享。在不少家庭里每天都发生争吵，导致两代之间的矛盾随着时间推移而加深。显然，家长和孩子之间需要一些沟通和处理情绪的技巧，使家长与孩子每次有不同意见或者不满时懂得如何处理，从而使关系变得更紧密而不是更疏远。</p>
+
+                  <div class="insert-block">
+                    <div>
+                      <div class="insert-eyebrow">有些时候，妈妈也需要被理解</div>
+                      <div class="insert-copy">
+                        <p>你有没有过这种时候：孩子越来越难沟通，</p>
+                        <p>而你明明已经很用力了，却还是觉得每天都在吵、在耗、在失去耐心。</p>
+                        <p>如果这段话刚好说中了你，不妨扫一下这个码，看看自己现在最容易卡在哪一种亲子压力里。</p>
+                      </div>
+                    </div>
+                    <div class="qr-wrap">
+                      <div class="qr-box"></div>
+                      <div class="qr-note">阅读延伸</div>
+                    </div>
+                  </div>
+
+                  <p>同时，在学习方面，孩子急需一些能使他们对学习重新产生兴趣的技巧，例如有效而且省时的记忆方法。</p>
+                  <p>另外，认识自我价值、在群体中建立和谐的关系和拥有不卑不亢的人生态度，对于他们日后的成长极为重要。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="candidate-card">
+              <div class="candidate-meta">
+                <h4>1B · 想改变孩子，先得改变自己</h4>
+                <p>插在第二节中段，承接“要想孩子改变，家长必须先改变”的反身压力。</p>
+              </div>
+              <div class="paper">
+                <div class="paper-inner">
+                  <div class="paper-kicker">Part 1 · 第一章 · 第二节</div>
+                  <div class="paper-title">相信自己就是最好的家长</div>
+                  <p>第二，家长必须明确：要想改变孩子，首先必须改变自己。一个孩子的思想和行为，是由他成长中出现的种种事情及他所学到的思考模式决定的。故此，伴他成长的家长需要首先明确一点：“这个现状制造出来，有我一份。”意思是说，家长的思想、言谈、行为和情绪表现模式，塑造出孩子今天的状态。要想孩子有所不同，家长必须先使自己在思想、言谈、行为和情绪表现方面有所不同。也就是说：要让孩子改变，家长必须先来做一些改变。</p>
+
+                  <div class="insert-block">
+                    <div>
+                      <div class="insert-eyebrow">有时候，最先被耗尽的是妈妈自己</div>
+                      <div class="insert-copy">
+                        <p>你有没有过这种时候：越想让孩子变好，越忍不住催、急、发火，</p>
+                        <p>到最后却发现，最先被拖进疲惫和失控里的，反而是自己。</p>
+                        <p>如果你也常卡在这里，不妨扫一下这个码，看看自己在亲子关系里最容易被哪一种模式带着走。</p>
+                      </div>
+                    </div>
+                    <div class="qr-wrap">
+                      <div class="qr-box"></div>
+                      <div class="qr-note">阅读延伸</div>
+                    </div>
+                  </div>
+
+                  <p>自己不准备改变，而只想去改变孩子的家长，这本书帮不了他们，我们不相信有这个可能。</p>
+                  <p>家长开始改变的初期，孩子或许不会马上出现相应的改变，在某些情况下，孩子的不良行为甚至会变本加厉。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="candidate-card">
+              <div class="candidate-meta">
+                <h4>1C · 明明已经很爱孩子，却总怀疑自己做错了</h4>
+                <p>延用昨天你确认过的方向，插在“愧疚心理”那段之后。</p>
+              </div>
+              <div class="paper">
+                <div class="paper-inner">
+                  <div class="paper-kicker">Part 1 · 第一章 · 第二节</div>
+                  <div class="paper-title">相信自己就是最好的家长</div>
+                  <p>第三，家长必须放下没必要的愧疚心理，相信从现在开始一切将变好，以至更好。很多家长都有一些自责或者内疚的心态，觉得自己没有完全做好对孩子的教养工作。这种心态的好处是促使这些家长寻求和学习更多的知识，以提高协调亲子关系方面的能力，这样的家长相比那些总是自认为做得很对、一出现问题就责怪环境或孩子不好的家长来说要来得积极。但坏处是让孩子形成一种信念：家长的确对不起我，欠我一些东西。这样的孩子往往会不断索求，每次吵闹时都以此为据而有诸多要求和抱怨，使家长不知所措，难以招架。</p>
+
+                  <div class="insert-block">
+                    <div>
+                      <div class="insert-eyebrow">有时候，妈妈最需要先被看见</div>
+                      <div class="insert-copy">
+                        <p>有时候，妈妈也需要一个地方，先把自己安顿下来。</p>
+                        <p>如果这段话刚好说中了你，可以添加李中莹老师亲子支持中心服务号。</p>
+                        <p>我们会把这一部分对应的小测试发给你，陪你一起看看，此刻最容易困住你的，到底是哪一种亲子内耗。</p>
+                      </div>
+                    </div>
+                    <div class="qr-wrap">
+                      <div class="qr-box"></div>
+                      <div class="qr-note">亲子支持中心 · 延伸内容入口</div>
+                    </div>
+                  </div>
+
+                  <p>所有家长都应该明白：我们对孩子尽心尽力了，都是好家长，只是如同人生中其他的事情一样，我们还有许多办法能将事情处理得更好。</p>
+                  <p>每代的父母都把自己所知的最好的东西给予孩子，我们对孩子的爱及良好动机超过100分。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chapter-block">
+          <div class="chapter-head">
+            <div class="label">Chapter 2</div>
+            <h3>第二章《重识“铁三角”，理解不一样的亲子关系》</h3>
+            <p>三个候选点都按你指定的插入位置来做，分别打向：越爱越伤、爱的方式、章末总结式收口。</p>
+          </div>
+
+          <div class="candidate-grid">
+            <div class="candidate-card">
+              <div class="candidate-meta">
+                <h4>2A · 爱得太满，反而让孩子没力量</h4>
+                <p>插在“所以，爱是可以伤人的”之后，情绪最直接。</p>
+              </div>
+              <div class="paper">
+                <div class="paper-inner">
+                  <div class="paper-kicker">Part 1 · 第二章 · 第一节</div>
+                  <div class="paper-title">亲子之爱，唯一指向分离的爱</div>
+                  <p>我的学生跟我从刚才短短的那个小环节就已经发现非常大的问题，三十多岁的女儿在这样的情况下还需要这样问妈妈，她怎么能照顾自己的人生？这位母亲的回答充满了母亲的慈爱，可也正是这份母亲的慈爱，在过去三十多年里使得女儿不能成长，以至不能在很小的事情上照顾自己。所以，爱是可以伤人的。光有爱不够，父母还需要引导孩子培养出能照顾自己的能力。</p>
+
+                  <div class="insert-block">
+                    <div>
+                      <div class="insert-eyebrow">有时候，不是不爱，而是太舍不得放手</div>
+                      <div class="insert-copy">
+                        <p>你有没有过这种时候：什么都想替孩子先想好，</p>
+                        <p>总怕他吃亏、走弯路、受委屈，可越是这样，心里越不踏实。</p>
+                        <p>如果这句话让你停了一下，不妨扫一下这个码，看看你最容易落在哪一种“过度代劳”的爱里。</p>
+                      </div>
+                    </div>
+                    <div class="qr-wrap">
+                      <div class="qr-box"></div>
+                      <div class="qr-note">阅读延伸</div>
+                    </div>
+                  </div>
+
+                  <p>另外一位学生告诉我，她住在上海，朋友中不乏那些成功富有的父母。</p>
+                  <p>一个孩子的成长，必须是照顾自己人生的能力的不断增强，其中既包含学习的能力，也包含生活起居的能力。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="candidate-card">
+              <div class="candidate-meta">
+                <h4>2B · 我到底是在爱孩子，还是在按我的期待爱他</h4>
+                <p>插在“爱的三种表达方式”里，抽中的是控制感和失落感。</p>
+              </div>
+              <div class="paper">
+                <div class="paper-inner">
+                  <div class="paper-kicker">Part 1 · 第二章 · 第八节</div>
+                  <div class="paper-title">爱的三种表达方式</div>
+                  <p>原爱有三种表达方式：自私的爱，愚蠢的爱，智慧的爱。父母对孩子的爱是为了准备：当有一天父母比孩子先离开世界，孩子有最大的机会去过最有意义的人生，也因为这一点，任何希望孩子满足父母的意愿而减少孩子发展的机会的安排都是父母对孩子的一种自私的爱。</p>
+
+                  <div class="insert-block">
+                    <div>
+                      <div class="insert-eyebrow">有时候，最难分清的不是爱不爱，而是怎样爱</div>
+                      <div class="insert-copy">
+                        <p>你有没有过这种时候：明明处处都在为孩子打算，</p>
+                        <p>可一旦他不照着走，心里就会失望、委屈，甚至忍不住想把他拉回来。</p>
+                        <p>如果你也常有这种拉扯，不妨扫一下这个码，看看自己更容易落在哪一种爱的方式里。</p>
+                      </div>
+                    </div>
+                    <div class="qr-wrap">
+                      <div class="qr-box"></div>
+                      <div class="qr-note">阅读延伸</div>
+                    </div>
+                  </div>
+
+                  <p>父母与孩子之间的爱，是可以用智慧的爱的方式来做到最好。就是父母给予孩子最好的照顾，让孩子在充满力量与爱的环境中成长，培养出充分的照顾自己人生、获得成功快乐的能力，让孩子有最大的空间自由发展。</p>
+                  <p>亲子关系中，要多一些智慧的爱，少一些自私的爱和愚蠢的爱。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="candidate-card">
+              <div class="candidate-meta">
+                <h4>2C · 越在意这段关系，越容易把爱用成压力</h4>
+                <p>插在章节末尾“妙言妙法”后，适合做收束式、总结式入口。</p>
+              </div>
+              <div class="paper">
+                <div class="paper-inner">
+                  <div class="paper-kicker">Part 1 · 第二章 · 妙言妙法</div>
+                  <div class="paper-title">重识“铁三角”，理解不一样的亲子关系</div>
+                  <p>父母与孩子的关系是个“铁三角”。</p>
+                  <p>家长不是超人。</p>
+                  <p>家长永远给孩子爱与支持，但“爱”不可以作为筹码。</p>
+                  <p>凡事总有至少三个解决方法。</p>
+                  <p>成长是一个学习过程。</p>
+                  <p>聪明的家长不会解决孩子的问题，而只会引导孩子自己去解决问题。</p>
+
+                  <div class="insert-block">
+                    <div>
+                      <div class="insert-eyebrow">有些关系越走越紧，不一定是因为不爱</div>
+                      <div class="insert-copy">
+                        <p>你有没有过这种时候：一边很想帮孩子，</p>
+                        <p>一边又不知道该放手到什么程度，越在意，越容易把关系弄紧。</p>
+                        <p>如果你也想先看清自己现在卡在哪里，不妨扫一下这个码，看看你在亲子关系里最容易陷入哪一种用力方式。</p>
+                      </div>
+                    </div>
+                    <div class="qr-wrap">
+                      <div class="qr-box"></div>
+                      <div class="qr-note">阅读延伸</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>加微信后进入测评小程序 · 交互原型</title>
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --bg-deep: #e7ddcf;
+      --ink: #2f2a24;
+      --muted: #7b7065;
+      --line: rgba(103, 88, 72, 0.16);
+      --card: rgba(255, 252, 246, 0.92);
+      --card-strong: #fffaf1;
+      --accent: #2b7a66;
+      --accent-soft: rgba(43, 122, 102, 0.14);
+      --wechat: #07c160;
+      --shadow: 0 24px 64px rgba(61, 47, 33, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.55), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(232, 243, 236, 0.7), transparent 22%),
+        linear-gradient(180deg, #f7f2eb 0%, #eee5d7 100%);
+    }
+
+    .page {
+      width: min(1280px, 100%);
+      margin: 0 auto;
+      padding: 28px 20px 48px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 12px;
+      padding: 8px 2px 0;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .summary {
+      max-width: 760px;
+      margin: 0;
+      color: #62584d;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .flowline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .flow-step {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.5);
+      border: 1px solid rgba(118, 105, 91, 0.12);
+    }
+
+    .flow-step.is-active {
+      background: rgba(43, 122, 102, 0.1);
+      color: var(--accent);
+      border-color: rgba(43, 122, 102, 0.18);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel,
+    .stage {
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 243, 0.7);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .panel {
+      padding: 22px 20px 20px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .panel p,
+    .panel li {
+      margin: 0;
+      color: #655a4e;
+      line-height: 1.78;
+      font-size: 14px;
+    }
+
+    .panel ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .panel button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(180deg, #3f8d78 0%, #2b7a66 100%);
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(43, 122, 102, 0.2);
+    }
+
+    .stage {
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .stage-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stage-title {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(111, 97, 82, 0.12);
+      color: #685d51;
+      font-size: 12px;
+    }
+
+    .device-wrap {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .device {
+      position: relative;
+      height: 690px;
+      width: min(100%, 360px);
+      border-radius: 42px;
+      padding: 14px;
+      background: linear-gradient(180deg, #1f1f1f 0%, #0d0d0d 100%);
+      box-shadow: 0 30px 60px rgba(39, 30, 22, 0.22);
+      overflow: hidden;
+      transition: transform 420ms ease, opacity 420ms ease;
+    }
+
+    .device.is-dimmed {
+      opacity: 0.34;
+      transform: scale(0.95);
+    }
+
+    .device-screen {
+      height: 100%;
+      border-radius: 30px;
+      overflow: hidden;
+      background: #f7f3ec;
+      position: relative;
+    }
+
+    .notch {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 30px;
+      border-radius: 0 0 18px 18px;
+      background: #121212;
+      z-index: 3;
+    }
+
+    .wechat-screen {
+      height: 100%;
+      background: #e9e7e4;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .wechat-header {
+      background: rgba(244, 244, 244, 0.95);
+      border-bottom: 1px solid rgba(114, 101, 87, 0.08);
+    }
+
+    .wechat-statusbar {
+      padding: 14px 14px 2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #232323;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .signal {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .signal span {
+      width: 2px;
+      background: #232323;
+      border-radius: 999px;
+      display: block;
+    }
+
+    .signal span:nth-child(1) { height: 4px; }
+    .signal span:nth-child(2) { height: 6px; }
+    .signal span:nth-child(3) { height: 8px; }
+    .signal span:nth-child(4) { height: 10px; }
+
+    .battery {
+      width: 24px;
+      height: 12px;
+      border: 1.5px solid #232323;
+      border-radius: 4px;
+      position: relative;
+      padding: 1px;
+    }
+
+    .battery::after {
+      content: "";
+      position: absolute;
+      right: -3px;
+      top: 3px;
+      width: 2px;
+      height: 4px;
+      border-radius: 0 2px 2px 0;
+      background: #232323;
+    }
+
+    .battery-fill {
+      width: 72%;
+      height: 100%;
+      border-radius: 2px;
+      background: #232323;
+    }
+
+    .wechat-nav {
+      padding: 8px 12px 10px;
+      display: grid;
+      grid-template-columns: 32px 1fr 32px;
+      align-items: center;
+    }
+
+    .wechat-nav-btn {
+      text-align: center;
+      color: #232323;
+      font-size: 22px;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .wechat-nav-center {
+      display: grid;
+      justify-items: center;
+      gap: 2px;
+    }
+
+    .wechat-title {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      font-size: 18px;
+      color: #232323;
+    }
+
+    .wechat-subtitle {
+      font-size: 11px;
+      color: #8d8d8d;
+    }
+
+    .chat-body {
+      padding: 14px 10px 22px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .system-line {
+      justify-self: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(122, 108, 92, 0.08);
+      color: #8a7d70;
+      font-size: 12px;
+    }
+
+    .message-row {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 36%, #f7d8c6 0 18%, transparent 18.5%),
+        radial-gradient(circle at 50% 65%, #234f7d 0 30%, transparent 30.5%),
+        linear-gradient(180deg, #4a8dc9 0%, #2d6faa 100%);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      color: transparent;
+    }
+
+    .bubble {
+      max-width: 286px;
+      padding: 12px 12px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 2px 8px rgba(71, 56, 39, 0.05);
+      color: #4f463d;
+      line-height: 1.68;
+      font-size: 14px;
+    }
+
+    .bubble p {
+      margin: 0 0 8px;
+    }
+
+    .bubble p:last-child {
+      margin-bottom: 0;
+    }
+
+    .mini-card {
+      margin-top: 8px;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+      border: 1px solid rgba(122, 108, 92, 0.06);
+      background: #fff;
+      border-radius: 8px;
+    }
+
+    .mini-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(60, 91, 78, 0.14);
+    }
+
+    .mini-account {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: #74685c;
+      font-size: 12px;
+    }
+
+    .mini-account-avatar {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 35%, #f4dac9 0 22%, transparent 22.5%),
+        radial-gradient(circle at 50% 72%, #b48466 0 36%, transparent 36.5%),
+        linear-gradient(180deg, #efd8c6 0%, #e3c0a3 100%);
+      border: 1px solid rgba(84, 62, 44, 0.08);
+    }
+
+    .mini-thumb {
+      height: 150px;
+      background:
+        radial-gradient(circle at 16% 16%, rgba(255, 215, 235, 0.86), transparent 22%),
+        radial-gradient(circle at 86% 14%, rgba(216, 224, 255, 0.92), transparent 26%),
+        linear-gradient(180deg, #cbbdff 0%, #9d8be8 100%);
+      padding: 14px 14px 12px;
+      display: grid;
+      align-content: end;
+    }
+
+    .mini-thumb .mini-kicker {
+      display: none;
+    }
+
+    .mini-thumb .mini-title {
+      margin: 0;
+      font-size: 40px;
+      line-height: 0.98;
+      letter-spacing: 0.01em;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(63, 41, 116, 0.22);
+    }
+
+    .mini-meta {
+      padding: 10px 12px 10px;
+      display: grid;
+      gap: 6px;
+      background: rgba(255,255,255,0.96);
+    }
+
+    .mini-meta .mini-desc {
+      color: #4d4339;
+      font-size: 13px;
+      line-height: 1.55;
+      font-weight: 600;
+    }
+
+    .mini-open {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #8a7d71;
+      font-size: 12px;
+    }
+
+    .wechat-input {
+      padding: 10px 10px 16px;
+      background: rgba(245, 245, 245, 0.96);
+      border-top: 1px solid rgba(114, 101, 87, 0.08);
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .wechat-input .bar {
+      height: 38px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(114, 101, 87, 0.08);
+    }
+
+    .input-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(93, 83, 74, 0.5);
+      color: #5e554c;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+
+    .input-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-screen {
+      height: 100%;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(117, 103, 88, 0.35) transparent;
+      background:
+        radial-gradient(circle at 10% 4%, rgba(255, 229, 235, 0.95), transparent 22%),
+        radial-gradient(circle at 92% 2%, rgba(221, 234, 255, 0.92), transparent 24%),
+        linear-gradient(180deg, #f8f3eb 0%, #eff4f2 100%);
+    }
+
+    .question-screen {
+      background: #f5f6fb;
+      scrollbar-color: rgba(180, 186, 210, 0.8) transparent;
+    }
+
+    .mini-screen::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .mini-screen::-webkit-scrollbar-thumb {
+      background: rgba(117, 103, 88, 0.3);
+      border-radius: 999px;
+    }
+
+    .mini-app-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      padding: 48px 18px 14px;
+      text-align: center;
+      font-weight: 600;
+      background: rgba(248, 243, 235, 0.84);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(123, 109, 94, 0.08);
+    }
+
+    .question-app-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      padding: 46px 18px 12px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #141414;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid rgba(212, 216, 229, 0.7);
+    }
+
+    .question-page {
+      padding: 14px 14px 118px;
+      display: grid;
+      gap: 14px;
+      background: #f5f6fb;
+    }
+
+    .progress-shell {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 2px 0 0;
+    }
+
+    .progress-track {
+      height: 12px;
+      border-radius: 999px;
+      background: #ececf1;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #9f95ff 0%, #7d79f2 100%);
+    }
+
+    .progress-num {
+      color: #4f79ff;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .intro-card {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: #fff;
+      color: #3d3d45;
+      font-size: 15px;
+      line-height: 1.9;
+      box-shadow: 0 1px 0 rgba(220, 224, 237, 0.7);
+    }
+
+    .intro-card strong {
+      color: #ff7a45;
+      font-weight: 600;
+    }
+
+    .mini-page {
+      padding: 14px 14px 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-block {
+      padding: 15px 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(255,255,255,0.78);
+      box-shadow: 0 14px 32px rgba(106, 88, 70, 0.1);
+    }
+
+    .hero-block .mini-kicker {
+      margin-bottom: 6px;
+      color: #8b7c6c;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-block h3 {
+      margin: 0 0 8px;
+      font-size: 27px;
+      line-height: 1.14;
+    }
+
+    .hero-block p {
+      margin: 0;
+      color: #665b50;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .meta-lines {
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta-line {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 10px 0;
+      border-top: 1px solid rgba(126, 110, 92, 0.12);
+    }
+
+    .meta-line:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .meta-label {
+      color: #8a7c6f;
+      font-size: 13px;
+    }
+
+    .meta-text {
+      color: #41372f;
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    .scroll-hint {
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid rgba(126, 110, 92, 0.12);
+      color: #7a6f65;
+      font-size: 11px;
+      position: sticky;
+      top: 76px;
+      z-index: 1;
+    }
+
+    .question-card {
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: 0 12px 28px rgba(107, 89, 71, 0.1);
+    }
+
+    .company-question-card {
+      padding: 18px 18px 16px;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 1px 0 rgba(220, 224, 237, 0.7);
+      display: grid;
+      gap: 18px;
+    }
+
+    .question-kicker {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8e8072;
+      margin-bottom: 8px;
+    }
+
+    .question-title {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .company-question-title {
+      margin: 0;
+      color: #3a3b43;
+      font-size: 20px;
+      line-height: 1.48;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    .likert-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      text-align: center;
+      align-items: start;
+    }
+
+    .likert-option {
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      color: #7b7d89;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .likert-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 2px solid #d7dbe7;
+      background: #f9fbff;
+      box-shadow: inset 0 1px 2px rgba(177, 184, 207, 0.16);
+    }
+
+    .question-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 4;
+      margin: 0 -14px -118px;
+      padding: 12px 14px 16px;
+      background: linear-gradient(180deg, rgba(245,246,251,0) 0%, rgba(245,246,251,0.9) 18%, #f5f6fb 42%);
+    }
+
+    .next-button {
+      width: 100%;
+      border: 0;
+      border-radius: 999px;
+      padding: 19px 20px;
+      background: linear-gradient(90deg, #a59cff 0%, #7976ef 100%);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 14px 28px rgba(122, 121, 239, 0.24);
+    }
+
+    .options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .option {
+      padding: 12px 13px;
+      border-radius: 18px;
+      background: rgba(252, 249, 242, 0.92);
+      border: 1px solid rgba(129, 114, 97, 0.12);
+      color: #554a3f;
+      font-size: 13px;
+      line-height: 1.58;
+    }
+
+    .score-strip {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .score-strip .num {
+      font-size: 42px;
+      line-height: 1;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .score-strip .tag {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .result-card {
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: 0 12px 28px rgba(107, 89, 71, 0.1);
+      display: grid;
+      gap: 12px;
+    }
+
+    .result-card h4 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .result-card p {
+      margin: 0;
+      color: #655a4e;
+      line-height: 1.68;
+      font-size: 13px;
+    }
+
+    .result-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .report-header {
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(248, 250, 255, 0.96) 100%);
+      border: 1px solid rgba(220, 226, 240, 0.95);
+      box-shadow: 0 12px 26px rgba(111, 121, 158, 0.08);
+      display: grid;
+      gap: 10px;
+    }
+
+    .report-head-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .report-title {
+      color: #2d2f39;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .report-date {
+      color: #8a8f9f;
+      font-size: 11px;
+    }
+
+    .report-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .report-tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f2f4fb;
+      color: #666d81;
+      font-size: 11px;
+      border: 1px solid rgba(213, 219, 235, 0.9);
+    }
+
+    .result-overview {
+      display: grid;
+      gap: 10px;
+    }
+
+    .result-statline {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .result-stat {
+      padding: 12px 13px;
+      border-radius: 18px;
+      background: rgba(250, 247, 239, 0.94);
+      border: 1px solid rgba(129, 114, 97, 0.12);
+      display: grid;
+      gap: 4px;
+    }
+
+    .result-stat .label {
+      color: #87796b;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .result-stat .value {
+      color: #41372f;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .soft-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(43, 122, 102, 0.1);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 2px 4px 0;
+      color: #717789;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .section-title::before {
+      content: "";
+      flex: 1;
+      order: 2;
+      height: 1px;
+      background: rgba(205, 211, 228, 0.9);
+      margin-left: 10px;
+    }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bar-row {
+      display: grid;
+      gap: 6px;
+    }
+
+    .bar-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: #5d5348;
+      font-size: 12px;
+    }
+
+    .bar-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(107, 89, 71, 0.12);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2b7a66 0%, #59a993 100%);
+    }
+
+    .caption {
+      text-align: center;
+      color: #766a5f;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .dimension-card {
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: 0 12px 28px rgba(107, 89, 71, 0.1);
+      display: grid;
+      gap: 12px;
+    }
+
+    .dimension-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .dimension-top h4 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .dimension-top p {
+      margin: 4px 0 0;
+      color: #786c60;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .score-badge {
+      min-width: 64px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: rgba(43, 122, 102, 0.1);
+      color: var(--accent);
+      text-align: center;
+      display: grid;
+      gap: 2px;
+    }
+
+    .score-badge .num {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .score-badge .meta {
+      font-size: 11px;
+      color: #5d816f;
+    }
+
+    .dimension-block {
+      display: grid;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(126, 110, 92, 0.12);
+    }
+
+    .dimension-label {
+      color: #87796b;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .dimension-text {
+      color: #4f463d;
+      font-size: 13px;
+      line-height: 1.72;
+    }
+
+    .result-actions {
+      position: sticky;
+      bottom: 0;
+      z-index: 4;
+      margin: 0 -14px -22px;
+      padding: 14px 14px 18px;
+      background: linear-gradient(180deg, rgba(248,243,235,0) 0%, rgba(248,243,235,0.9) 18%, #f8f3eb 46%);
+      display: grid;
+      gap: 10px;
+    }
+
+    .primary-action,
+    .secondary-action {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .primary-action {
+      border: 0;
+      background: linear-gradient(90deg, #2f7f6a 0%, #5aa691 100%);
+      color: #fff;
+      box-shadow: 0 14px 24px rgba(54, 129, 109, 0.2);
+    }
+
+    .secondary-action {
+      border: 1px solid rgba(203, 209, 225, 0.95);
+      background: rgba(255,255,255,0.9);
+      color: #5e667c;
+    }
+
+    .action-page {
+      padding: 16px 14px 28px;
+      display: grid;
+      gap: 14px;
+      background: linear-gradient(180deg, #f6f8fc 0%, #f2f6fb 100%);
+    }
+
+    .action-hero {
+      padding: 18px 16px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(246, 250, 255, 0.98) 100%);
+      border: 1px solid rgba(220, 226, 240, 0.95);
+      box-shadow: 0 14px 30px rgba(111, 121, 158, 0.08);
+      display: grid;
+      gap: 10px;
+    }
+
+    .action-hero h3,
+    .action-panel h4,
+    .action-card h4 {
+      margin: 0;
+    }
+
+    .action-hero p,
+    .action-panel p,
+    .action-card p,
+    .action-note {
+      margin: 0;
+      color: #656d7f;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .action-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-self: start;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(43, 122, 102, 0.1);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .action-panel {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(220, 226, 240, 0.95);
+      box-shadow: 0 10px 22px rgba(111, 121, 158, 0.07);
+      display: grid;
+      gap: 12px;
+    }
+
+    .action-card {
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f8faff 0%, #f5f7fe 100%);
+      border: 1px solid rgba(211, 218, 236, 0.95);
+      display: grid;
+      gap: 10px;
+    }
+
+    .group-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .group-badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(121, 118, 239, 0.08);
+      color: #6b6ce6;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .action-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .action-list-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .action-list-item .num {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(121, 118, 239, 0.12);
+      color: #6d6fee;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .action-list-item strong {
+      display: block;
+      margin-bottom: 2px;
+      color: #38404c;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .action-list-item span {
+      color: #6a7184;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .action-cta {
+      position: sticky;
+      bottom: 0;
+      z-index: 4;
+      margin: 0 -14px -16px;
+      padding: 12px 14px 16px;
+      background: linear-gradient(180deg, rgba(242,246,251,0) 0%, rgba(242,246,251,0.92) 20%, #f2f6fb 44%);
+    }
+
+    .join-button {
+      width: 100%;
+      border: 0;
+      border-radius: 999px;
+      padding: 18px 20px;
+      background: linear-gradient(90deg, #2f7f6a 0%, #58a28e 100%);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      box-shadow: 0 14px 28px rgba(54, 129, 109, 0.24);
+    }
+
+    .followup-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .followup-card {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(220, 226, 240, 0.9);
+      box-shadow: 0 12px 24px rgba(111, 121, 158, 0.08);
+      display: grid;
+      gap: 12px;
+    }
+
+    .followup-card h4 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      color: #30333d;
+    }
+
+    .followup-card p {
+      margin: 0;
+      color: #616779;
+      font-size: 13px;
+      line-height: 1.72;
+    }
+
+    .followup-mini {
+      display: grid;
+      gap: 10px;
+    }
+
+    .followup-mini-card {
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: #f7f8fc;
+      border: 1px solid rgba(219, 224, 238, 0.9);
+      display: grid;
+      gap: 6px;
+    }
+
+    .followup-mini-card .mini-label {
+      color: #8a90a0;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .followup-mini-card .mini-text {
+      color: #414652;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 12px 0;
+      border-top: 1px solid rgba(220, 226, 240, 0.8);
+    }
+
+    .task-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .task-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(122, 121, 239, 0.12);
+      color: #6d67dc;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .task-copy {
+      display: grid;
+      gap: 4px;
+    }
+
+    .task-copy strong {
+      color: #2f3440;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .task-copy span {
+      color: #666d80;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .device {
+        max-width: 390px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="eyebrow">Interactive Flow Prototype</div>
+      <h1>纸质书扫码加微信后，进入测评小程序的手机链路</h1>
+      <p class="summary">这一版补齐三步：微信交接、小程序答题、结果反馈。用户加上微信后，会收到一句简短承接语和测评卡片；点击后进入小程序，直接开始答题，完成后看到结果页。</p>
+      <div class="flowline">
+        <div class="flow-step">纸质书触发</div>
+        <div class="flow-step is-active">加微信后收到消息</div>
+        <div class="flow-step is-active">进入答题页</div>
+        <div class="flow-step is-active">看到结果页</div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="panel">
+        <div>
+          <div class="eyebrow">Flow Choice</div>
+          <h2>温柔交接型</h2>
+        </div>
+
+        <ul>
+          <li>微信里先发一段很短的话，负责承接书页内容并交接到测评。</li>
+          <li>卡片标题直接对应书中这一章的测评主题，不再泛泛叫“心理测评”。</li>
+          <li>小程序进入后直接看到承接说明和题目，不增加多余按钮。</li>
+          <li>结果页必须同时给出画像、维度得分和一个最适合当前阶段的提醒。</li>
+        </ul>
+
+        <button type="button" id="replayButton">重新演示点击进入</button>
+
+        <p>操作方式：先点击左边微信里的“小程序卡片”，或直接点击上面的按钮重播一次。点击后会依次唤醒答题页和结果页。</p>
+      </aside>
+
+      <section class="stage">
+        <div class="stage-top">
+          <div class="stage-title">点击微信卡片后，依次进入答题页与结果页</div>
+          <div class="chips">
+            <div class="chip">微信交接语</div>
+            <div class="chip">小程序答题页</div>
+            <div class="chip">结果页</div>
+          </div>
+        </div>
+
+        <div class="device-wrap">
+          <div class="device" id="wechatDevice">
+            <div class="notch"></div>
+            <div class="device-screen wechat-screen">
+              <div class="wechat-header">
+                <div class="wechat-statusbar">
+                  <div>15:10</div>
+                  <div class="status-icons">
+                    <div class="signal" aria-hidden="true">
+                      <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div>5G</div>
+                    <div class="battery" aria-hidden="true"><div class="battery-fill"></div></div>
+                  </div>
+                </div>
+                <div class="wechat-nav">
+                  <div class="wechat-nav-btn">‹</div>
+                  <div class="wechat-nav-center">
+                    <div class="wechat-title">陈路</div>
+                    <div class="wechat-subtitle">李中莹亲子服务中心</div>
+                  </div>
+                  <div class="wechat-nav-btn">···</div>
+                </div>
+              </div>
+
+              <div class="chat-body">
+                <div class="system-line">你已添加了联系人，现在可以开始聊天了</div>
+
+                <div class="message-row">
+                  <div class="avatar">陈</div>
+                  <div class="bubble">
+                    <p>家长您好，我是李中莹服务中心的陈老师。</p>
+                    <p>我把这一章对应的测评发给您，点开就能开始。</p>
+
+                    <div class="bubble mini-card" id="miniCard" role="button" tabindex="0" aria-label="打开亲子教养信心测评">
+                      <div class="mini-meta">
+                        <div class="mini-account">
+                          <div class="mini-account-avatar" aria-hidden="true"></div>
+                          <span>AI李中莹</span>
+                        </div>
+                        <div class="mini-desc">快来完成【亲子教养信心测评】吧</div>
+                      </div>
+                      <div class="mini-thumb">
+                        <h3 class="mini-title">亲子教养信心<br>测评</h3>
+                      </div>
+                      <div class="mini-meta">
+                        <div class="mini-open">
+                          <span>⌁</span>
+                          <span>小程序</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wechat-input">
+                <div class="input-icon">◉</div>
+                <div class="bar"></div>
+                <div class="input-actions">
+                  <div class="input-icon">☺</div>
+                  <div class="input-icon">＋</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="device is-dimmed" id="miniDevice">
+            <div class="notch"></div>
+            <div class="device-screen mini-screen question-screen" id="miniScreen">
+              <div class="question-app-topbar">测评</div>
+
+              <div class="question-page">
+                <div class="progress-shell">
+                  <div class="progress-track"><div class="progress-fill"></div></div>
+                  <div class="progress-num">0%</div>
+                </div>
+
+                <section class="intro-card">
+                  本测评旨在探索你在亲子中的教养信念。各条没有对错之分，<strong>选择最贴合自己的一项即可。</strong>
+                </section>
+
+                <section class="company-question-card" id="questionCard">
+                  <h3 class="company-question-title">1、我对自己的教养能力有信心。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">2、面对孩子的不当行为时，我知道该怎么处理。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">3、亲子关系紧张时，我相信自己能慢慢改善。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">4、遇到新的教养问题时，我能边学边调整。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">5、我相信向孩子解释规则理由，会提升他的配合度。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">6、我相信和孩子沟通说理，有助于改善问题。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">7、我相信解释行为后果，能帮助孩子慢慢改变。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">8、我相信清楚表达感受和规则，会帮助孩子理解行为边界。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">9、我稳定自身情绪，能缓和亲子间的矛盾冲突。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">10、即使孩子没有按期待变化，我也能继续坚持。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">11、即使孩子因为管教而不高兴，我也能坚持该有的做法。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">12、即使同样的问题反复出现，我也能继续按原定方式处理。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">13、我认为家长需要考虑孩子的感受和意愿。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">14、我认同孩子可以有不同于家长的想法。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">15、我认为家长需要尊重孩子表达意见。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <section class="company-question-card">
+                  <h3 class="company-question-title">16、我认为家长核心价值，是引导孩子成长与自律。</h3>
+                  <div class="likert-row">
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>不确定</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>同意</div></div>
+                    <div class="likert-option"><div class="likert-dot"></div><div>非常同意</div></div>
+                  </div>
+                </section>
+
+                <div class="question-footer">
+                  <button class="next-button" type="button">下一页</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="device is-dimmed" id="resultDevice">
+            <div class="notch"></div>
+            <div class="device-screen mini-screen" id="resultScreen">
+              <div class="mini-app-topbar">测评结果</div>
+
+              <div class="mini-page">
+                <section class="report-header">
+                  <div class="report-head-top">
+                    <div class="report-title">亲子教养信心测评报告</div>
+                    <div class="report-date">2026.03.30</div>
+                  </div>
+                  <div class="report-tags">
+                    <div class="report-tag">轻测评结果</div>
+                    <div class="report-tag">4个维度</div>
+                    <div class="report-tag">约3分钟读完</div>
+                  </div>
+                </section>
+
+                <section class="hero-block">
+                  <div class="mini-kicker">你的核心画像</div>
+                  <h3>理念先行型</h3>
+                  <p>你已经走在比较成熟的教养方向上，很多道理也想得明白，只是心里的把握感还不够。孩子一有反复，你就容易开始怀疑自己。</p>
+                  <div class="score-strip">
+                    <div class="num">74</div>
+                    <div class="tag">教养信念指数</div>
+                  </div>
+                  <div class="soft-pill">当前重点：把理解慢慢变成做得到的动作</div>
+                </section>
+
+                <div class="result-grid">
+                  <div class="section-title"><span>整体报告</span></div>
+                  <section class="result-card">
+                    <h4>整体结果</h4>
+                    <div class="result-overview">
+                      <p>你已经有了比较清晰的教养方向，也知道解释、沟通和清楚表达会影响关系。现在最影响你的，是信心还不够稳。事情一反复，心里就容易往下掉，原来想好的做法也跟着松掉。</p>
+                      <div class="result-statline">
+                        <div class="result-stat">
+                          <div class="label">当前状态</div>
+                          <div class="value">理念清楚，行动偏弱</div>
+                        </div>
+                        <div class="result-stat">
+                          <div class="label">当前重点</div>
+                          <div class="value">先稳住，再求改变</div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="result-card">
+                    <h4>整体建议</h4>
+                    <p>先别急着全面调整。挑一个最容易起冲突的日常场景，给自己定一个小目标，例如先把话说清楚、先把语气放缓、先稳住情绪。你需要先积累几次做得到的经验，让心里的把握感慢慢长回来。</p>
+                  </section>
+
+                  <section class="result-card">
+                    <h4>四维总览</h4>
+                    <div class="bars">
+                      <div class="bar-row">
+                        <div class="bar-head"><span>教养效能信念</span><span>68</span></div>
+                        <div class="bar-track"><div class="bar-fill" style="width:68%"></div></div>
+                      </div>
+                      <div class="bar-row">
+                        <div class="bar-head"><span>教养结果预期</span><span>79</span></div>
+                        <div class="bar-track"><div class="bar-fill" style="width:79%"></div></div>
+                      </div>
+                      <div class="bar-row">
+                        <div class="bar-head"><span>教养自我调节信心</span><span>63</span></div>
+                        <div class="bar-track"><div class="bar-fill" style="width:63%"></div></div>
+                      </div>
+                      <div class="bar-row">
+                        <div class="bar-head"><span>教养角色认同</span><span>86</span></div>
+                        <div class="bar-track"><div class="bar-fill" style="width:86%"></div></div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <div class="section-title"><span>维度解析</span></div>
+                  <section class="dimension-card">
+                    <div class="dimension-top">
+                      <div>
+                        <h4>教养效能信念</h4>
+                        <p>你是否相信自己有能力处理问题、带来改变</p>
+                      </div>
+                      <div class="score-badge">
+                        <div class="num">68</div>
+                        <div class="meta">中等</div>
+                      </div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">维度解读</div>
+                      <div class="dimension-text">你对自己的教养能力并非没有信心，只是这份信心容易受情境影响。孩子配合时，你会觉得自己还行；冲突一多，心里就开始发虚。教养状态也会跟着忽紧忽松，人会比较累。</div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">建议</div>
+                      <div class="dimension-text">把目标缩小到一个小问题，每次只练一个场景，例如催作业、睡前磨蹭或顶嘴冲突。你需要反复体验几次“这件事我能处理”，那份把握感才会慢慢稳下来。</div>
+                    </div>
+                  </section>
+
+                  <section class="dimension-card">
+                    <div class="dimension-top">
+                      <div>
+                        <h4>教养结果预期</h4>
+                        <p>你是否相信解释规则、表达感受和说明后果，会影响孩子和关系</p>
+                      </div>
+                      <div class="score-badge">
+                        <div class="num">79</div>
+                        <div class="meta">较高</div>
+                      </div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">维度解读</div>
+                      <div class="dimension-text">这是你目前比较稳的一维。你相信家长清楚地解释规则、表达感受、说明后果，会慢慢影响孩子，也会带动关系变化。这样的判断很珍贵，它能帮你守住长期方向，不被短期波动牵着走。</div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">建议</div>
+                      <div class="dimension-text">继续观察关系里的细小变化，把孩子更愿意说话、冲突变短、对规则更容易理解，都算进成果里。这样你更容易看见，自己的调整其实已经在起作用。</div>
+                    </div>
+                  </section>
+
+                  <section class="dimension-card">
+                    <div class="dimension-top">
+                      <div>
+                        <h4>教养自我调节信心</h4>
+                        <p>你是否相信自己在情绪、挫败和反复里还能稳住并缓和冲突</p>
+                      </div>
+                      <div class="score-badge">
+                        <div class="num">63</div>
+                        <div class="meta">偏弱</div>
+                      </div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">维度解读</div>
+                      <div class="dimension-text">你心里其实知道该怎么做，只是情绪一上来就很难收回来。孩子反复、自己疲惫、生活压力一叠上去，亲子冲突就容易越顶越高。时间一长，挫败感会越来越重，人也越来越不想再试。</div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">建议</div>
+                      <div class="dimension-text">现阶段先练“少被情绪带走一次”。给自己准备一个固定动作，比如停十秒、先离开现场、或者晚一点再谈。先把冲突降下来，你才有空间把想好的方法用出来。</div>
+                    </div>
+                  </section>
+
+                  <section class="dimension-card">
+                    <div class="dimension-top">
+                      <div>
+                        <h4>教养角色认同</h4>
+                        <p>你是否认同家长的核心价值是引导孩子成长，也引导孩子走向自律</p>
+                      </div>
+                      <div class="score-badge">
+                        <div class="num">86</div>
+                        <div class="meta">较高</div>
+                      </div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">维度解读</div>
+                      <div class="dimension-text">你对家长的位置有比较成熟的理解。你知道自己要做的，是支持、引导、陪伴孩子长出能力，也长出自律。这种角色感会让你的教养更稳，也更容易把眼光放长，看见孩子的整个成长过程。</div>
+                    </div>
+                    <div class="dimension-block">
+                      <div class="dimension-label">建议</div>
+                      <div class="dimension-text">继续守住“帮助孩子长能力、长自律”的方向，在孩子能自己承担的事情上，再多给一点空间。你的方向已经有了，接下来需要的是把这种角色感落到具体互动里。</div>
+                    </div>
+                  </section>
+
+                  <div class="result-actions">
+                    <div class="primary-action" id="actionTrigger">领取7天行动建议</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="device is-dimmed" id="actionDevice">
+            <div class="notch"></div>
+            <div class="device-screen mini-screen" id="actionScreen">
+              <div class="mini-app-topbar">7天行动建议</div>
+
+              <div class="action-page">
+                <section class="action-hero">
+                  <div class="mini-kicker">根据你的测评结果定制</div>
+                  <h3>先把“知道”慢慢变成“做得到”</h3>
+                  <p>你现在最需要补的，是把握感和稳定感。这 7 天，我们不追求一下子变很多，只练每天一个很小的动作，帮你把理解落回真实互动里。</p>
+                  <div class="action-pill">每天一个微行动 · 7天后复测</div>
+                </section>
+
+                <section class="action-panel">
+                  <h4>进入方式</h4>
+                  <p>添加群主企业微信后，会被拉进 7 天打卡群。群里每天发布一个小任务，完成后打卡一句话即可，不需要额外准备。</p>
+                  <div class="group-badges">
+                    <div class="group-badge">7天陪伴</div>
+                    <div class="group-badge">每日任务</div>
+                    <div class="group-badge">群内打卡</div>
+                    <div class="group-badge">结营复测</div>
+                  </div>
+                </section>
+
+                <section class="action-panel">
+                  <h4>你会做到什么</h4>
+                  <div class="action-list">
+                    <div class="action-list-item">
+                      <div class="num">1</div>
+                      <div>
+                        <strong>先稳一下再开口</strong>
+                        <span>今天和孩子说重要的话前，先停 3 秒，再开口。</span>
+                      </div>
+                    </div>
+                    <div class="action-list-item">
+                      <div class="num">2</div>
+                      <div>
+                        <strong>把命令改成说明</strong>
+                        <span>选一个最常见的场景，把“快去做”改成“说清为什么要做”。</span>
+                      </div>
+                    </div>
+                    <div class="action-list-item">
+                      <div class="num">3</div>
+                      <div>
+                        <strong>先说感受，再说要求</strong>
+                        <span>孩子有情绪时，先接住情绪，再表达你的要求。</span>
+                      </div>
+                    </div>
+                    <div class="action-list-item">
+                      <div class="num">7</div>
+                      <div>
+                        <strong>完成复测</strong>
+                        <span>第 7 天回看这一周的变化，再做一次测评，看看哪里已经开始松动。</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="action-card">
+                  <h4>为什么建议你先做这个</h4>
+                  <p>你现在并不缺道理，缺的是几次做得到的小经验。只要连续几次稳住自己、把话说清楚，教养信心就会比之前更稳一点，亲子冲突也更容易缓下来。</p>
+                </section>
+
+                <div class="action-note">完成 7 天打卡后，再做一次复测，更容易看见自己的变化。</div>
+
+                <div class="action-cta">
+                  <button class="join-button" type="button">进入7天打卡群</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="caption">这是一条“加微信后自然交接到测评”的交互链路。微信负责承接与信任建立，小程序负责开始答题并即时给出结果，不让用户多做无意义跳转。</div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const miniCard = document.getElementById("miniCard");
+    const replayButton = document.getElementById("replayButton");
+    const miniDevice = document.getElementById("miniDevice");
+    const miniScreen = document.getElementById("miniScreen");
+    const resultDevice = document.getElementById("resultDevice");
+    const resultScreen = document.getElementById("resultScreen");
+    const actionDevice = document.getElementById("actionDevice");
+    const actionScreen = document.getElementById("actionScreen");
+    const questionCard = document.getElementById("questionCard");
+    const actionTrigger = document.getElementById("actionTrigger");
+
+    function openMiniProgram() {
+      miniDevice.classList.remove("is-dimmed");
+      miniDevice.animate(
+        [
+          { transform: "scale(0.96)", opacity: 0.5 },
+          { transform: "scale(1.01)", opacity: 1 },
+          { transform: "scale(1)", opacity: 1 }
+        ],
+        { duration: 460, easing: "cubic-bezier(.2,.8,.2,1)" }
+      );
+
+      setTimeout(() => {
+        questionCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 900);
+
+      setTimeout(() => {
+        resultDevice.classList.remove("is-dimmed");
+        resultDevice.animate(
+          [
+            { transform: "scale(0.96)", opacity: 0.5 },
+            { transform: "scale(1.01)", opacity: 1 },
+            { transform: "scale(1)", opacity: 1 }
+          ],
+          { duration: 460, easing: "cubic-bezier(.2,.8,.2,1)" }
+        );
+      }, 1400);
+    }
+
+    function openActionPlan() {
+      actionDevice.classList.remove("is-dimmed");
+      actionDevice.animate(
+        [
+          { transform: "scale(0.96)", opacity: 0.5 },
+          { transform: "scale(1.01)", opacity: 1 },
+          { transform: "scale(1)", opacity: 1 }
+        ],
+        { duration: 460, easing: "cubic-bezier(.2,.8,.2,1)" }
+      );
+
+      setTimeout(() => {
+        actionDevice.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 140);
+    }
+
+    function resetDemo() {
+      miniDevice.classList.add("is-dimmed");
+      resultDevice.classList.add("is-dimmed");
+      actionDevice.classList.add("is-dimmed");
+      miniScreen.scrollTo({ top: 0, behavior: "smooth" });
+      resultScreen.scrollTo({ top: 0, behavior: "smooth" });
+      actionScreen.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(openMiniProgram, 350);
+    }
+
+    miniCard.addEventListener("click", openMiniProgram);
+    miniCard.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openMiniProgram();
+      }
+    });
+
+    replayButton.addEventListener("click", resetDemo);
+    actionTrigger.addEventListener("click", openActionPlan);
+  </script>
+</body>
+</html>
