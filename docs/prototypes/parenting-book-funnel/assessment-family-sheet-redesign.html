@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>领取 7 天行动建议 · 家庭信息收集</title>
+  <link rel="stylesheet" href="assessment-redesign.css">
+</head>
+<body>
+  <div class="prototype-shell">
+    <div class="phone">
+      <div class="screen screen--overlay">
+        <div class="statusbar">
+          <span>11:15</span>
+          <div class="statusbar__icons">
+            <span>5G</span>
+            <span class="statusbar__pill"></span>
+          </div>
+        </div>
+
+        <div class="sheet-shell">
+          <section class="sheet">
+            <div class="sheet__handle"></div>
+            <div class="sheet__content">
+              <header>
+                <span class="eyebrow">领取 7 天行动建议</span>
+                <h1 class="sheet__title">先补充一点家庭信息，让建议更贴合你现在的情况</h1>
+              </header>
+
+              <section class="field-card">
+                <h2 class="field-title">孩子目前处于哪个年龄段？</h2>
+                <div class="chip-group">
+                  <label class="chip"><input type="radio" name="age"><span>3岁以下</span></label>
+                  <label class="chip"><input type="radio" name="age"><span>3-6岁</span></label>
+                  <label class="chip"><input type="radio" name="age"><span>6-9岁</span></label>
+                  <label class="chip"><input type="radio" name="age"><span>9-12岁</span></label>
+                  <label class="chip"><input type="radio" name="age"><span>12岁以上</span></label>
+                </div>
+              </section>
+
+              <section class="field-card">
+                <h2 class="field-title">你目前的年龄段是？</h2>
+                <div class="chip-group">
+                  <label class="chip"><input type="radio" name="parent-age"><span>25岁以下</span></label>
+                  <label class="chip"><input type="radio" name="parent-age"><span>25-30岁</span></label>
+                  <label class="chip"><input type="radio" name="parent-age"><span>31-35岁</span></label>
+                  <label class="chip"><input type="radio" name="parent-age"><span>36-40岁</span></label>
+                  <label class="chip"><input type="radio" name="parent-age"><span>41-45岁</span></label>
+                  <label class="chip"><input type="radio" name="parent-age"><span>46岁以上</span></label>
+                </div>
+              </section>
+
+              <section class="field-card">
+                <h2 class="field-title">你们家最近最常见的冲突场景是什么？</h2>
+                <p class="sheet__text">可多选，先选最常发生的几项。</p>
+                <div class="chip-group">
+                  <label class="chip"><input type="checkbox" name="scene"><span>不听提醒</span></label>
+                  <label class="chip"><input type="checkbox" name="scene"><span>拖拉磨蹭</span></label>
+                  <label class="chip"><input type="checkbox" name="scene"><span>情绪对抗</span></label>
+                  <label class="chip"><input type="checkbox" name="scene"><span>作业学习</span></label>
+                  <label class="chip"><input type="checkbox" name="scene"><span>生活习惯</span></label>
+                  <label class="chip"><input type="checkbox" name="scene"><span>规则边界</span></label>
+                </div>
+              </section>
+
+              <section class="field-card">
+                <h2 class="field-title">平时主要是谁在带孩子？</h2>
+                <div class="chip-group">
+                  <label class="chip"><input type="radio" name="caregiver"><span>妈妈为主</span></label>
+                  <label class="chip"><input type="radio" name="caregiver"><span>爸爸为主</span></label>
+                  <label class="chip"><input type="radio" name="caregiver"><span>共同照护</span></label>
+                  <label class="chip"><input type="radio" name="caregiver"><span>老人参与较多</span></label>
+                  <label class="chip"><input type="radio" name="caregiver"><span>阿姨（佣人）</span></label>
+                </div>
+              </section>
+
+              <div class="stack">
+                <a class="btn btn--primary" href="assessment-personalized-plan-redesign.html">生成个性化行动建议</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

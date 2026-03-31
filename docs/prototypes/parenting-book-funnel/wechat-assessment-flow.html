@@ -94,10 +94,7 @@
     }
 
     .layout {
-      display: grid;
-      grid-template-columns: 320px minmax(0, 1fr);
-      gap: 22px;
-      align-items: start;
+      display: block;
     }
 
     .panel,
@@ -150,9 +147,13 @@
     }
 
     .stage {
-      padding: 22px;
+      padding: 0;
       display: grid;
-      gap: 16px;
+      gap: 0;
+      border: 0;
+      background: transparent;
+      backdrop-filter: none;
+      box-shadow: none;
     }
 
     .stage-top {
@@ -929,6 +930,122 @@
       font-weight: 600;
     }
 
+    .result-hero-card {
+      padding: 18px 16px 16px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(189, 227, 213, 0.9), transparent 34%),
+        radial-gradient(circle at top left, rgba(255, 232, 214, 0.92), transparent 28%),
+        linear-gradient(180deg, #fffaf3 0%, #f6f1e8 100%);
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      box-shadow: 0 18px 36px rgba(98, 79, 57, 0.12);
+      display: grid;
+      gap: 14px;
+    }
+
+    .result-hero-top {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .result-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 34%, #f7dcc7 0 22%, transparent 22.5%),
+        radial-gradient(circle at 50% 74%, #cf9875 0 38%, transparent 38.5%),
+        linear-gradient(180deg, #f7e7d7 0%, #efcaa8 100%);
+      border: 1px solid rgba(135, 98, 72, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .result-role {
+      color: #8b7b6d;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .result-name {
+      color: #332b25;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .result-badge {
+      padding: 8px 10px;
+      border-radius: 16px;
+      background: rgba(43, 122, 102, 0.1);
+      color: var(--accent);
+      text-align: center;
+      display: grid;
+      gap: 2px;
+      min-width: 64px;
+    }
+
+    .result-badge strong {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .result-badge span {
+      font-size: 11px;
+    }
+
+    .result-hero-copy {
+      color: #5d5147;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .result-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .result-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.66);
+      border: 1px solid rgba(129, 114, 97, 0.12);
+      color: #66594e;
+      font-size: 11px;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .insight-card {
+      padding: 13px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(129, 114, 97, 0.1);
+      display: grid;
+      gap: 4px;
+    }
+
+    .insight-card .label {
+      color: #8b7d70;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .insight-card .value {
+      color: #41372f;
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
     .section-title {
       display: flex;
       align-items: center;
@@ -982,10 +1099,7 @@
     }
 
     .caption {
-      text-align: center;
-      color: #766a5f;
-      font-size: 13px;
-      line-height: 1.6;
+      display: none;
     }
 
     .dimension-card {
@@ -1069,6 +1183,33 @@
       background: linear-gradient(180deg, rgba(248,243,235,0) 0%, rgba(248,243,235,0.9) 18%, #f8f3eb 46%);
       display: grid;
       gap: 10px;
+    }
+
+    .tip-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .tip-card {
+      padding: 14px 15px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(255,255,255,0.84);
+      box-shadow: 0 10px 22px rgba(107, 89, 71, 0.08);
+      display: grid;
+      gap: 6px;
+    }
+
+    .tip-card strong {
+      color: #383027;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .tip-card span {
+      color: #6d6155;
+      font-size: 12px;
+      line-height: 1.75;
     }
 
     .primary-action,
@@ -1353,47 +1494,8 @@
 </head>
 <body>
   <div class="page">
-    <header class="hero">
-      <div class="eyebrow">Interactive Flow Prototype</div>
-      <h1>纸质书扫码加微信后，进入测评小程序的手机链路</h1>
-      <p class="summary">这一版补齐三步：微信交接、小程序答题、结果反馈。用户加上微信后，会收到一句简短承接语和测评卡片；点击后进入小程序，直接开始答题，完成后看到结果页。</p>
-      <div class="flowline">
-        <div class="flow-step">纸质书触发</div>
-        <div class="flow-step is-active">加微信后收到消息</div>
-        <div class="flow-step is-active">进入答题页</div>
-        <div class="flow-step is-active">看到结果页</div>
-      </div>
-    </header>
-
     <div class="layout">
-      <aside class="panel">
-        <div>
-          <div class="eyebrow">Flow Choice</div>
-          <h2>温柔交接型</h2>
-        </div>
-
-        <ul>
-          <li>微信里先发一段很短的话，负责承接书页内容并交接到测评。</li>
-          <li>卡片标题直接对应书中这一章的测评主题，不再泛泛叫“心理测评”。</li>
-          <li>小程序进入后直接看到承接说明和题目，不增加多余按钮。</li>
-          <li>结果页必须同时给出画像、维度得分和一个最适合当前阶段的提醒。</li>
-        </ul>
-
-        <button type="button" id="replayButton">重新演示点击进入</button>
-
-        <p>操作方式：先点击左边微信里的“小程序卡片”，或直接点击上面的按钮重播一次。点击后会依次唤醒答题页和结果页。</p>
-      </aside>
-
       <section class="stage">
-        <div class="stage-top">
-          <div class="stage-title">点击微信卡片后，依次进入答题页与结果页</div>
-          <div class="chips">
-            <div class="chip">微信交接语</div>
-            <div class="chip">小程序答题页</div>
-            <div class="chip">结果页</div>
-          </div>
-        </div>
-
         <div class="device-wrap">
           <div class="device" id="wechatDevice">
             <div class="notch"></div>
@@ -1426,18 +1528,18 @@
                   <div class="avatar">陈</div>
                   <div class="bubble">
                     <p>家长您好，我是李中莹服务中心的陈老师。</p>
-                    <p>我把这一章对应的测评发给您，点开就能开始。</p>
+                    <p>您已添加成功，我把这一章对应的测评链接发给您，点开就能开始。</p>
 
-                    <div class="bubble mini-card" id="miniCard" role="button" tabindex="0" aria-label="打开亲子教养信心测评">
+                    <div class="bubble mini-card" id="miniCard" role="button" tabindex="0" aria-label="打开家长教养智慧评估">
                       <div class="mini-meta">
                         <div class="mini-account">
                           <div class="mini-account-avatar" aria-hidden="true"></div>
                           <span>AI李中莹</span>
                         </div>
-                        <div class="mini-desc">快来完成【亲子教养信心测评】吧</div>
+                        <div class="mini-desc">快来完成【家长教养智慧评估】吧</div>
                       </div>
                       <div class="mini-thumb">
-                        <h3 class="mini-title">亲子教养信心<br>测评</h3>
+                        <h3 class="mini-title">家长教养智慧<br>评估</h3>
                       </div>
                       <div class="mini-meta">
                         <div class="mini-open">
@@ -1473,7 +1575,7 @@
                 </div>
 
                 <section class="intro-card">
-                  本测评旨在探索你在亲子中的教养信念。各条没有对错之分，<strong>选择最贴合自己的一项即可。</strong>
+                  本测评旨在探索你在亲子中的教养智慧状态。各条没有对错之分，<strong>选择最贴合自己的一项即可。</strong>
                 </section>
 
                 <section class="company-question-card" id="questionCard">
@@ -1667,7 +1769,7 @@
               <div class="mini-page">
                 <section class="report-header">
                   <div class="report-head-top">
-                    <div class="report-title">亲子教养信心测评报告</div>
+                    <div class="report-title">家长教养智慧评估报告</div>
                     <div class="report-date">2026.03.30</div>
                   </div>
                   <div class="report-tags">
@@ -1677,59 +1779,92 @@
                   </div>
                 </section>
 
-                <section class="hero-block">
-                  <div class="mini-kicker">你的核心画像</div>
-                  <h3>理念先行型</h3>
-                  <p>你已经走在比较成熟的教养方向上，很多道理也想得明白，只是心里的把握感还不够。孩子一有反复，你就容易开始怀疑自己。</p>
-                  <div class="score-strip">
-                    <div class="num">74</div>
-                    <div class="tag">教养信念指数</div>
+                <section class="result-hero-card">
+                  <div class="result-hero-top">
+                    <div class="result-avatar" aria-hidden="true"></div>
+                    <div>
+                      <div class="result-role">你的核心画像</div>
+                      <div class="result-name">理念成长型家长</div>
+                    </div>
+                    <div class="result-badge">
+                      <strong>74</strong>
+                      <span>总分</span>
+                    </div>
                   </div>
-                  <div class="soft-pill">当前重点：把理解慢慢变成做得到的动作</div>
+                  <div class="result-hero-copy">你已经具备比较清晰的教养方向，也开始在关系和规则之间找平衡。现在最需要补的是现场稳定度，让你在冲突来临时，仍能把想明白的做法用出来。</div>
+                  <div class="result-pill-row">
+                    <div class="result-pill">优势：关系引导力强</div>
+                    <div class="result-pill">提醒：情绪稳控仍需练习</div>
+                    <div class="result-pill">阶段建议：先练一个高频场景</div>
+                  </div>
+                  <div class="insight-grid">
+                    <div class="insight-card">
+                      <div class="label">现在的你</div>
+                      <div class="value">想法成熟，但临场稳定感不足</div>
+                    </div>
+                    <div class="insight-card">
+                      <div class="label">最先要做</div>
+                      <div class="value">把一个小动作稳定重复下来</div>
+                    </div>
+                  </div>
                 </section>
 
                 <div class="result-grid">
-                  <div class="section-title"><span>整体报告</span></div>
+                  <div class="section-title"><span>结果总览</span></div>
                   <section class="result-card">
-                    <h4>整体结果</h4>
+                    <h4>整体判断</h4>
                     <div class="result-overview">
-                      <p>你已经有了比较清晰的教养方向，也知道解释、沟通和清楚表达会影响关系。现在最影响你的，是信心还不够稳。事情一反复，心里就容易往下掉，原来想好的做法也跟着松掉。</p>
+                      <p>你不是缺方法，而是容易在忙、累、急的时候回到旧反应。所以这份结果的重点，不是让你一次学很多，而是帮你找出最值得先稳住的那个位置。只要先有几次“我做到了”，信心和关系都会一起回升。</p>
                       <div class="result-statline">
                         <div class="result-stat">
                           <div class="label">当前状态</div>
-                          <div class="value">理念清楚，行动偏弱</div>
+                          <div class="value">方向清楚，执行稳定度待建立</div>
                         </div>
                         <div class="result-stat">
                           <div class="label">当前重点</div>
-                          <div class="value">先稳住，再求改变</div>
+                          <div class="value">从一次冲突前的停顿开始</div>
                         </div>
                       </div>
                     </div>
                   </section>
 
                   <section class="result-card">
-                    <h4>整体建议</h4>
-                    <p>先别急着全面调整。挑一个最容易起冲突的日常场景，给自己定一个小目标，例如先把话说清楚、先把语气放缓、先稳住情绪。你需要先积累几次做得到的经验，让心里的把握感慢慢长回来。</p>
+                    <h4>一句提醒</h4>
+                    <p>先不要想着把所有问题都处理好。只要你能在一个高频场景里，先比以前多稳住一次，就已经在往前走了。好的教养，不是每次都完美，而是越来越能在关键时刻不被情绪带走。</p>
                   </section>
 
                   <section class="result-card">
                     <h4>四维总览</h4>
                     <div class="bars">
                       <div class="bar-row">
-                        <div class="bar-head"><span>教养效能信念</span><span>68</span></div>
+                        <div class="bar-head"><span>成长信念力</span><span>68</span></div>
                         <div class="bar-track"><div class="bar-fill" style="width:68%"></div></div>
                       </div>
                       <div class="bar-row">
-                        <div class="bar-head"><span>教养结果预期</span><span>79</span></div>
+                        <div class="bar-head"><span>教养判断力</span><span>79</span></div>
                         <div class="bar-track"><div class="bar-fill" style="width:79%"></div></div>
                       </div>
                       <div class="bar-row">
-                        <div class="bar-head"><span>教养自我调节信心</span><span>63</span></div>
+                        <div class="bar-head"><span>情绪稳控力</span><span>63</span></div>
                         <div class="bar-track"><div class="bar-fill" style="width:63%"></div></div>
                       </div>
                       <div class="bar-row">
-                        <div class="bar-head"><span>教养角色认同</span><span>86</span></div>
+                        <div class="bar-head"><span>关系引导力</span><span>86</span></div>
                         <div class="bar-track"><div class="bar-fill" style="width:86%"></div></div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="result-card">
+                    <h4>现阶段最适合你的切入点</h4>
+                    <div class="tip-stack">
+                      <div class="tip-card">
+                        <strong>先练“停一下再说”</strong>
+                        <span>下次想提高音量、想立刻纠正时，先停 3 到 10 秒，再开口。这个动作会直接帮你拉回稳定感。</span>
+                      </div>
+                      <div class="tip-card">
+                        <strong>一次只改一个场景</strong>
+                        <span>比如催作业、睡前磨蹭、出门拖拉，先选一个最常发生的场景，不要同时处理所有问题。</span>
                       </div>
                     </div>
                   </section>
@@ -1738,8 +1873,8 @@
                   <section class="dimension-card">
                     <div class="dimension-top">
                       <div>
-                        <h4>教养效能信念</h4>
-                        <p>你是否相信自己有能力处理问题、带来改变</p>
+                        <h4>成长信念力</h4>
+                        <p>你是否相信自己有能力应对问题、带来改变</p>
                       </div>
                       <div class="score-badge">
                         <div class="num">68</div>
@@ -1748,18 +1883,18 @@
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">维度解读</div>
-                      <div class="dimension-text">你对自己的教养能力并非没有信心，只是这份信心容易受情境影响。孩子配合时，你会觉得自己还行；冲突一多，心里就开始发虚。教养状态也会跟着忽紧忽松，人会比较累。</div>
+                      <div class="dimension-text">你不是没有信心，只是这份信心还不够稳。事情顺的时候，你会觉得自己还行；一旦冲突多起来，心里就容易开始打鼓。很多家长都会在这里卡一阵子，这不奇怪。</div>
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">建议</div>
-                      <div class="dimension-text">把目标缩小到一个小问题，每次只练一个场景，例如催作业、睡前磨蹭或顶嘴冲突。你需要反复体验几次“这件事我能处理”，那份把握感才会慢慢稳下来。</div>
+                      <div class="dimension-text">先选一个最常见的小问题来练，不要同时处理太多。让自己多积累几次“原来我也可以”的经验，这份底气会慢慢长出来。</div>
                     </div>
                   </section>
 
                   <section class="dimension-card">
                     <div class="dimension-top">
                       <div>
-                        <h4>教养结果预期</h4>
+                        <h4>教养判断力</h4>
                         <p>你是否相信解释规则、表达感受和说明后果，会影响孩子和关系</p>
                       </div>
                       <div class="score-badge">
@@ -1769,18 +1904,18 @@
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">维度解读</div>
-                      <div class="dimension-text">这是你目前比较稳的一维。你相信家长清楚地解释规则、表达感受、说明后果，会慢慢影响孩子，也会带动关系变化。这样的判断很珍贵，它能帮你守住长期方向，不被短期波动牵着走。</div>
+                      <div class="dimension-text">这一维是你现在比较稳的地方。你心里大致知道，什么样的做法更容易把孩子往前带，也知道很多变化不会立刻发生。这份判断，会帮你在反复里不那么容易乱。</div>
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">建议</div>
-                      <div class="dimension-text">继续观察关系里的细小变化，把孩子更愿意说话、冲突变短、对规则更容易理解，都算进成果里。这样你更容易看见，自己的调整其实已经在起作用。</div>
+                      <div class="dimension-text">继续留意那些细小但真实的变化，比如孩子更愿意说、冲突缩短、关系松一点。它们都在提醒你：你的调整其实已经在起作用。</div>
                     </div>
                   </section>
 
                   <section class="dimension-card">
                     <div class="dimension-top">
                       <div>
-                        <h4>教养自我调节信心</h4>
+                        <h4>情绪稳控力</h4>
                         <p>你是否相信自己在情绪、挫败和反复里还能稳住并缓和冲突</p>
                       </div>
                       <div class="score-badge">
@@ -1790,18 +1925,18 @@
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">维度解读</div>
-                      <div class="dimension-text">你心里其实知道该怎么做，只是情绪一上来就很难收回来。孩子反复、自己疲惫、生活压力一叠上去，亲子冲突就容易越顶越高。时间一长，挫败感会越来越重，人也越来越不想再试。</div>
+                      <div class="dimension-text">这一维对你来说可能是最辛苦的。很多时候，心里刚起波动，话就已经说出去了，冲突也很快升上来。等事情过去，自己又会懊恼、后悔、很累。</div>
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">建议</div>
-                      <div class="dimension-text">现阶段先练“少被情绪带走一次”。给自己准备一个固定动作，比如停十秒、先离开现场、或者晚一点再谈。先把冲突降下来，你才有空间把想好的方法用出来。</div>
+                      <div class="dimension-text">现阶段先别追求每次都稳住，先练少被情绪带走一次。给自己准备一个固定动作，比如停十秒、先离开现场、或者晚一点再谈。先把冲突降下来，你才有空间把想好的方法用出来。</div>
                     </div>
                   </section>
 
                   <section class="dimension-card">
                     <div class="dimension-top">
                       <div>
-                        <h4>教养角色认同</h4>
+                        <h4>关系引导力</h4>
                         <p>你是否认同家长的核心价值是引导孩子成长，也引导孩子走向自律</p>
                       </div>
                       <div class="score-badge">
@@ -1811,16 +1946,33 @@
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">维度解读</div>
-                      <div class="dimension-text">你对家长的位置有比较成熟的理解。你知道自己要做的，是支持、引导、陪伴孩子长出能力，也长出自律。这种角色感会让你的教养更稳，也更容易把眼光放长，看见孩子的整个成长过程。</div>
+                      <div class="dimension-text">你对家长这个位置的理解是比较成熟的。你知道真正重要的，不只是让孩子眼前配合，更是帮助他慢慢长出能力、边界和自律。这种眼光，会让你的教养更有长线感。</div>
                     </div>
                     <div class="dimension-block">
                       <div class="dimension-label">建议</div>
-                      <div class="dimension-text">继续守住“帮助孩子长能力、长自律”的方向，在孩子能自己承担的事情上，再多给一点空间。你的方向已经有了，接下来需要的是把这种角色感落到具体互动里。</div>
+                      <div class="dimension-text">继续守住这份方向感。在孩子能自己承担的小事上，再多给一点空间和等待。你的方向已经有了，接下来要做的，是把它一点点放进日常互动里。</div>
+                    </div>
+                  </section>
+
+                  <div class="section-title"><span>下一步建议</span></div>
+                  <section class="result-card">
+                    <h4>如果你愿意继续往下走</h4>
+                    <p>你很适合进入一个轻陪伴、低门槛的后续承接。先补充几项信息，系统会给你一段更贴近当前处境的个性化建议，再带你进入 7 天打卡陪练。</p>
+                    <div class="result-statline">
+                      <div class="result-stat">
+                        <div class="label">建议形式</div>
+                        <div class="value">信息收集 + 个性化建议 + 7天陪练</div>
+                      </div>
+                      <div class="result-stat">
+                        <div class="label">你会获得</div>
+                        <div class="value">建议定制 + 每日任务 + 结营复测</div>
+                      </div>
                     </div>
                   </section>
 
                   <div class="result-actions">
-                    <div class="primary-action" id="actionTrigger">领取7天行动建议</div>
+                    <div class="primary-action" id="actionTrigger">领取7天打卡建议</div>
+                    <div class="secondary-action">保存结果页，稍后再看</div>
                   </div>
                 </div>
               </div>
@@ -1830,84 +1982,86 @@
           <div class="device is-dimmed" id="actionDevice">
             <div class="notch"></div>
             <div class="device-screen mini-screen" id="actionScreen">
-              <div class="mini-app-topbar">7天行动建议</div>
+              <div class="mini-app-topbar">领取7天打卡建议</div>
 
               <div class="action-page">
                 <section class="action-hero">
-                  <div class="mini-kicker">根据你的测评结果定制</div>
-                  <h3>先把“知道”慢慢变成“做得到”</h3>
-                  <p>你现在最需要补的，是把握感和稳定感。这 7 天，我们不追求一下子变很多，只练每天一个很小的动作，帮你把理解落回真实互动里。</p>
-                  <div class="action-pill">每天一个微行动 · 7天后复测</div>
+                  <div class="mini-kicker">先补充几项信息</div>
+                  <h3>领取更适合你的7天打卡建议</h3>
+                  <p>在进入陪练前，我们会先了解孩子年龄、你现在最常卡住的场景，以及你最希望改善的方向。这样给到你的建议会更贴近当下。</p>
+                  <div class="action-pill">信息收集 · 个性化建议 · 进入陪练</div>
                 </section>
 
                 <section class="action-panel">
-                  <h4>进入方式</h4>
-                  <p>添加群主企业微信后，会被拉进 7 天打卡群。群里每天发布一个小任务，完成后打卡一句话即可，不需要额外准备。</p>
+                  <h4>先补充这些信息</h4>
                   <div class="group-badges">
-                    <div class="group-badge">7天陪伴</div>
+                    <div class="group-badge">孩子年龄</div>
+                    <div class="group-badge">最常冲突场景</div>
+                    <div class="group-badge">当前最难的一环</div>
+                    <div class="group-badge">你最想改善什么</div>
+                  </div>
+                  <p>信息不用很多，目的是让后面的建议不再是统一模板，而是更贴近你现在的养育处境。</p>
+                </section>
+
+                <section class="action-panel">
+                  <h4>你会收到什么</h4>
+                  <p>系统会先根据你的测评结果和补充信息，给出一段更贴近你当前状态的个性化建议，再引导你进入 7 天打卡陪练。</p>
+                  <div class="group-badges">
+                    <div class="group-badge">个性化建议</div>
+                    <div class="group-badge">7天陪练</div>
                     <div class="group-badge">每日任务</div>
-                    <div class="group-badge">群内打卡</div>
                     <div class="group-badge">结营复测</div>
                   </div>
                 </section>
 
                 <section class="action-panel">
-                  <h4>你会做到什么</h4>
+                  <h4>建议会如何承接到陪练</h4>
                   <div class="action-list">
                     <div class="action-list-item">
-                      <div class="num">1</div>
+                      <div class="num">A</div>
                       <div>
-                        <strong>先稳一下再开口</strong>
-                        <span>今天和孩子说重要的话前，先停 3 秒，再开口。</span>
+                        <strong>先给你一段更贴近当下的提醒</strong>
+                        <span>比如你现在最需要先稳住情绪，还是先练清楚表达，系统会先帮你收住重点。</span>
                       </div>
                     </div>
                     <div class="action-list-item">
-                      <div class="num">2</div>
+                      <div class="num">B</div>
                       <div>
-                        <strong>把命令改成说明</strong>
-                        <span>选一个最常见的场景，把“快去做”改成“说清为什么要做”。</span>
+                        <strong>再进入 7 天打卡陪练</strong>
+                        <span>每天只练一个很小的动作，不求一下子变很多，只求能在真实场景里做出来。</span>
                       </div>
                     </div>
                     <div class="action-list-item">
-                      <div class="num">3</div>
+                      <div class="num">C</div>
                       <div>
-                        <strong>先说感受，再说要求</strong>
-                        <span>孩子有情绪时，先接住情绪，再表达你的要求。</span>
-                      </div>
-                    </div>
-                    <div class="action-list-item">
-                      <div class="num">7</div>
-                      <div>
-                        <strong>完成复测</strong>
-                        <span>第 7 天回看这一周的变化，再做一次测评，看看哪里已经开始松动。</span>
+                        <strong>最后用复测看见变化</strong>
+                        <span>7天结束后，再做一次测评，看哪些地方已经开始松动，哪些地方还值得继续练。</span>
                       </div>
                     </div>
                   </div>
                 </section>
 
                 <section class="action-card">
-                  <h4>为什么建议你先做这个</h4>
-                  <p>你现在并不缺道理，缺的是几次做得到的小经验。只要连续几次稳住自己、把话说清楚，教养信心就会比之前更稳一点，亲子冲突也更容易缓下来。</p>
+                  <h4>为什么先收集信息</h4>
+                  <p>同样是“情绪稳不住”，孩子年龄不同、冲突场景不同、家长最在意的点不同，后面的建议也应该不一样。先把信息补齐，建议才会更像是在和你说话。</p>
                 </section>
 
-                <div class="action-note">完成 7 天打卡后，再做一次复测，更容易看见自己的变化。</div>
+                <div class="action-note">填完信息后，你会先收到一段个性化建议，再进入 7 天打卡陪练。</div>
 
                 <div class="action-cta">
-                  <button class="join-button" type="button">进入7天打卡群</button>
+                  <button class="join-button" type="button">进入7天打卡陪练</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="caption">这是一条“加微信后自然交接到测评”的交互链路。微信负责承接与信任建立，小程序负责开始答题并即时给出结果，不让用户多做无意义跳转。</div>
       </section>
     </div>
   </div>
 
   <script>
     const miniCard = document.getElementById("miniCard");
-    const replayButton = document.getElementById("replayButton");
     const miniDevice = document.getElementById("miniDevice");
     const miniScreen = document.getElementById("miniScreen");
     const resultDevice = document.getElementById("resultDevice");
@@ -1979,7 +2133,6 @@
       }
     });
 
-    replayButton.addEventListener("click", resetDemo);
     actionTrigger.addEventListener("click", openActionPlan);
   </script>
 </body>

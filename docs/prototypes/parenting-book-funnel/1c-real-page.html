@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>1C · 亲子教养信心测评</title>
+  <title>1C · 家长教养智慧评估总览</title>
   <style>
     :root {
       --page-width: 710px;
@@ -422,6 +422,197 @@
       color: #706558;
     }
 
+    .assessment-manual {
+      width: min(100%, 1220px);
+      display: grid;
+      gap: 18px;
+      padding: 24px;
+      border-radius: 28px;
+      background: rgba(255, 248, 238, 0.82);
+      border: 1px solid rgba(219, 208, 193, 0.78);
+      box-shadow: 0 28px 64px rgba(52, 39, 28, 0.12);
+      backdrop-filter: blur(10px);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+    }
+
+    .manual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .manual-card,
+    .manual-list-card,
+    .manual-table-card {
+      padding: 18px 18px 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(220, 209, 193, 0.92);
+      box-shadow: 0 12px 24px rgba(52, 39, 28, 0.06);
+      display: grid;
+      gap: 10px;
+    }
+
+    .manual-card .kicker,
+    .manual-list-card .kicker,
+    .manual-table-card .kicker {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #8f7c68;
+    }
+
+    .manual-card h3,
+    .manual-list-card h3,
+    .manual-table-card h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.3;
+      color: #2f2822;
+    }
+
+    .manual-card p,
+    .manual-list-card p,
+    .manual-table-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #665b4f;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .manual-pill {
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      line-height: 1;
+      color: #705d49;
+      background: rgba(143, 114, 88, 0.1);
+      border: 1px solid rgba(143, 114, 88, 0.16);
+    }
+
+    .dimension-grid,
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .dimension-item,
+    .profile-item {
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(250,245,238,0.86) 100%);
+      border: 1px solid rgba(220, 209, 193, 0.9);
+      display: grid;
+      gap: 8px;
+    }
+
+    .dimension-item strong,
+    .profile-item strong {
+      font-size: 17px;
+      line-height: 1.4;
+      color: #2e2721;
+    }
+
+    .dimension-item span,
+    .profile-item span {
+      font-size: 13px;
+      line-height: 1.75;
+      color: #6f6458;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .question-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(220, 209, 193, 0.88);
+      display: grid;
+      gap: 8px;
+    }
+
+    .question-card .meta {
+      font-size: 12px;
+      color: #8b7f71;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .question-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.75;
+      color: #352d26;
+    }
+
+    .principle-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .principle-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(220, 209, 193, 0.86);
+      display: grid;
+      gap: 4px;
+    }
+
+    .principle-item strong {
+      font-size: 15px;
+      line-height: 1.5;
+      color: #2f2822;
+    }
+
+    .principle-item span {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #706558;
+    }
+
+    .score-table {
+      display: grid;
+      gap: 10px;
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding: 12px 0;
+      border-top: 1px solid rgba(220, 209, 193, 0.8);
+    }
+
+    .score-row:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .score-row strong {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #2f2822;
+    }
+
+    .score-row span {
+      font-size: 13px;
+      line-height: 1.75;
+      color: #6c6155;
+    }
+
     @media (max-width: 860px) {
       .page-shell {
         gap: 20px;
@@ -489,7 +680,11 @@
       }
 
       .flow-steps,
-      .flow-note {
+      .flow-note,
+      .manual-grid,
+      .dimension-grid,
+      .profile-grid,
+      .question-grid {
         grid-template-columns: 1fr;
       }
 
@@ -499,6 +694,16 @@
 
       .flow-frame {
         height: 1380px;
+      }
+
+      .assessment-manual {
+        padding: 16px;
+        border-radius: 22px;
+      }
+
+      .score-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
       }
     }
   </style>
@@ -526,10 +731,9 @@
 
           <div class="insert-block">
             <div>
-              <div class="insert-eyebrow">读到这里，测一测</div>
               <div class="insert-copy">
-                <p>很多亲子问题，表面发生在孩子身上，背后却常常连着家长的信念和状态。</p>
-                <p>扫一扫，进入本章配套测评。</p>
+                <p>教养智慧，是一个家长影响孩子一生的核心能力。它不仅决定亲子关系的走向，也深深影响孩子未来的安全感、性格底色和人生状态。</p>
+                <p>扫一扫，免费进入本章配套测评。</p>
               </div>
             </div>
 
@@ -537,7 +741,7 @@
               <div class="qr-box">
                 <img src="./IMG_9129-2-web.jpg" alt="企业微信二维码">
               </div>
-              <div class="qr-note">亲子教养信心测评</div>
+              <div class="qr-note">家长教养智慧评估</div>
             </div>
           </div>
 
@@ -568,7 +772,7 @@
       <div class="flow-head">
         <div class="eyebrow">Flow Demo</div>
         <h2>扫码后的微信承接与测评流程</h2>
-        <p>下面直接接上二维码之后的完整演示：先加企业微信，再进入测评小程序，最后看到结果页与 7 天行动建议页。</p>
+        <p>下面承接二维码之后的完整设计逻辑：先加企业微信，再发送测评小程序，随后进入答题、结果反馈与后续行动建议。</p>
       </div>
 
       <div class="flow-steps" aria-label="关键转化节点">
@@ -579,23 +783,23 @@
         </div>
         <div class="flow-step-card">
           <div class="flow-step-num">2</div>
-          <strong>企业微信承接</strong>
-          <span>老师身份先建立信任，减少家长对陌生链接的迟疑。</span>
+          <strong>扫码添加企微</strong>
+          <span>先建立老师身份与信任，再承接到后续测评链路。</span>
         </div>
         <div class="flow-step-card">
           <div class="flow-step-num">3</div>
-          <strong>进入轻测评</strong>
-          <span>16题以内，几分钟完成，不把家长卡在高成本动作上。</span>
+          <strong>发送测评小程序</strong>
+          <span>由企业微信发送本章对应测评，让入口更自然、更可信。</span>
         </div>
         <div class="flow-step-card">
           <div class="flow-step-num">4</div>
-          <strong>即时结果反馈</strong>
-          <span>先给画像和维度建议，让家长马上感觉“这测评有用”。</span>
+          <strong>结果即时反馈</strong>
+          <span>先给画像、指数和维度建议，让家长立刻感到“这份测评有用”。</span>
         </div>
         <div class="flow-step-card">
           <div class="flow-step-num">5</div>
-          <strong>进入7天打卡</strong>
-          <span>把结果承接成具体动作，再通过复测形成闭环。</span>
+          <strong>进入7天陪练</strong>
+          <span>收集必要信息后给个性化建议，再进入7天打卡陪练。</span>
         </div>
       </div>
 
@@ -607,18 +811,229 @@
         </div>
         <div class="flow-note-card">
           <div class="label">产品逻辑</div>
-          <strong>先给结果，再给动作，减少“看完就走”。</strong>
+          <strong>先给结果，再给动作，把理解感自然接到下一步。</strong>
           <span>这一步解决的是“为什么家长愿意继续”。</span>
         </div>
         <div class="flow-note-card">
           <div class="label">业务逻辑</div>
-          <strong>复测把一次阅读触点，变成持续陪伴链路。</strong>
-          <span>这一步解决的是“怎么从测评走向私域和陪伴”。</span>
+          <strong>把一次阅读触点，延伸成后续陪练和复测的持续关系。</strong>
+          <span>这一步解决的是“怎么从测评走向陪伴”。</span>
         </div>
       </div>
-
-      <iframe class="flow-frame" src="./wechat-assessment-flow.html" title="扫码后进入测评小程序流程演示"></iframe>
     </section>
+
+    <section class="assessment-manual" aria-label="测评方案文字总览">
+      <div class="flow-head">
+        <div class="eyebrow">Assessment Manual</div>
+        <h2>家长教养智慧评估</h2>
+        <p>这里汇总这一章已经确定的测评主题、维度、题目、评分方式、结果文案原则和家长画像，方便直接对照修改。</p>
+      </div>
+
+      <div class="manual-grid">
+        <article class="manual-card">
+          <div class="kicker">定位</div>
+          <h3>测评结构</h3>
+          <p>适用章节：第一章《做好家长，正确的信念比行动更重要》。</p>
+          <p>建议插入位置：放在“自己不准备改变，而只想去改变孩子的家长，这本书帮不了他们”这段之后。</p>
+          <p>测评目的：评估家长在成长信念、教养判断、情绪稳控、关系引导四个方面的教养智慧水平，识别其当前最需要补强的一环。</p>
+          <p>理论依据：Bandura 社会认知理论中的 agentic/self-efficacy 逻辑。</p>
+          <div class="pill-row">
+            <span class="manual-pill">1分=非常不同意</span>
+            <span class="manual-pill">2分=不同意</span>
+            <span class="manual-pill">3分=不确定</span>
+            <span class="manual-pill">4分=同意</span>
+            <span class="manual-pill">5分=非常同意</span>
+          </div>
+        </article>
+
+        <article class="manual-card">
+          <div class="kicker">框架</div>
+          <h3>四个维度</h3>
+          <div class="dimension-grid">
+            <div class="dimension-item">
+              <strong>成长信念力</strong>
+              <span>家长是否相信自己有能力应对问题、带来改变。</span>
+            </div>
+            <div class="dimension-item">
+              <strong>教养判断力</strong>
+              <span>家长是否相信解释规则、说明后果、调整方式会影响孩子与关系。</span>
+            </div>
+            <div class="dimension-item">
+              <strong>情绪稳控力</strong>
+              <span>家长是否能在压力、冲突、反复中稳住情绪并持续调整。</span>
+            </div>
+            <div class="dimension-item">
+              <strong>关系引导力</strong>
+              <span>家长是否认同家长的核心价值在于引导孩子成长与自律。</span>
+            </div>
+          </div>
+          <p>这四个维度对应本章最核心的四个问题：我相不相信自己能带来改变，我能不能判断什么方式更有效，我能不能在反复里稳住自己，我是否真正理解家长应扮演怎样的引导角色。</p>
+        </article>
+      </div>
+
+      <article class="manual-list-card">
+        <div class="kicker">Questions</div>
+        <h3>测评题目 16 题</h3>
+        <div class="question-grid">
+          <div class="question-card">
+            <div class="meta">成长信念力 01</div>
+            <p>我对自己的教养能力有信心。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">成长信念力 02</div>
+            <p>面对孩子的不当行为时，我知道该怎么处理。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">成长信念力 03</div>
+            <p>亲子关系紧张时，我相信自己能慢慢改善。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">成长信念力 04</div>
+            <p>遇到新的教养问题时，我能边学边调整。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">教养判断力 05</div>
+            <p>我相信向孩子解释规则理由，会提升他的配合度。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">教养判断力 06</div>
+            <p>我相信和孩子沟通说理，有助于改善问题。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">教养判断力 07</div>
+            <p>我相信解释行为后果，能帮助孩子慢慢改变。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">教养判断力 08</div>
+            <p>我相信清楚表达感受和规则，会帮助孩子理解行为边界。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">情绪稳控力 09</div>
+            <p>我稳定自身情绪，能缓和亲子间的矛盾冲突。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">情绪稳控力 10</div>
+            <p>即使孩子没有按期待变化，我也能继续坚持。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">情绪稳控力 11</div>
+            <p>即使孩子因为管教而不高兴，我也能坚持该有的做法。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">情绪稳控力 12</div>
+            <p>即使同样的问题反复出现，我也能继续按原定方式处理。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">关系引导力 13</div>
+            <p>我认为家长需要考虑孩子的感受和意愿。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">关系引导力 14</div>
+            <p>我认同孩子可以有不同于家长的想法。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">关系引导力 15</div>
+            <p>我认为家长需要尊重孩子表达意见。</p>
+          </div>
+          <div class="question-card">
+            <div class="meta">关系引导力 16</div>
+            <p>我认为家长核心价值，是引导孩子成长与自律。</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="manual-grid">
+        <article class="manual-table-card">
+          <div class="kicker">Scoring</div>
+          <h3>评分与换算说明</h3>
+          <div class="score-table">
+            <div class="score-row">
+              <strong>单题记分</strong>
+              <span>每题按 1 到 5 分计分，1 分表示“非常不同意”，5 分表示“非常同意”。</span>
+            </div>
+            <div class="score-row">
+              <strong>维度原始分</strong>
+              <span>每个维度 4 道题，原始分范围为 4 到 20 分。</span>
+            </div>
+            <div class="score-row">
+              <strong>总原始分</strong>
+              <span>全部 16 题加总，总原始分范围为 16 到 80 分。</span>
+            </div>
+            <div class="score-row">
+              <strong>对外展示分</strong>
+              <span>结果页统一展示为 100 分制的教养智慧指数，单维度也换算为百分制，方便理解。</span>
+            </div>
+            <div class="score-row">
+              <strong>报告结构</strong>
+              <span>1. 教养智慧指数 2. 家长画像 3. 四维度解析 4. 行动建议。</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="manual-list-card">
+          <div class="kicker">Principles</div>
+          <h3>结果文案写作原则</h3>
+          <div class="principle-list">
+            <div class="principle-item">
+              <strong>先接住，再解释</strong>
+              <span>先让家长感到“你理解我为什么会这样”，再说明当前状态和影响。</span>
+            </div>
+            <div class="principle-item">
+              <strong>默认家长是有善意的</strong>
+              <span>始终传递一个前提：家长不是不爱孩子，也不是不努力，只是正在某种状态里被困住。</span>
+            </div>
+            <div class="principle-item">
+              <strong>写状态，不写定性</strong>
+              <span>多写“最近可能会……”“在一些场景里，你容易……”，少写带结论感的判断。</span>
+            </div>
+            <div class="principle-item">
+              <strong>建议只给一小步</strong>
+              <span>建议应当具体、轻量、能做到，让人读完就知道下一步可以怎么开始。</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <article class="manual-list-card">
+        <div class="kicker">Profiles</div>
+        <h3>8 类家长画像</h3>
+        <div class="profile-grid">
+          <div class="profile-item">
+            <strong>稳健引导型</strong>
+            <span>心里已经有了一套比较稳的教养秩序，既看得见问题，也看得见关系。</span>
+          </div>
+          <div class="profile-item">
+            <strong>理念成长型</strong>
+            <span>方向已经想明白不少，只是在冲突现场，原本清楚的判断有时会被情绪和不安盖过去。</span>
+          </div>
+          <div class="profile-item">
+            <strong>温和蓄力型</strong>
+            <span>很珍惜亲子关系，也愿意温和地对待孩子，只是心里的把握感还不够稳。</span>
+          </div>
+          <div class="profile-item">
+            <strong>敏感用心型</strong>
+            <span>很在意孩子，也很用心，只是太容易被波动牵动，常常比别人更紧、更累。</span>
+          </div>
+          <div class="profile-item">
+            <strong>高压推进型</strong>
+            <span>责任感很强，也很想让事情快点变好，只是节奏一快，关系也容易跟着紧起来。</span>
+          </div>
+          <div class="profile-item">
+            <strong>紧绷控制型</strong>
+            <span>并不是不在乎孩子，而是太怕出问题，所以更容易想把事情抓紧、抓牢。</span>
+          </div>
+          <div class="profile-item">
+            <strong>摇摆调整型</strong>
+            <span>不是没有方向，也不是没有能力，只是状态还不够稳，有时做得好，有时又回到旧方式里。</span>
+          </div>
+          <div class="profile-item">
+            <strong>起步成长型</strong>
+            <span>更像处在一个重新积蓄力量的阶段，最重要的不是一下子变好，而是先找回一点稳。</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
   </div>
 </body>
 </html>

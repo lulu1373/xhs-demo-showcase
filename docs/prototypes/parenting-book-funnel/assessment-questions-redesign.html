@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>家长教养智慧评估 · 答题页原型</title>
+  <link rel="stylesheet" href="assessment-redesign.css">
+</head>
+<body>
+  <div class="prototype-shell">
+    <div class="phone">
+      <div class="screen">
+        <div class="statusbar">
+          <span>10:59</span>
+          <div class="statusbar__icons">
+            <span>5G</span>
+            <span class="statusbar__pill"></span>
+          </div>
+        </div>
+
+        <header class="topbar topbar--center">
+          <a class="topbar__back" href="assessment-entry-redesign.html">返回</a>
+          <h1 class="topbar__title">家长教养智慧评估</h1>
+        </header>
+
+        <main class="page">
+          <div class="stack">
+            <section class="card progress-card">
+              <div class="progress-row">
+                <p class="progress-text">请根据你最近的真实状态作答</p>
+                <span class="tag">共 16 题</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-progress-fill></div>
+              </div>
+              <div class="progress-row" style="margin-top: 10px;">
+                <p class="progress-text">16 题全部完成后，可查看结果</p>
+                <p class="progress-text" data-progress-meta>已完成 0 / 16</p>
+              </div>
+            </section>
+
+            <form class="question-list" data-question-list></form>
+
+            <div class="sticky-bar">
+              <p class="sticky-note" data-progress-hint>还有 16 题未完成</p>
+              <button class="btn btn--primary" data-progress-action>查看结果</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script src="assessment-redesign.js"></script>
+</body>
+</html>
