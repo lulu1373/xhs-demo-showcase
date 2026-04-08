@@ -147,8 +147,8 @@
 
     .frame-card {
       display: grid;
-      gap: 12px;
-      padding: 16px;
+      gap: 10px;
+      padding: 14px;
       border-radius: 24px;
       background: rgba(255, 255, 255, 0.72);
       border: 1px solid rgba(143, 132, 255, 0.1);
@@ -167,12 +167,39 @@
       color: var(--muted);
     }
 
+    .device-shell {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.82), transparent 38%),
+        linear-gradient(180deg, #f6f2ff 0%, #efeaff 100%);
+      box-shadow: 0 12px 28px rgba(125, 111, 190, 0.08);
+    }
+
+    .device-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(143, 132, 255, 0.08);
+    }
+
     iframe {
+      display: block;
       width: 100%;
       border: 0;
-      border-radius: 22px;
-      background: #fff;
-      box-shadow: 0 12px 28px rgba(125, 111, 190, 0.08);
+      background: transparent;
+    }
+
+    .static-shot {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
     }
 
     .frame-book {
@@ -180,11 +207,21 @@
     }
 
     .frame-mobile {
-      min-height: 940px;
+      height: 100%;
+      min-height: 0;
     }
 
     .frame-wide {
       min-height: 1080px;
+    }
+
+    .frame-chat,
+    .frame-entry,
+    .frame-questions,
+    .frame-results,
+    .frame-family,
+    .frame-plan {
+      aspect-ratio: 690 / 1484;
     }
 
     .tip {
@@ -211,20 +248,41 @@
     <section class="section">
       <h2>2. 扫码后的网页链路</h2>
       <p class="section-summary">
-        从这里开始就是扫码后的真实承接动作：先由企业微信发送测评小程序给家长，再进入长页答题、结果页，以及后续的家庭信息收集和个性化建议。
+        从这里开始替换成你现在画布上的链路顺序：先看到企业微信聊天里的小程序入口，再进入小程序首页，然后进入完整长页答题。
       </p>
 
       <div class="frame-grid">
         <article class="frame-card">
-          <h3>企业微信发送测评小程序</h3>
-          <p>家长完成企业微信添加后，由老师发送本章测评小程序，先完成信任承接，再进入测评。</p>
-          <iframe class="frame-mobile" src="./assessment-entry-redesign.html" title="企业微信发送测评小程序"></iframe>
+          <h3>企业微信聊天页</h3>
+          <p>先由老师通过企业微信发送本章测评小程序，用户从聊天卡片自然进入，不是被硬推着做题。</p>
+          <div class="device-shell frame-chat">
+            <img
+              class="static-shot"
+              src="./assets/figma-static/chat-screen.png"
+              alt="企业微信聊天页">
+          </div>
+        </article>
+
+        <article class="frame-card">
+          <h3>小程序入口页</h3>
+          <p>进入后先看到“第一章配套测评”的首页说明，再从这里点击开始评估。</p>
+          <div class="device-shell frame-entry">
+            <img
+              class="static-shot"
+              src="./assets/figma-static/entry-screen.png"
+              alt="小程序入口页">
+          </div>
         </article>
 
         <article class="frame-card">
           <h3>长页答题</h3>
-          <p>16 道题全部放在一个长页面里，用户下滑完成，答完后直接查看结果。</p>
-          <iframe class="frame-mobile" src="./assessment-questions-redesign.html" title="答题页"></iframe>
+          <p>16 道题全部放在一个长页面里，用户直接下滑答题，底部固定按钮承接到结果页。</p>
+          <div class="device-shell frame-questions">
+            <img
+              class="static-shot"
+              src="./assets/figma-static/questions-screen.png"
+              alt="答题页">
+          </div>
         </article>
       </div>
     </section>
@@ -232,30 +290,43 @@
     <section class="section">
       <h2>3. 结果页与转化承接</h2>
       <p class="section-summary">
-        结果页是完整长页，包含总分、画像和四个维度详细解析，底部进入“领取 7 天打卡建议”，再衔接到家庭信息收集。
+        这一段对应画布上的结果页、家庭信息收集和后续行动承接：先看长结果页，再进入家庭信息，最后落到个性化建议与 7 天陪练。
       </p>
 
       <div class="frame-grid">
         <article class="frame-card">
           <h3>结果长页</h3>
-          <p>用户直接下滑阅读，无折叠、无 tabs，先看见自己，再看见下一步。</p>
-          <iframe class="frame-wide" src="./assessment-results-redesign.html" title="结果页"></iframe>
+          <p>结果页先展示指数和画像，再往下看到维度得分与维度解析，底部固定按钮承接下一步。</p>
+          <div class="device-shell frame-results">
+            <img
+              class="static-shot"
+              src="./assets/figma-static/results-screen.png"
+              alt="结果页">
+          </div>
         </article>
 
         <article class="frame-card">
-          <h3>家庭信息弹层</h3>
-          <p>点击按钮后弹出收集界面，用更少字段获取孩子年龄、冲突场景和当前最困住家长的问题。</p>
-          <iframe class="frame-mobile" src="./assessment-family-sheet-redesign.html" title="家庭信息弹层"></iframe>
+          <h3>家庭信息收集</h3>
+          <p>用户点击结果页 CTA 后进入信息收集页，用更少字段获取年龄、冲突场景和当前最困住家长的问题。</p>
+          <div class="device-shell frame-family">
+            <img
+              class="static-shot"
+              src="./assets/figma-static/family-screen.png"
+              alt="家庭信息收集">
+          </div>
+        </article>
+
+        <article class="frame-card">
+          <h3>个性化行动建议页</h3>
+          <p>先给贴近当前家庭状态的建议摘要，再承接到 7 天行动陪练，作为结果页之后的持续行动入口。</p>
+          <div class="device-shell frame-plan">
+            <img
+              class="static-shot"
+              src="./assets/figma-static/plan-screen.png"
+              alt="个性化行动建议页">
+          </div>
         </article>
       </div>
-    </section>
-
-    <section class="section">
-      <h2>4. 个性化建议与7天陪练</h2>
-      <p class="section-summary">
-        收集完家庭信息后，系统先给一段更贴近当前处境的个性化建议，再承接到 7 天打卡陪练。
-      </p>
-      <iframe class="frame-mobile" src="./assessment-personalized-plan-redesign.html" title="个性化行动建议页"></iframe>
     </section>
 
     <div class="tip">
