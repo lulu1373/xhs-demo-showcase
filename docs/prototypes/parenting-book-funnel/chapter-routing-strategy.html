@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>书向测评的两个分发方案</title>
+  <title>书向测评的章节分发方案</title>
   <style>
     :root {
       --bg: linear-gradient(180deg, #f8f3ec 0%, #eee4d8 100%);
@@ -13,8 +13,6 @@
       --muted: #766758;
       --green: #2f7f6a;
       --green-soft: rgba(47, 127, 106, 0.08);
-      --orange: #b56d43;
-      --orange-soft: rgba(181, 109, 67, 0.08);
       --shadow: 0 18px 42px rgba(79, 62, 44, 0.08);
     }
 
@@ -120,11 +118,6 @@
       border-color: rgba(47, 127, 106, 0.2);
     }
 
-    .scheme--fallback {
-      background: linear-gradient(180deg, rgba(181, 109, 67, 0.06), rgba(255,255,255,0.82));
-      border-color: rgba(181, 109, 67, 0.2);
-    }
-
     .scheme-head {
       display: flex;
       flex-wrap: wrap;
@@ -158,12 +151,6 @@
       background: var(--green-soft);
       color: var(--green);
       border: 1px solid rgba(47, 127, 106, 0.18);
-    }
-
-    .scheme--fallback .scheme-chip {
-      background: var(--orange-soft);
-      color: var(--orange);
-      border: 1px solid rgba(181, 109, 67, 0.18);
     }
 
     .scheme-intro {
@@ -238,11 +225,6 @@
     .scheme--primary .step-index {
       background: rgba(47, 127, 106, 0.12);
       color: var(--green);
-    }
-
-    .scheme--fallback .step-index {
-      background: rgba(181, 109, 67, 0.12);
-      color: var(--orange);
     }
 
     .step h4 {
@@ -338,12 +320,12 @@
 <body>
   <div class="wrap">
     <section class="hero">
-      <div class="eyebrow">Two Schemes</div>
-      <h1>书向测评的两个分发方案</h1>
-      <p>一个是自动识别章节直达本章测评，另一个是当技术无法实现自动识别时启用的备用方案，用章节口令继续分发测评。</p>
+      <div class="eyebrow">Routing Strategy</div>
+      <h1>书向测评的章节分发方案</h1>
+      <p>技术已确认可以实现自动识别章节，所以这里直接采用单一主方案：用户扫码后自动识别当前章节，并直达本章测评。</p>
       <div class="hero-tags">
-        <span class="tag">方案一：自动识别章节</span>
-        <span class="tag">方案二：技术备用方案</span>
+        <span class="tag">自动识别章节</span>
+        <span class="tag">直接进入本章测评</span>
       </div>
     </section>
 
@@ -351,8 +333,8 @@
       <section class="scheme scheme--primary">
         <div class="scheme-head">
           <div class="scheme-title-wrap">
-            <div class="eyebrow">Scheme 01</div>
-            <h2 class="scheme-title">方案一：自动识别章节，直接进入本章测评</h2>
+            <div class="eyebrow">Confirmed Path</div>
+            <h2 class="scheme-title">自动识别章节，直接进入本章测评</h2>
           </div>
           <span class="scheme-chip">主路径</span>
         </div>
@@ -429,101 +411,6 @@
           <ul>
             <li>这是体验最顺的主路径。</li>
             <li>核心价值是：用户不用自己找章节，扫码后更快进入本章测评；不用添加不同老师的企业微信。</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="scheme scheme--fallback">
-        <div class="scheme-head">
-          <div class="scheme-title-wrap">
-            <div class="eyebrow">Scheme 02</div>
-            <h2 class="scheme-title">方案二：技术实现不了时，改用章节口令分发</h2>
-          </div>
-          <span class="scheme-chip">备用方案</span>
-        </div>
-
-        <div class="scheme-intro">
-          <p>这是技术备用方案，不参与主路径设计。只有在技术无法实现，或无法稳定实现“自动识别当前章节”时，才改用章节口令完成分发。</p>
-        </div>
-
-        <div class="meta-grid">
-          <div class="meta-card">
-            <h4>适用场景</h4>
-            <strong>技术实现不了，或实现后不稳定时</strong>
-          </div>
-          <div class="meta-card">
-            <h4>方案目标</h4>
-            <strong>在不做自动识别的前提下，仍能分发对应章节测评</strong>
-          </div>
-        </div>
-
-        <div class="flow">
-          <h3 class="flow-title">流程</h3>
-
-          <article class="step">
-            <div class="step-head">
-              <span class="step-index">01</span>
-              <h4>书中第 N 章二维码</h4>
-            </div>
-            <p>用户从具体章节页扫码，先进入老师的企业微信承接链路。<br>（每个章节二维码旁边同步印这句：添加后回复 3 领取本章测评；若您已经添加，直接回复 3。）</p>
-          </article>
-
-          <div class="arrow"></div>
-
-          <article class="step">
-            <div class="step-head">
-              <span class="step-index">02</span>
-              <h4>加企业微信老师</h4>
-            </div>
-            <p>第一步仍然统一沉淀到企业微信，先把用户关系建立起来。</p>
-          </article>
-
-          <div class="arrow"></div>
-
-          <article class="step">
-            <div class="step-head">
-              <span class="step-index">03</span>
-              <h4>首次欢迎语写明规则</h4>
-            </div>
-            <p>欢迎语里直接告诉用户：想测试本章或后续章节，直接回复对应章节口令，例如回复 3。</p>
-          </article>
-
-          <div class="arrow"></div>
-
-          <article class="step">
-            <div class="step-head">
-              <span class="step-index">04</span>
-              <h4>用户回复章节口令</h4>
-            </div>
-            <p>用户不需要自己找测评名称，也不需要系统自动识别，只要回复当前章节对应口令即可。</p>
-          </article>
-
-          <div class="arrow"></div>
-
-          <article class="step">
-            <div class="step-head">
-              <span class="step-index">05</span>
-              <h4>系统发送对应章节测评</h4>
-            </div>
-            <p>系统收到口令后，再自动发送对应章节的小程序卡片。</p>
-          </article>
-
-          <div class="arrow"></div>
-
-          <article class="step">
-            <div class="step-head">
-              <span class="step-index">06</span>
-              <h4>进入对应章节测评</h4>
-            </div>
-            <p>用户进入对应章节测评。</p>
-          </article>
-        </div>
-
-        <div class="note">
-          <h4>备注</h4>
-          <ul>
-            <li>这是技术备用方案，只有在自动识别章节做不成或不稳定时才启用。</li>
-            <li>小程序首页和结果页也重复这条规则，让用户知道后续章节怎么继续。</li>
           </ul>
         </div>
       </section>
