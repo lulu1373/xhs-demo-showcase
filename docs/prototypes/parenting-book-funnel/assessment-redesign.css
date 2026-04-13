@@ -239,7 +239,7 @@ a {
 
 .mini-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -330,6 +330,14 @@ a {
   color: var(--muted);
 }
 
+.progress-card--compact {
+  padding: 14px 16px;
+}
+
+.progress-card--compact .progress-text {
+  font-size: 13px;
+}
+
 .progress-track {
   margin-top: 12px;
   width: 100%;
@@ -411,6 +419,14 @@ a {
   font-size: 13px;
   text-align: center;
   color: var(--muted);
+}
+
+.sticky-bar--clean {
+  padding-top: 12px;
+}
+
+.sticky-bar--clean .sticky-note {
+  display: none;
 }
 
 .result-card__header,
@@ -509,6 +525,72 @@ a {
   color: var(--muted);
 }
 
+.summary-card {
+  padding: 18px;
+}
+
+.summary-card__title {
+  margin: 0 0 18px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.summary-bars {
+  display: grid;
+  gap: 16px;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: 82px 1fr 34px;
+  align-items: center;
+  gap: 10px;
+}
+
+.summary-row__label,
+.summary-row__score {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--accent-deep);
+  font-weight: 700;
+}
+
+.summary-row__score {
+  text-align: right;
+  color: var(--text);
+}
+
+.summary-row__track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(143, 132, 255, 0.16);
+  overflow: hidden;
+}
+
+.summary-row__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+}
+
+.summary-row__fill--teal {
+  background: linear-gradient(135deg, #70d3cc 0%, #58bfc4 100%);
+}
+
+.result-card--tight .result-card__block,
+.dimension-card--tight .dimension-card__block {
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.result-card--tight .block-copy,
+.dimension-card--tight .block-copy {
+  line-height: 1.72;
+}
+
 .cta-card {
   display: grid;
   gap: 12px;
@@ -533,6 +615,12 @@ a {
 .screen--overlay {
   background:
     linear-gradient(180deg, rgba(250, 249, 255, 0.98) 0%, rgba(241, 238, 255, 0.98) 100%);
+}
+
+.screen--page {
+  background:
+    radial-gradient(circle at top right, rgba(215, 209, 255, 0.9), transparent 28%),
+    linear-gradient(180deg, #fcfbff 0%, #f3f1ff 100%);
 }
 
 .sheet-shell {
@@ -587,6 +675,10 @@ a {
   border: 1px solid var(--line);
   display: grid;
   gap: 12px;
+}
+
+.field-card--compact {
+  gap: 10px;
 }
 
 .field-title {
@@ -679,6 +771,54 @@ a {
 
 .plan-summary {
   padding: 18px;
+}
+
+.plan-summary--tight {
+  padding: 18px;
+}
+
+.plan-list-card {
+  padding: 18px;
+}
+
+.plan-list-card__title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.plan-chip-list {
+  display: grid;
+  gap: 12px;
+}
+
+.plan-chip-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 18px;
+  background: rgba(249, 247, 255, 0.88);
+  border: 1px solid rgba(143, 132, 255, 0.16);
+}
+
+.plan-chip-row__day,
+.plan-chip-row__text {
+  margin: 0;
+}
+
+.plan-chip-row__day {
+  color: var(--accent-strong);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.plan-chip-row__text {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .day-card {

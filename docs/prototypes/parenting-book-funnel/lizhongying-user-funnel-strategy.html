@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>李中莹亲子书测评转化策略看板</title>
+  <style>
+    :root {
+      --bg: #f4faf7;
+      --surface: #ffffff;
+      --surface-soft: #eaf6f1;
+      --ink: #17211f;
+      --muted: #5a6864;
+      --line: #d6e6df;
+      --teal: #08786f;
+      --teal-soft: #d9f0ec;
+      --rose: #bd315d;
+      --rose-soft: #f9dee8;
+      --gold: #b28705;
+      --gold-soft: #fff4c4;
+      --blue: #276da8;
+      --blue-soft: #ddecfb;
+      --green: #2d7a44;
+      --green-soft: #def1e5;
+      --shadow: 0 16px 40px rgba(23, 33, 31, 0.08);
+      --radius: 8px;
+      --max: 1320px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      overflow-x: hidden;
+      background:
+        linear-gradient(90deg, rgba(8, 120, 111, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(8, 120, 111, 0.04) 1px, transparent 1px),
+        var(--bg);
+      background-size: 28px 28px;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .page {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 54px;
+      padding: 0 0 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 28px;
+      background: var(--teal);
+      border-radius: 4px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.72);
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      font-size: 13px;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) 360px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .brief {
+      min-width: 0;
+      min-height: 360px;
+      padding: 36px 0 20px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .kicker {
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h1 {
+      max-width: 860px;
+      font-size: 46px;
+      line-height: 1.12;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .lead {
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.9;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .summary {
+      min-height: 110px;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .summary strong {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .summary span {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .photo-panel {
+      position: relative;
+      min-height: 360px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .photo-panel img {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+    }
+
+    .photo-note {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(214, 230, 223, 0.8);
+    }
+
+    .photo-note strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .photo-note p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .section {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .section-head {
+      min-width: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      padding-top: 10px;
+    }
+
+    .section h2 {
+      font-size: 26px;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .section-head p {
+      max-width: 600px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      text-align: right;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .funnel {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .funnel-step,
+    .line-card,
+    .fit-row,
+    .matrix-row,
+    .product-card,
+    .note-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(23, 33, 31, 0.05);
+    }
+
+    .funnel-step {
+      position: relative;
+      min-width: 0;
+      min-height: 278px;
+      padding: 20px;
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .funnel-step::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 6px;
+      background: var(--teal);
+    }
+
+    .funnel-step:nth-child(2)::before {
+      background: var(--rose);
+    }
+
+    .funnel-step:nth-child(3)::before {
+      background: var(--blue);
+    }
+
+    .step-index {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .funnel-step:nth-child(2) .step-index {
+      background: var(--rose-soft);
+      color: var(--rose);
+    }
+
+    .funnel-step:nth-child(3) .step-index {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .funnel-step h3 {
+      font-size: 24px;
+      line-height: 1.24;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .quote {
+      min-height: 48px;
+      padding: 10px 12px;
+      border-left: 4px solid currentColor;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border-radius: var(--radius);
+      font-weight: 800;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .funnel-step:nth-child(2) .quote {
+      color: var(--rose);
+      background: var(--rose-soft);
+    }
+
+    .funnel-step:nth-child(3) .quote {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .funnel-step p,
+    .funnel-step li {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .lines {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .line-card {
+      min-width: 0;
+      min-height: 250px;
+      padding: 18px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .line-card h3 {
+      font-size: 20px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .line-card p,
+    .line-card li {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .line-badge {
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      font-weight: 900;
+      background: var(--gold-soft);
+      color: var(--gold);
+    }
+
+    .line-card:nth-child(2) .line-badge {
+      background: var(--rose-soft);
+      color: var(--rose);
+    }
+
+    .line-card:nth-child(3) .line-badge {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .line-card:nth-child(4) .line-badge {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .fit-table {
+      display: grid;
+      gap: 10px;
+    }
+
+    .fit-row {
+      display: grid;
+      grid-template-columns: 86px 1.55fr 1.15fr 1.35fr;
+      gap: 12px;
+      align-items: stretch;
+      padding: 12px;
+    }
+
+    .fit-head {
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 0 12px;
+    }
+
+    .fit-head .cell {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      line-height: 1.4;
+    }
+
+    .rank-cell {
+      place-content: center;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border-color: #c6e8e2;
+    }
+
+    .matrix {
+      display: grid;
+      gap: 10px;
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 170px 1.2fr 1.2fr 1.5fr 1.2fr 78px;
+      gap: 12px;
+      align-items: stretch;
+      padding: 12px;
+    }
+
+    .matrix-head {
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 0 12px;
+    }
+
+    .cell {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 6px;
+      padding: 10px;
+      border-radius: var(--radius);
+      background: #f8fcfa;
+      border: 1px solid #e3eee9;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .matrix-head .cell {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      line-height: 1.4;
+    }
+
+    .cell strong {
+      font-size: 15px;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .cell span {
+      color: var(--muted);
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .priority {
+      place-content: center;
+      text-align: center;
+      font-weight: 900;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border-color: #c6e8e2;
+    }
+
+    .priority.mid {
+      color: var(--gold);
+      background: var(--gold-soft);
+      border-color: #f0dda3;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product-card {
+      min-width: 0;
+      min-height: 184px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .product-card h3 {
+      font-size: 19px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .product-card p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 9px;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+      color: var(--teal);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .note-box {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      background: #fbfefd;
+    }
+
+    .note-box p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .flow-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      min-height: 98px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      display: grid;
+      align-content: start;
+      gap: 6px;
+    }
+
+    .flow-step strong {
+      font-size: 15px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .flow-step span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    @media (max-width: 1100px) {
+      .overview,
+      .funnel,
+      .lines,
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-row,
+      .fit-row,
+      .matrix-head {
+        grid-template-columns: 1fr;
+      }
+
+      .matrix-head,
+      .fit-head {
+        display: none;
+      }
+
+      .cell::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .flow-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: grid;
+        align-items: start;
+      }
+
+      .section-head p {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--max));
+        padding-top: 12px;
+      }
+
+      .topbar {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .nav {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .brief {
+        padding: 18px;
+        min-height: auto;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-panel,
+      .photo-panel img {
+        min-height: 280px;
+      }
+
+      .funnel-step,
+      .line-card,
+      .product-card {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar" aria-label="页面导航">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>李中莹亲子书测评转化策略看板</span>
+      </div>
+      <nav class="nav">
+        <a href="#funnel">用户漏斗</a>
+        <a href="#routing">痛点分流</a>
+        <a href="#fit">产品适配</a>
+        <a href="#matrix">策略表</a>
+        <a href="#products">产品线</a>
+      </nav>
+    </header>
+
+    <section class="overview" aria-label="策略总览">
+      <div class="brief">
+        <div class="kicker">书中痛点 → 扫码测评 → 结果画像 → 付费陪跑</div>
+        <div>
+          <h1>先判断用户处在哪一层，再把痛点分到对应产品线。</h1>
+          <p class="lead">这套页面把用户分成三层：买书用户、愿意做测评的用户、能付费转化的用户。测评是从“我被说中了”到“有人带我往前走”的承接入口。</p>
+        </div>
+        <div class="summary-grid" aria-label="核心数字">
+          <div class="summary">
+            <strong>3层</strong>
+            <span>买书、测评、付费，逐层收窄。</span>
+          </div>
+          <div class="summary">
+            <strong>4类</strong>
+            <span>家长自我管理、养育方式、亲子关系、孩子成长/学习。</span>
+          </div>
+          <div class="summary">
+            <strong>4条</strong>
+            <span>按四类痛点重排章节测评和承接产品。</span>
+          </div>
+        </div>
+      </div>
+      <aside class="photo-panel" aria-label="使用场景图">
+        <img
+          src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=900&q=82"
+          alt="一排书本的书架场景"
+        />
+        <div class="photo-note">
+          <strong>真实入口不是“学习知识”</strong>
+          <p>用户进来时通常带着一个具体场景：作业冲突、顶嘴、急催吼、吵完自责。</p>
+        </div>
+      </aside>
+    </section>
+
+    <section id="funnel" class="section" aria-label="用户画像漏斗">
+      <div class="section-head">
+        <h2>用户画像漏斗</h2>
+        <p>同一个买书人群里，行动意愿不同。页面和产品承接要把“看书的人”“愿意测的人”“愿意付费的人”分开看。</p>
+      </div>
+      <div class="funnel">
+        <article class="funnel-step">
+          <div class="step-index">1</div>
+          <h3>买书用户</h3>
+          <div class="quote">有没有一本书能帮我？</div>
+          <p>以妈妈为主，多是家庭里的主照料者或主教育者；孩子多在 5-12 岁，尤其小学低年级到中年级。</p>
+          <ul>
+            <li>对亲子关系、沟通方式、教养理念有兴趣。</li>
+            <li>已经感到现在这样相处不太对，但未必天天崩溃。</li>
+            <li>核心需求是被理解、找到更好的教养方式、避免关系继续变差。</li>
+          </ul>
+        </article>
+
+        <article class="funnel-step">
+          <div class="step-index">2</div>
+          <h3>愿意做测评的用户</h3>
+          <div class="quote">我现在到底是什么情况？</div>
+          <p>这类用户不只是认同理念，而是想先判断，再行动。关键词是痛感、自我反思、想搞清楚问题。</p>
+          <ul>
+            <li>陪作业冲突、孩子一说就顶嘴。</li>
+            <li>自己容易急、催、吼，吵完后自责。</li>
+            <li>想知道自己属于哪类家长、该先改哪里。</li>
+          </ul>
+        </article>
+
+        <article class="funnel-step">
+          <div class="step-index">3</div>
+          <h3>能付费转化的用户</h3>
+          <div class="quote">谁能带我真的往前走？</div>
+          <p>这类用户愿意承认问题不只是孩子，也和自己的状态、方式有关。用户买的是少走弯路和持续承接。</p>
+          <ul>
+            <li>需要个性化建议、可执行步骤、陪跑提醒和反馈。</li>
+            <li>最容易转化：高压陪读崩溃型、求方法结构型、自责愧疚调整型。</li>
+            <li>低转化：只想快速改孩子、完全外归因、只想免费看看。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="routing" class="section" aria-label="四类产品线">
+      <div class="section-head">
+        <h2>按四类痛点重排产品线</h2>
+        <p>这版不再只看单个产品，而是按用户进入测评时的真实问题分流。公司现有课程继续承接情绪、沟通、学习，新增产品统一叫“7天AI亲子行动陪练”。</p>
+      </div>
+      <div class="lines">
+        <article class="line-card">
+          <span class="line-badge">A类 高</span>
+          <h3>家长自我管理线</h3>
+          <p>对应“我知道问题在我，但改不了”。入口是第一章、第五章、第十二章。</p>
+          <ul>
+            <li>结果页先接最近一次失控或内疚场景。</li>
+            <li>第一章进入7天AI亲子行动陪练（信念调整任务包），第五/十二章继续承接简快情绪解压课、AI亲子聊天和情绪减压任务包。</li>
+          </ul>
+        </article>
+        <article class="line-card">
+          <span class="line-badge">B类 中高</span>
+          <h3>养育方式调整线</h3>
+          <p>对应“我的带法对不对”。入口是第三章、第十一章。</p>
+          <ul>
+            <li>结果页先判断用户是在按孩子需要，还是按自己的焦虑和期待来带。</li>
+            <li>第三章进入7天AI亲子行动陪练（因材施教任务包），第十一章优先承接亲子有效沟通15讲。</li>
+          </ul>
+        </article>
+        <article class="line-card">
+          <span class="line-badge">C类 高</span>
+          <h3>亲子关系修复线</h3>
+          <p>对应孩子疏远、有情绪就互相消耗的家庭。入口是第八章、第九章。</p>
+          <ul>
+            <li>结果页先复盘一次冲突或一次孩子退开的场景。</li>
+            <li>主推亲子有效沟通15讲、AI亲子聊天；关系回暖/修复作为7天AI亲子行动陪练里的任务包。</li>
+          </ul>
+        </article>
+        <article class="line-card">
+          <span class="line-badge">D类 高</span>
+          <h3>孩子成长/学习线</h3>
+          <p>对应“孩子的问题”。入口是第四章、第六章、第七章，其中第四、六、七章按年龄段拆分。</p>
+          <ul>
+            <li>结果页先定位一个年龄段成长任务或具体学习场景。</li>
+            <li>第六/七章承接3天学霸养成计划和学习陪伴任务包，第四章进入7天AI亲子行动陪练（成长任务包）。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="fit" class="section" aria-label="现有产品与章节适配">
+      <div class="section-head">
+        <h2>现有产品与章节适配表</h2>
+        <p>这张表按四类测评重新规划公司现有产品。结论是：只新增一个“7天AI亲子行动陪练”，所有7天轻陪练都放进这个产品做任务包；第五/十二章卖情绪解压，第八/九/十一章卖有效沟通和AI亲子聊天，第六/七章卖学霸计划。</p>
+      </div>
+      <div class="fit-table" role="table" aria-label="现有产品与章节适配表">
+        <div class="fit-row fit-head" role="row">
+          <div class="cell" role="columnheader">类别</div>
+          <div class="cell" role="columnheader">章节测评 / 核心痛点</div>
+          <div class="cell" role="columnheader">主推产品</div>
+          <div class="cell" role="columnheader">辅助承接</div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">A<br>自我管理</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第一章「教养智慧指数评估」</strong><span>我知道问题在我，但改不了。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>7天AI亲子行动陪练</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>信念调整任务包<br>简快情绪解压课<br>AI亲子聊天</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">A<br>自我管理</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第五章「情绪智力测评」</strong><span>我总是忍不住，事后又内疚。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>简快情绪解压课</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>情绪稳控任务包<br>AI亲子聊天</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">A<br>自我管理</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第十二章「家庭压力状态评估」</strong><span>整个家都绷着，喘不过气。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>简快情绪解压课</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>家庭减压任务包<br>AI亲子聊天</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">B<br>养育方式</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第三章「个性化养育测评」</strong><span>我按经验带，但好像不适合这个孩子。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>7天AI亲子行动陪练</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>因材施教任务包<br>AI亲子聊天<br>个性化养育建议</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">B<br>养育方式</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第十一章「为你好」风险评估</strong><span>我是为ta好，但ta越来越不领情。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>“为你好”压力任务包<br>AI亲子聊天</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">C<br>亲子关系</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第八章「情绪互动健康度测评」</strong><span>孩子有情绪，我们就互相消耗。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>AI亲子聊天<br>7天AI亲子行动陪练<br>关系回暖任务包</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">C<br>亲子关系</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第九章「亲子感情账户测评」</strong><span>不知道什么时候开始，孩子越来越远。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>AI亲子聊天<br>7天AI亲子行动陪练<br>关系修复任务包</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">D<br>成长学习</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第四章「未来成事力评估」</strong><span>孩子长大能不能照顾好自己。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>7天AI亲子行动陪练</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>成长任务包<br>AI亲子聊天<br>年龄段成长任务清单</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">D<br>成长学习</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第六章「学习潜能激活度评估」</strong><span>孩子不是没潜力，只是没被带出来。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>3天学霸养成计划</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>分年龄段学习陪伴方案</span></div>
+        </div>
+
+        <div class="fit-row" role="row">
+          <div class="cell rank-cell" data-label="类别" role="cell">D<br>成长学习</div>
+          <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第七章「学习力测评」</strong><span>孩子学得累，方法可能出了问题。</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>3天学霸养成计划</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>学习陪伴任务包</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="matrix" class="section" aria-label="测评主题策略表">
+      <div class="section-head">
+        <h2>测评主题与转化策略表</h2>
+        <p>每类人群从哪几章进来、结果页先承接什么场景、后面对应卖什么。</p>
+      </div>
+      <div class="matrix" role="table" aria-label="测评主题与转化策略表">
+        <div class="matrix-row matrix-head" role="row">
+          <div class="cell" role="columnheader">痛点分类</div>
+          <div class="cell" role="columnheader">对应用户</div>
+          <div class="cell" role="columnheader">测评主题</div>
+          <div class="cell" role="columnheader">结果页承接</div>
+          <div class="cell" role="columnheader">付费产品</div>
+          <div class="cell" role="columnheader">优先级</div>
+        </div>
+
+        <div class="matrix-row" role="row">
+          <div class="cell" data-label="痛点分类" role="cell"><strong>A 家长自我管理类</strong><span>家长自己的问题</span></div>
+          <div class="cell" data-label="对应用户" role="cell"><span>知道问题也和自己有关，但容易急、吼、内疚，家庭压力也比较高。</span></div>
+          <div class="cell" data-label="测评主题" role="cell"><span>第一章 教养智慧指数评估<br>第五章 情绪智力测评<br>第十二章 家庭压力状态评估</span></div>
+          <div class="cell" data-label="结果页承接" role="cell"><span>先接住最近一次失控、内疚或压力爆发场景，再给7天行动方案入口：信念调整 / 情绪减压任务包。</span></div>
+          <div class="cell" data-label="付费产品" role="cell"><span>7天AI亲子行动陪练（信念调整 / 情绪减压任务包）<br>简快情绪解压课<br>AI亲子聊天</span></div>
+          <div class="cell priority" data-label="优先级" role="cell">高</div>
+        </div>
+
+        <div class="matrix-row" role="row">
+          <div class="cell" data-label="痛点分类" role="cell"><strong>B 养育方式类</strong><span>我的带法对不对</span></div>
+          <div class="cell" data-label="对应用户" role="cell"><span>按经验带孩子，但发现不一定适合；常常说“为ta好”，但孩子越来越不领情。</span></div>
+          <div class="cell" data-label="测评主题" role="cell"><span>第三章 个性化养育测评<br>第十一章 “为你好”风险评估</span></div>
+          <div class="cell" data-label="结果页承接" role="cell"><span>先帮用户识别“我现在是在按孩子需要来，还是按自己的焦虑和期待来”，再给因材施教 / “为你好”任务包入口。</span></div>
+          <div class="cell" data-label="付费产品" role="cell"><span>7天AI亲子行动陪练（因材施教 / “为你好”任务包）<br>AI亲子聊天<br>亲子有效沟通15讲</span></div>
+          <div class="cell priority mid" data-label="优先级" role="cell">中高</div>
+        </div>
+
+        <div class="matrix-row" role="row">
+          <div class="cell" data-label="痛点分类" role="cell"><strong>C 亲子关系类</strong><span>我们的关系出了问题</span></div>
+          <div class="cell" data-label="对应用户" role="cell"><span>孩子有情绪时互相消耗，或已经感觉孩子越来越远。</span></div>
+          <div class="cell" data-label="测评主题" role="cell"><span>第八章 情绪互动健康度测评<br>第九章 亲子感情账户测评</span></div>
+          <div class="cell" data-label="结果页承接" role="cell"><span>先让用户看到最近一次冲突或孩子退开的场景里哪里在透支，再给关系回暖/修复任务包入口。</span></div>
+          <div class="cell" data-label="付费产品" role="cell"><span>亲子有效沟通15讲<br>AI亲子聊天<br>7天AI亲子行动陪练（关系回暖/修复任务包）</span></div>
+          <div class="cell priority" data-label="优先级" role="cell">高</div>
+        </div>
+
+        <div class="matrix-row" role="row">
+          <div class="cell" data-label="痛点分类" role="cell"><strong>D 孩子成长/学习类</strong><span>孩子的问题</span></div>
+          <div class="cell" data-label="对应用户" role="cell"><span>担心孩子未来独立和成事能力，也关心学习潜能、学习方法和作业表现。</span></div>
+          <div class="cell" data-label="测评主题" role="cell"><span>第四章 未来成事力评估<br>第六章 学习潜能激活度评估<br>第七章 学习力测评</span></div>
+          <div class="cell" data-label="结果页承接" role="cell"><span>第四、六、七章按幼儿/小学/中学拆年龄版本，结果页给年龄段成长任务、学习陪伴或学霸计划入口。</span></div>
+          <div class="cell" data-label="付费产品" role="cell"><span>7天AI亲子行动陪练（成长 / 学习陪伴任务包）<br>3天学霸养成计划<br>分年龄段学习陪伴方案</span></div>
+          <div class="cell priority" data-label="优先级" role="cell">高</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="section" aria-label="产品转化">
+      <div class="section-head">
+        <h2>承接产品怎么放</h2>
+        <p>结果页先完成理解和分型，再给一个低压的下一步入口，让用户从“知道问题”自然走到“开始行动”。</p>
+      </div>
+      <div class="product-grid">
+        <article class="product-card">
+          <h3>免费层：测评结果页</h3>
+          <p>让用户知道“我现在是什么情况”。页面要先接住情绪，再告诉用户最该从哪一类问题开始看，并露出下一步行动入口。</p>
+          <div class="tag-row">
+            <span class="tag">画像</span>
+            <span class="tag">维度解释</span>
+            <span class="tag">下一步入口</span>
+          </div>
+        </article>
+        <article class="product-card">
+          <h3>结果页钩子：7天行动方案</h3>
+          <p>结果页不直接硬卖课程，而是给一个和测评结论匹配的入口：查看我的7天行动方案。</p>
+          <div class="tag-row">
+            <span class="tag">付费钩子</span>
+            <span class="tag">任务包</span>
+            <span class="tag">轻承诺</span>
+          </div>
+        </article>
+        <article class="product-card">
+          <h3>付费层：陪跑方案</h3>
+          <p>让用户买“能落地的改变路径”：提醒、打卡、反馈、阶段性任务，而不是再买一份知识。</p>
+          <div class="tag-row">
+            <span class="tag">课程承接</span>
+            <span class="tag">行动陪练</span>
+            <span class="tag">AI陪伴</span>
+          </div>
+        </article>
+      </div>
+      <div class="note-box">
+        <h3>完整链路</h3>
+        <div class="flow-strip">
+          <div class="flow-step"><strong>书中痛点</strong><span>读到一段像自己的内容。</span></div>
+          <div class="flow-step"><strong>扫码测评</strong><span>判断“我现在是什么情况”。</span></div>
+          <div class="flow-step"><strong>结果画像</strong><span>先被理解，再看到一个匹配结果的7天行动入口。</span></div>
+          <div class="flow-step"><strong>付费陪跑</strong><span>进入自我管理、养育、关系或学习产品线。</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

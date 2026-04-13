@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>李中莹亲子书测评链路</title>
+  <style>
+    :root {
+      --bg: #f6f8f7;
+      --surface: #ffffff;
+      --surface-soft: #eef6f3;
+      --ink: #182321;
+      --muted: #5c6b67;
+      --line: #d8e5df;
+      --teal: #0f766e;
+      --teal-soft: #dff3ee;
+      --rose: #b4235a;
+      --rose-soft: #fde5ed;
+      --blue: #2563eb;
+      --blue-soft: #e5edff;
+      --violet: #6d28d9;
+      --violet-soft: #eee7ff;
+      --shadow: 0 14px 32px rgba(24, 35, 33, 0.08);
+      --radius: 8px;
+      --max: 1240px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(15, 118, 110, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(15, 118, 110, 0.035) 1px, transparent 1px),
+        var(--bg);
+      background-size: 30px 30px;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    ul {
+      margin: 0;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .page {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 28px;
+      border-radius: 4px;
+      background: var(--teal);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .nav a,
+    .link-button {
+      min-height: 36px;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--muted);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 24px;
+      align-items: center;
+      padding: 28px 0 24px;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 18px;
+    }
+
+    .kicker {
+      width: fit-content;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h1 {
+      max-width: 880px;
+      font-size: 46px;
+      line-height: 1.12;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .lead {
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.9;
+    }
+
+    .hero-metric {
+      padding: 20px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 14px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .metric-row strong {
+      color: var(--teal);
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .metric-row span {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .section {
+      padding: 34px 0 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .section h2 {
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .section-head p {
+      max-width: 620px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .decision-grid,
+    .funnel-grid,
+    .product-grid,
+    .screen-grid,
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .decision,
+    .funnel-step,
+    .product,
+    .source,
+    .route,
+    .final-note {
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: 0 10px 24px rgba(24, 35, 33, 0.05);
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .decision strong,
+    .funnel-step h3,
+    .product h3,
+    .source h3,
+    .route h3,
+    .screen h3 {
+      font-size: 19px;
+      line-height: 1.35;
+    }
+
+    .decision p,
+    .funnel-step p,
+    .product p,
+    .source p,
+    .route p,
+    .screen p,
+    .final-note p,
+    .final-note li {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .badge {
+      width: fit-content;
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .badge--teal {
+      color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .badge--rose {
+      color: var(--rose);
+      background: var(--rose-soft);
+    }
+
+    .badge--blue {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .badge--violet {
+      color: var(--violet);
+      background: var(--violet-soft);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(112px, 1fr));
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .flow-step {
+      min-height: 118px;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .flow-step span {
+      color: var(--teal);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .flow-step strong {
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .flow-step p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .route-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .route-steps {
+      display: grid;
+      gap: 8px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .route-steps li {
+      padding: 10px 12px;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .screen {
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .screen-text {
+      padding: 14px 14px 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .screen-shot {
+      aspect-ratio: 690 / 1484;
+      overflow: hidden;
+      border-top: 1px solid var(--line);
+      background: #f5f7f6;
+    }
+
+    .screen-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .source a {
+      width: fit-content;
+      margin-top: 2px;
+    }
+
+    .final-note {
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 0.42fr);
+      align-items: start;
+    }
+
+    .final-note ul {
+      display: grid;
+      gap: 6px;
+    }
+
+    .presentation-order {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+    }
+
+    .presentation-order strong {
+      color: var(--teal);
+      font-size: 16px;
+    }
+
+    @media (max-width: 1040px) {
+      .hero,
+      .final-note {
+        grid-template-columns: 1fr;
+      }
+
+      .decision-grid,
+      .funnel-grid,
+      .product-grid,
+      .screen-grid,
+      .source-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 24px, var(--max));
+        padding-top: 16px;
+      }
+
+      .topbar,
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+
+      .section h2 {
+        font-size: 24px;
+      }
+
+      .section-head p {
+        text-align: left;
+      }
+
+      .decision-grid,
+      .funnel-grid,
+      .product-grid,
+      .screen-grid,
+      .source-grid,
+      .route-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>李中莹亲子书测评链路 汇报</span>
+      </div>
+    </header>
+
+    <section id="decision" class="hero" aria-label="汇报首页">
+      <div class="hero-copy">
+        <div class="kicker">书页插码 → 章节测评 → 长期陪跑产品</div>
+        <h1>这套测评链路为什么做、怎么进、最后怎么转长期。</h1>
+        <p class="lead">
+          先说明用户画像和付费逻辑，再说明章节二维码的分发方案，最后展示用户从书页扫码到个性化长期行动建议的完整体验。
+        </p>
+      </div>
+
+      <aside class="hero-metric" aria-label="汇报重点">
+        <div class="metric-row">
+          <strong>01</strong>
+          <span>测评把“被说中”的读者筛到后续行动路径。</span>
+        </div>
+        <div class="metric-row">
+          <strong>02</strong>
+          <span>章节分发优先自动识别章节，技术不稳定时用章节口令兜底。</span>
+        </div>
+        <div class="metric-row">
+          <strong>03</strong>
+          <span>先承接到流量产品，家庭信息页用于分层。</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" aria-label="三份资料">
+      <div class="section-head">
+        <h2>三份资料</h2>
+      </div>
+
+      <div class="source-grid">
+        <article class="source">
+          <span class="badge badge--teal">为什么</span>
+          <h3>用户画像、痛点分类、付费产品策略</h3>
+          <p>用于对齐商业逻辑：谁会买书，谁会做测评，谁可能付费，以及优先做哪几条产品线。</p>
+          <a class="link-button" href="./lizhongying-user-funnel-strategy.html">打开策略看板</a>
+        </article>
+
+        <article class="source">
+          <span class="badge badge--blue">怎么进</span>
+          <h3>章节二维码分发机制</h3>
+          <p>用于对齐技术、运营和企微链路：主方案自动识别章节，备用方案用章节口令分发。</p>
+          <a class="link-button" href="./chapter-routing-strategy.html">打开分发方案</a>
+        </article>
+
+        <article class="source">
+          <span class="badge badge--rose">看到什么</span>
+          <h3>用户实际看到的完整体验</h3>
+          <p>用于给同事看最终用户链路：书页、企微、小程序、答题、结果、家庭信息和行动建议。</p>
+          <a class="link-button" href="./assessment-full-funnel-redesign.html">打开完整原型</a>
+        </article>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>家长教养智慧评估 · 结果页原型</title>
+  <title>评估结果 · 结果页原型</title>
   <link rel="stylesheet" href="assessment-redesign.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div class="phone">
       <div class="screen">
         <div class="statusbar">
-          <span>11:12</span>
+          <span>9:41</span>
           <div class="statusbar__icons">
             <span>5G</span>
             <span class="statusbar__pill"></span>
@@ -33,15 +33,15 @@
                 <span class="tag">处于中等水平</span>
               </div>
               <p class="block-copy">
-                你已经开始从更长远的角度看待教养，也知道家长自己的状态会影响关系。只是这份智慧还在往下扎根，
-                有时你想得明白，一到现场又容易被着急、疲惫和情绪带回旧习惯。
+                你已经开始从更长远的角度看待教养，也知道家长自己的状态会影响关系。
+                只是这份智慧还在往下扎根，有时你想得明白，一到现场又容易被着急、疲惫和情绪带回旧习惯。
               </p>
               <p class="block-copy">
                 很多家长都会走过这一段，你现在更需要的，是把已经明白的东西慢慢练熟。
               </p>
             </section>
 
-            <section class="card result-card">
+            <section class="card result-card result-card--tight">
               <div class="result-card__header">
                 <div>
                   <span class="eyebrow">你的当前画像</span>
@@ -54,121 +54,123 @@
               </div>
 
               <div class="result-card__block">
-                <p class="block-label">画像说明</p>
+                <p class="block-label">特征描述</p>
                 <p class="block-copy">
                   你其实已经想明白了很多事，也知道怎样的方向更有助于孩子成长。只是到了冲突现场，心里的把握感还不够，
                   原本清楚的判断有时会被情绪和不安盖过去。
                 </p>
               </div>
 
-              <div class="result-card__block result-card__block--highlight">
-                <p class="block-label">成长提醒</p>
+              <div class="result-card__block">
+                <p class="block-label">建议</p>
                 <p class="block-copy">
-                  先别急着全面改变。挑一个最常出现的场景，把一种好的做法反复练熟。
+                  先别急着全面改变。挑一个最常出现的场景，把一种你认可的做法先固定下来。等这一处有了变化，再去看别的地方。
                 </p>
               </div>
             </section>
 
+            <section class="card summary-card">
+              <h2 class="summary-card__title">四个维度得分</h2>
+              <div class="summary-bars">
+                <div class="summary-row">
+                  <p class="summary-row__label">成长信念力</p>
+                  <div class="summary-row__track"><span class="summary-row__fill" style="width:72%;"></span></div>
+                  <p class="summary-row__score">72</p>
+                </div>
+                <div class="summary-row">
+                  <p class="summary-row__label">教养判断力</p>
+                  <div class="summary-row__track"><span class="summary-row__fill" style="width:61%;"></span></div>
+                  <p class="summary-row__score">61</p>
+                </div>
+                <div class="summary-row">
+                  <p class="summary-row__label">情绪稳控力</p>
+                  <div class="summary-row__track"><span class="summary-row__fill" style="width:58%;"></span></div>
+                  <p class="summary-row__score">58</p>
+                </div>
+                <div class="summary-row">
+                  <p class="summary-row__label">关系引导力</p>
+                  <div class="summary-row__track"><span class="summary-row__fill summary-row__fill--teal" style="width:67%;"></span></div>
+                  <p class="summary-row__score">67</p>
+                </div>
+              </div>
+            </section>
+
             <section class="stack">
-              <article class="card dimension-card">
+              <article class="card dimension-card dimension-card--tight">
                 <div class="dimension-card__header">
                   <h3 class="dimension-card__title">成长信念力</h3>
-                  <div class="dimension-card__meta">
-                    <span>16 / 20</span>
-                    <span class="tag">中</span>
-                  </div>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">当前状态</p>
+                  <p class="block-label">特征描述</p>
                   <p class="block-copy">
-                    你不是没有信心，只是这份信心还不够稳。事情顺的时候，你会觉得自己还行；一旦冲突多起来，
-                    心里就容易开始打鼓。很多家长都会在这里卡一阵子，这不奇怪。
+                    你的信心还在来回波动。事情顺的时候，你会觉得自己还能应付；冲突一多，心里就容易发虚。
                   </p>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">行动建议</p>
-                  <ol class="number-list">
-                    <li>先选一个最常见的小问题来练，不要同时处理太多。</li>
-                    <li>让自己多积累几次“原来我也可以”的经验。</li>
-                  </ol>
+                  <p class="block-label">建议</p>
+                  <p class="block-copy">
+                    先从一个最常出现的小问题开始练，不要同时处理太多。让自己积累几次“原来我也可以”的经验。
+                  </p>
                 </div>
               </article>
 
-              <article class="card dimension-card">
+              <article class="card dimension-card dimension-card--tight">
                 <div class="dimension-card__header">
                   <h3 class="dimension-card__title">教养判断力</h3>
-                  <div class="dimension-card__meta">
-                    <span>18 / 20</span>
-                    <span class="tag">高</span>
-                  </div>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">当前状态</p>
+                  <p class="block-label">特征描述</p>
                   <p class="block-copy">
-                    你心里大致知道，什么样的做法更容易把孩子往前带。你愿意解释、愿意说明，也知道很多变化不会立刻发生。
-                    这样的判断很珍贵，它会帮你在反复里不那么容易乱。
+                    你心里大致知道，什么样的做法更容易把孩子往前带。这样的判断，会帮你在反复里不那么容易乱。
                   </p>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">行动建议</p>
-                  <ol class="number-list">
-                    <li>继续留意那些细小但真实的变化，比如孩子更愿意说、冲突缩短、关系松一点。</li>
-                    <li>这些看起来不大的变化，其实都在说明你的方向是对的。</li>
-                  </ol>
+                  <p class="block-label">建议</p>
+                  <p class="block-copy">
+                    继续留意那些细小但真实的变化，比如孩子更愿意说、冲突缩短、关系松一点。
+                  </p>
                 </div>
               </article>
 
-              <article class="card dimension-card">
+              <article class="card dimension-card dimension-card--tight">
                 <div class="dimension-card__header">
                   <h3 class="dimension-card__title">情绪稳控力</h3>
-                  <div class="dimension-card__meta">
-                    <span>14 / 20</span>
-                    <span class="tag">中</span>
-                  </div>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">当前状态</p>
+                  <p class="block-label">特征描述</p>
                   <p class="block-copy">
-                    你心里知道，情绪上来时需要收一收，只是到了现场，旧反应还是常常比想法更快。
-                    很多时候，不是你不懂，是身体和情绪还没跟上。
+                    你知道情绪上来时需要停一下，可到了现场，反应还是常常比想法更快。
                   </p>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">行动建议</p>
-                  <ol class="number-list">
-                    <li>给自己准备一个固定动作，比如停十秒、喝口水、晚一点再说。</li>
-                    <li>先练“更快回来”，不必一下子要求自己每次都很稳。</li>
-                  </ol>
+                  <p class="block-label">建议</p>
+                  <p class="block-copy">
+                    给自己准备一个固定动作，比如停十秒、喝口水、先走开半分钟。先练“更快回来”。
+                  </p>
                 </div>
               </article>
 
-              <article class="card dimension-card">
+              <article class="card dimension-card dimension-card--tight">
                 <div class="dimension-card__header">
                   <h3 class="dimension-card__title">关系引导力</h3>
-                  <div class="dimension-card__meta">
-                    <span>19 / 20</span>
-                    <span class="tag">高</span>
-                  </div>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">当前状态</p>
+                  <p class="block-label">特征描述</p>
                   <p class="block-copy">
-                    你对家长这个位置的理解是比较成熟的。你知道真正重要的，不只是让孩子眼前配合，
-                    更是帮助他慢慢长出能力、边界和自律。这样的眼光，会让你的教养更有长线感。
+                    你已经开始明白，家长除了提醒和纠正，还承担着引导的角色。只是到了成绩、效率、规则这些敏感话题上，着急和控制感还是会冒出来。
                   </p>
                 </div>
                 <div class="dimension-card__block">
-                  <p class="block-label">行动建议</p>
-                  <ol class="number-list">
-                    <li>继续守住这份方向感。</li>
-                    <li>在孩子能自己承担的小事上，再多给一点空间和等待。</li>
-                  </ol>
+                  <p class="block-label">建议</p>
+                  <p class="block-copy">
+                    每次想立刻纠正时，先问自己一句：我现在更想看到眼前配合，还是更想帮助 ta 学会。
+                  </p>
                 </div>
               </article>
             </section>
 
             <section class="card cta-card">
-              <a class="btn btn--primary" href="assessment-family-sheet-redesign.html">领取 7 天行动建议</a>
+              <a class="btn btn--primary" href="assessment-personalized-plan-redesign.html">领取7天行动陪练</a>
             </section>
           </div>
         </main>

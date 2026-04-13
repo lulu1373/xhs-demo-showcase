@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>书向测评的两个分发方案</title>
+  <style>
+    :root {
+      --bg: linear-gradient(180deg, #f8f3ec 0%, #eee4d8 100%);
+      --card: rgba(255, 251, 245, 0.9);
+      --line: rgba(129, 105, 80, 0.18);
+      --ink: #382d24;
+      --muted: #766758;
+      --green: #2f7f6a;
+      --green-soft: rgba(47, 127, 106, 0.08);
+      --orange: #b56d43;
+      --orange-soft: rgba(181, 109, 67, 0.08);
+      --shadow: 0 18px 42px rgba(79, 62, 44, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 247, 236, 0.96), transparent 24%),
+        radial-gradient(circle at right top, rgba(221, 238, 232, 0.75), transparent 22%),
+        var(--bg);
+    }
+
+    .wrap {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 36px 0 72px;
+    }
+
+    .hero,
+    .scheme,
+    .tip {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 28px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    ul {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p,
+    .scheme-intro p,
+    .meta-card p,
+    .note li,
+    .tip {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(129, 105, 80, 0.1);
+      color: #5f554d;
+      font-size: 14px;
+    }
+
+    .scheme-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .scheme {
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .scheme--primary {
+      background: linear-gradient(180deg, rgba(47, 127, 106, 0.06), rgba(255,255,255,0.82));
+      border-color: rgba(47, 127, 106, 0.2);
+    }
+
+    .scheme--fallback {
+      background: linear-gradient(180deg, rgba(181, 109, 67, 0.06), rgba(255,255,255,0.82));
+      border-color: rgba(181, 109, 67, 0.2);
+    }
+
+    .scheme-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .scheme-title-wrap {
+      display: grid;
+      gap: 8px;
+      max-width: 620px;
+    }
+
+    .scheme-title {
+      font-size: 30px;
+      line-height: 1.12;
+    }
+
+    .scheme-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .scheme--primary .scheme-chip {
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid rgba(47, 127, 106, 0.18);
+    }
+
+    .scheme--fallback .scheme-chip {
+      background: var(--orange-soft);
+      color: var(--orange);
+      border: 1px solid rgba(181, 109, 67, 0.18);
+    }
+
+    .scheme-intro {
+      display: grid;
+      gap: 8px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .meta-card {
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(129, 105, 80, 0.1);
+      display: grid;
+      gap: 6px;
+    }
+
+    .meta-card h4 {
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--muted);
+    }
+
+    .meta-card strong {
+      font-size: 18px;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    .flow {
+      display: grid;
+      gap: 10px;
+    }
+
+    .flow-title {
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    .step {
+      padding: 18px 18px 16px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(129, 105, 80, 0.12);
+      display: grid;
+      gap: 6px;
+    }
+
+    .step-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-index {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .scheme--primary .step-index {
+      background: rgba(47, 127, 106, 0.12);
+      color: var(--green);
+    }
+
+    .scheme--fallback .step-index {
+      background: rgba(181, 109, 67, 0.12);
+      color: var(--orange);
+    }
+
+    .step h4 {
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .step p {
+      margin-left: 46px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .arrow {
+      width: 2px;
+      height: 22px;
+      margin: 0 auto;
+      background: rgba(129, 105, 80, 0.55);
+      position: relative;
+    }
+
+    .arrow::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -7px;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 10px solid rgba(129, 105, 80, 0.62);
+    }
+
+    .note {
+      padding: 18px 18px 16px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px dashed rgba(129, 105, 80, 0.18);
+      display: grid;
+      gap: 10px;
+    }
+
+    .note h4 {
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .note ul {
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .tip {
+      margin-top: 18px;
+      padding: 16px 18px;
+      font-size: 14px;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      .wrap {
+        width: min(100%, calc(100% - 24px));
+        padding-top: 24px;
+      }
+
+      .hero,
+      .scheme {
+        padding: 20px;
+        border-radius: 24px;
+      }
+
+      .scheme-title {
+        font-size: 24px;
+      }
+
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step h4 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Two Schemes</div>
+      <h1>书向测评的两个分发方案</h1>
+      <p>一个是自动识别章节直达本章测评，另一个是当技术无法实现自动识别时启用的备用方案，用章节口令继续分发测评。</p>
+      <div class="hero-tags">
+        <span class="tag">方案一：自动识别章节</span>
+        <span class="tag">方案二：技术备用方案</span>
+      </div>
+    </section>
+
+    <div class="scheme-list">
+      <section class="scheme scheme--primary">
+        <div class="scheme-head">
+          <div class="scheme-title-wrap">
+            <div class="eyebrow">Scheme 01</div>
+            <h2 class="scheme-title">方案一：自动识别章节，直接进入本章测评</h2>
+          </div>
+          <span class="scheme-chip">主路径</span>
+        </div>
+
+        <div class="scheme-intro">
+          <p>这是最好的主方案。用户先加企业微信老师，系统如果能识别出当前扫码来自第几章，就直接发送对应章节的小程序测评入口，不让用户自己找章节。</p>
+        </div>
+
+        <div class="meta-grid">
+          <div class="meta-card">
+            <h4>适用场景</h4>
+            <strong>新用户/老用户稳定识别当前章节时</strong>
+          </div>
+          <div class="meta-card">
+            <h4>方案目标</h4>
+            <strong>加上老师后，立刻把用户送到当前章节测评</strong>
+          </div>
+        </div>
+
+        <div class="flow">
+          <h3 class="flow-title">流程</h3>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">01</span>
+              <h4>书中第 N 章二维码</h4>
+            </div>
+            <p>用户从具体章节页扫码，进入与老师相关的承接链路。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">02</span>
+              <h4>加企业微信老师</h4>
+            </div>
+            <p>第一步统一沉淀到企业微信，先把用户关系建立起来。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">03</span>
+              <h4>系统识别当前章节</h4>
+            </div>
+            <p>后台识别这次扫码对应的是第几章，得到当前章节编号。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">04</span>
+              <h4>自动发送第 N 章测评</h4>
+            </div>
+            <p>老师侧自动发出对应章节的小程序卡片，不需要用户再去列表里挑选。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">05</span>
+              <h4>进入第 N 章测评</h4>
+            </div>
+            <p>用户直接进入当前章节测评，完成测评后继续看结果页和行动建议。</p>
+          </article>
+        </div>
+
+        <div class="note">
+          <h4>备注</h4>
+          <ul>
+            <li>这是体验最顺的主路径。</li>
+            <li>核心价值是：用户不用自己找章节，扫码后更快进入本章测评；不用添加不同老师的企业微信。</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="scheme scheme--fallback">
+        <div class="scheme-head">
+          <div class="scheme-title-wrap">
+            <div class="eyebrow">Scheme 02</div>
+            <h2 class="scheme-title">方案二：技术实现不了时，改用章节口令分发</h2>
+          </div>
+          <span class="scheme-chip">备用方案</span>
+        </div>
+
+        <div class="scheme-intro">
+          <p>这是技术备用方案，不参与主路径设计。只有在技术无法实现，或无法稳定实现“自动识别当前章节”时，才改用章节口令完成分发。</p>
+        </div>
+
+        <div class="meta-grid">
+          <div class="meta-card">
+            <h4>适用场景</h4>
+            <strong>技术实现不了，或实现后不稳定时</strong>
+          </div>
+          <div class="meta-card">
+            <h4>方案目标</h4>
+            <strong>在不做自动识别的前提下，仍能分发对应章节测评</strong>
+          </div>
+        </div>
+
+        <div class="flow">
+          <h3 class="flow-title">流程</h3>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">01</span>
+              <h4>书中第 N 章二维码</h4>
+            </div>
+            <p>用户从具体章节页扫码，先进入老师的企业微信承接链路。<br>（每个章节二维码旁边同步印这句：添加后回复 3 领取本章测评；若您已经添加，直接回复 3。）</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">02</span>
+              <h4>加企业微信老师</h4>
+            </div>
+            <p>第一步仍然统一沉淀到企业微信，先把用户关系建立起来。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">03</span>
+              <h4>首次欢迎语写明规则</h4>
+            </div>
+            <p>欢迎语里直接告诉用户：想测试本章或后续章节，直接回复对应章节口令，例如回复 3。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">04</span>
+              <h4>用户回复章节口令</h4>
+            </div>
+            <p>用户不需要自己找测评名称，也不需要系统自动识别，只要回复当前章节对应口令即可。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">05</span>
+              <h4>系统发送对应章节测评</h4>
+            </div>
+            <p>系统收到口令后，再自动发送对应章节的小程序卡片。</p>
+          </article>
+
+          <div class="arrow"></div>
+
+          <article class="step">
+            <div class="step-head">
+              <span class="step-index">06</span>
+              <h4>进入对应章节测评</h4>
+            </div>
+            <p>用户进入对应章节测评。</p>
+          </article>
+        </div>
+
+        <div class="note">
+          <h4>备注</h4>
+          <ul>
+            <li>这是技术备用方案，只有在自动识别章节做不成或不稳定时才启用。</li>
+            <li>小程序首页和结果页也重复这条规则，让用户知道后续章节怎么继续。</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <div class="tip">
+      建议把这页作为内部对齐版链接发给同事：
+      <br>
+      <code>/Users/lulu/AIWork/docs/prototypes/parenting-book-funnel/chapter-routing-strategy.html</code>
+    </div>
+  </div>
+</body>
+</html>
