@@ -225,7 +225,7 @@
     }
 
     .frame-plan {
-      aspect-ratio: 690 / 1720;
+      aspect-ratio: 690 / 1820;
     }
 
     .form-preview {
@@ -299,16 +299,17 @@
 
     .plan-preview {
       height: 100%;
-      padding: 22px 20px;
+      padding: 18px 18px 20px;
       display: grid;
       align-content: start;
-      gap: 14px;
+      gap: 12px;
       background:
         radial-gradient(circle at top, rgba(255,255,255,0.9), transparent 28%),
         linear-gradient(180deg, #f8f5ff 0%, #f0ebff 100%);
     }
 
     .plan-preview__hero,
+    .plan-preview__price,
     .plan-preview__block,
     .plan-preview__cta {
       padding: 16px;
@@ -317,7 +318,7 @@
       border: 1px solid rgba(143, 132, 255, 0.12);
       box-shadow: 0 8px 18px rgba(125, 111, 190, 0.06);
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
 
     .plan-preview__eyebrow {
@@ -335,7 +336,7 @@
     .plan-preview__hero h4,
     .plan-preview__block h4 {
       margin: 0;
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.3;
     }
 
@@ -343,8 +344,97 @@
     .plan-preview__block p {
       margin: 0;
       color: #655c86;
-      font-size: 13px;
-      line-height: 1.65;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .plan-preview__price {
+      gap: 10px;
+      background: linear-gradient(135deg, #ff7e96 0%, #ff605d 100%);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 14px 28px rgba(255, 96, 93, 0.24);
+    }
+
+    .plan-preview__price-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .plan-preview__price-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .plan-preview__countdown {
+      font-size: 11px;
+      line-height: 1.4;
+      text-align: right;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .plan-preview__price-main {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .plan-preview__amount {
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .plan-preview__amount small {
+      font-size: 16px;
+      margin-right: 2px;
+    }
+
+    .plan-preview__price-note {
+      font-size: 12px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .plan-preview__social {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.16);
+      font-size: 12px;
+    }
+
+    .plan-preview__avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .plan-preview__avatars span {
+      width: 22px;
+      height: 22px;
+      margin-right: -6px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      background: linear-gradient(135deg, #fff2b8 0%, #c3f2ff 100%);
+    }
+
+    .plan-preview__avatars span:nth-child(2) {
+      background: linear-gradient(135deg, #ffd9c7 0%, #ffeabf 100%);
+    }
+
+    .plan-preview__avatars span:nth-child(3) {
+      background: linear-gradient(135deg, #d9d3ff 0%, #ffd7f3 100%);
+    }
+
+    .plan-preview__avatars span:nth-child(4) {
+      background: linear-gradient(135deg, #c8f0d2 0%, #d3ecff 100%);
     }
 
     .plan-preview__list {
@@ -529,13 +619,13 @@
     <section class="section">
       <h2>3. 结果页与转化承接</h2>
       <p class="section-summary">
-        这一段对应家长自我管理线：情绪、压力、内疚。用户先看完整结果页，再完成5道承接标签题，然后看到三档转化入口和对应付费页；这里不再单独放家庭信息收集页。
+        这一段对应家长自我管理线：情绪、压力、内疚。用户先看完整结果页，再完成5道承接标签题，然后看到三档转化入口和对应付费页。
       </p>
 
       <div class="frame-grid">
         <article class="frame-card">
           <h3>结果长页</h3>
-          <p>结果页先展示指数和画像，再往下看到维度得分与维度解析。页面底部固定按钮直接承接“领取7天行动陪练”，先把付费钩子埋在结果页里。</p>
+          <p>结果页先展示指数和画像，再往下看到维度得分与维度解析，并补一段影响分析：继续这样下去，会怎样影响家长状态、亲子互动和家庭氛围。页面底部固定按钮直接承接下一步。</p>
           <div class="device-shell frame-results">
             <img
               class="static-shot"
@@ -546,7 +636,7 @@
 
         <article class="frame-card">
           <h3>承接分层：5道标签题</h3>
-          <p>结果页之后不直接问价格，而是先用5道轻问题判断更适合系统课程、执行陪练，还是先从亲智聊会员进入。</p>
+          <p>结果页之后先用 5 道轻问题判断用户更适合系统课程、执行陪练，还是先从亲智聊会员进入，再生成对应的个性化建议。</p>
           <div class="device-shell frame-family">
             <div class="form-preview" aria-label="承接分层标签题">
               <span class="form-preview__eyebrow">结果页后承接</span>
@@ -584,13 +674,30 @@
 
         <article class="frame-card">
           <h3>7天行动陪练</h3>
-          <p>根据结果画像和5道标签题，用户被承接到299课程、199陪练，或39.9亲智聊会员。（下面是陪练展示界面）</p>
+          <p>根据结果画像和 5 道标签题，用户被承接到 299 课程、199 陪练，或 39.9 亲智聊会员。这里展示的是执行型用户进入的 199 元付费页。</p>
           <div class="device-shell frame-plan">
-            <div class="plan-preview" aria-label="7天行动陪练展示页">
+            <div class="plan-preview" aria-label="7天行动陪练付费页">
               <section class="plan-preview__hero">
                 <span class="plan-preview__eyebrow">7天行动陪练</span>
                 <h4>把测评结果变成每天能做的一步</h4>
                 <p>这套陪练会把“急、吼、内疚”的循环拆成每天一个小动作，先从信念调整和情绪减压开始。</p>
+              </section>
+
+              <section class="plan-preview__price">
+                <div class="plan-preview__price-top">
+                  <div class="plan-preview__price-label">限时体验价</div>
+                  <div class="plan-preview__countdown">距离结束还剩<br>07 时 51 分</div>
+                </div>
+
+                <div class="plan-preview__price-main">
+                  <div class="plan-preview__amount"><small>¥</small>199</div>
+                  <div class="plan-preview__price-note">7 天陪练 + 个性化建议<br>送亲智聊 1 个月会员</div>
+                </div>
+
+                <div class="plan-preview__social">
+                  <div class="plan-preview__avatars"><span></span><span></span><span></span><span></span></div>
+                  <span>他们正在和你一起开通</span>
+                </div>
               </section>
 
               <section class="plan-preview__block">
@@ -608,7 +715,7 @@
                 </div>
               </section>
 
-              <div class="plan-preview__cta">领取7天行动陪练</div>
+              <div class="plan-preview__cta">立即开通 199 元陪练</div>
             </div>
           </div>
         </article>
