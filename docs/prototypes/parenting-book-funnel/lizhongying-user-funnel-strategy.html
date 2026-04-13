@@ -300,6 +300,10 @@
       background: var(--blue);
     }
 
+    .funnel-step:nth-child(5)::before {
+      background: var(--blue);
+    }
+
     .step-index {
       width: 34px;
       height: 34px;
@@ -317,6 +321,11 @@
     }
 
     .funnel-step:nth-child(3) .step-index {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .funnel-step:nth-child(5) .step-index {
       background: var(--blue-soft);
       color: var(--blue);
     }
@@ -347,6 +356,11 @@
     }
 
     .funnel-step:nth-child(3) .quote {
+      color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .funnel-step:nth-child(5) .quote {
       color: var(--blue);
       background: var(--blue-soft);
     }
@@ -428,7 +442,7 @@
 
     .fit-row {
       display: grid;
-      grid-template-columns: 86px 1.55fr 1.15fr 1.35fr;
+      grid-template-columns: 86px 1.35fr 1fr 1.1fr 1.55fr;
       gap: 12px;
       align-items: stretch;
       padding: 12px;
@@ -729,12 +743,12 @@
         <div class="kicker">书中痛点 → 扫码测评 → 结果画像 → 付费陪跑</div>
         <div>
           <h1>先判断用户处在哪一层，再把痛点分到对应产品线。</h1>
-          <p class="lead">这套页面把用户分成三层：买书用户、愿意做测评的用户、能付费转化的用户。测评是从“我被说中了”到“有人带我往前走”的承接入口。</p>
+          <p class="lead">这套页面把用户从买书到转化拆成更细的行为漏斗：不是所有买书用户都会测，不是所有开测用户都会完成，也不是所有完成测评的人都会继续解锁更深的内容。测评的价值，是把“我被说中了”一步步承接到后续产品。</p>
         </div>
         <div class="summary-grid" aria-label="核心数字">
           <div class="summary">
-            <strong>3层</strong>
-            <span>买书、测评、付费，逐层收窄。</span>
+            <strong>6层</strong>
+            <span>买书、拒测、开测未完成、完成测评、深度报告、付费转化。</span>
           </div>
           <div class="summary">
             <strong>4类</strong>
@@ -761,7 +775,7 @@
     <section id="funnel" class="section" aria-label="用户画像漏斗">
       <div class="section-head">
         <h2>用户画像漏斗</h2>
-        <p>同一个买书人群里，行动意愿不同。页面和产品承接要把“看书的人”“愿意测的人”“愿意付费的人”分开看。</p>
+        <p>同一个买书人群里，行为状态差别很大。漏斗里不仅要看谁会测、谁会付费，还要看谁会拒测、谁会中途流失、谁愿意继续看更深的内容。</p>
       </div>
       <div class="funnel">
         <article class="funnel-step">
@@ -778,25 +792,61 @@
 
         <article class="funnel-step">
           <div class="step-index">2</div>
-          <h3>愿意做测评的用户</h3>
-          <div class="quote">我现在到底是什么情况？</div>
-          <p>这类用户不只是认同理念，而是想先判断，再行动。关键词是痛感、自我反思、想搞清楚问题。</p>
+          <h3>不愿意做测评的用户</h3>
+          <div class="quote">我现在不想处理这件事，也不一定喜欢测评。</div>
+          <p>这类用户不一定没有问题，更可能是当下不愿意面对问题，或者对测评型产品本身没有兴趣。</p>
           <ul>
-            <li>陪作业冲突、孩子一说就顶嘴。</li>
-            <li>自己容易急、催、吼，吵完后自责。</li>
-            <li>想知道自己属于哪类家长、该先改哪里。</li>
+            <li>会停留在书、文章、内容浏览，不进入测评。</li>
+            <li>对“做题”“被判断”有天然排斥。</li>
+            <li>后续更适合用内容触达，而不是直接推进转化。</li>
           </ul>
         </article>
 
         <article class="funnel-step">
           <div class="step-index">3</div>
+          <h3>愿意测评但没有完成</h3>
+          <div class="quote">我愿意点开看看，但还没准备好做完。</div>
+          <p>这类用户已经被场景打动，但中途退出，说明兴趣已经有了，只是行动阻力还没有被消掉。</p>
+          <ul>
+            <li>可能是题目太长、状态被打断，或者不想一口气面对完整结果。</li>
+            <li>需要更轻的提醒、续答承接或更明确的完成收益。</li>
+            <li>这一层重点是把“打开”变成“完成”。</li>
+          </ul>
+        </article>
+
+        <article class="funnel-step">
+          <div class="step-index">4</div>
+          <h3>愿意测评并完成</h3>
+          <div class="quote">我愿意先看看结果，再决定下一步。</div>
+          <p>这类用户已经完成一次自我判断，说明痛感、自我反思和行动意愿都比前两层更强。</p>
+          <ul>
+            <li>愿意知道自己属于哪类家长、问题先落在哪个维度。</li>
+            <li>结果页的承接方式，会直接影响后续是否继续往下走。</li>
+            <li>这一层是从测评进入产品的关键分水岭。</li>
+          </ul>
+        </article>
+
+        <article class="funnel-step">
+          <div class="step-index">5</div>
+          <h3>愿意解锁深度测评报告</h3>
+          <div class="quote">我想看得更深一点，但是否付费待定。</div>
+          <p>这类用户不满足于基础结果页，愿意继续看更细的解释或更完整的个性化分析；是否要做成付费深度测评，暂时待定。</p>
+          <ul>
+            <li>愿意花更多时间理解问题，而不是只看一句结论。</li>
+            <li>适合承接更完整的维度解析、分型说明和建议摘要。</li>
+            <li>这一层可以先验证需求，再决定是否单独收费。</li>
+          </ul>
+        </article>
+
+        <article class="funnel-step">
+          <div class="step-index">6</div>
           <h3>能付费转化的用户</h3>
           <div class="quote">谁能带我真的往前走？</div>
-          <p>这类用户愿意承认问题不只是孩子，也和自己的状态、方式有关。用户买的是少走弯路和持续承接。</p>
+          <p>这类用户愿意承认问题不只是孩子，也和自己的状态、方式有关。进入这一层后，再根据测评结果画像、人口学信息和承接标签题，在小程序或私域里推不同档位和形态的产品。</p>
           <ul>
             <li>需要个性化建议、可执行步骤、陪跑提醒和反馈。</li>
+            <li>不同年龄段、孩子阶段、家庭角色和痛点类型，对应不同承接产品。</li>
             <li>最容易转化：高压陪读崩溃型、求方法结构型、自责愧疚调整型。</li>
-            <li>低转化：只想快速改孩子、完全外归因、只想免费看看。</li>
           </ul>
         </article>
       </div>
@@ -850,7 +900,7 @@
     <section id="fit" class="section" aria-label="现有产品与章节适配">
       <div class="section-head">
         <h2>现有产品与章节适配表</h2>
-        <p>这张表按四类测评重新规划公司现有产品。结论是：只新增一个“7天AI亲子行动陪练”，所有7天轻陪练都放进这个产品做任务包；第五/十二章卖情绪解压，第八/九/十一章卖有效沟通和AI亲子聊天，第六/七章卖学霸计划。</p>
+        <p>根据测评结果画像、人口学信息（年龄、收入、婚姻、子女数、岗位）和3道承接标签题（系统学 / 先做任务 / 先试试）进行用户分类，再推不同价值的产品。</p>
       </div>
       <div class="fit-table" role="table" aria-label="现有产品与章节适配表">
         <div class="fit-row fit-head" role="row">
@@ -858,129 +908,87 @@
           <div class="cell" role="columnheader">章节测评 / 核心痛点</div>
           <div class="cell" role="columnheader">主推产品</div>
           <div class="cell" role="columnheader">辅助承接</div>
+          <div class="cell" role="columnheader">用户画像主推产品</div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">A<br>自我管理</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第一章「教养智慧指数评估」</strong><span>我知道问题在我，但改不了。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>7天AI亲子行动陪练</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>信念调整任务包<br>简快情绪解压课<br>AI亲子聊天</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>199陪练打卡</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>《5步法疗愈原生家庭》299<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、岗位稳定，且标签题选择“先系统学方法”：推荐《5步法疗愈原生家庭》299，送亲智聊一个月会员<br>测评显示自我管理问题更突出，且标签题选择“先拿任务边做边改”：推荐199陪练打卡，送亲智聊一个月会员<br>预算敏感，或标签题选择“先聊聊 / 先试试”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">A<br>自我管理</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第五章「情绪智力测评」</strong><span>我总是忍不住，事后又内疚。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>简快情绪解压课</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>情绪稳控任务包<br>AI亲子聊天</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>简快情绪解压课 199</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>199陪练打卡<br>《5步法疗愈原生家庭》299<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、岗位压力大，且标签题选择“先系统学方法”：推荐《5步法疗愈原生家庭》299，送亲智聊一个月会员<br>测评显示情绪失控和内疚分高，且标签题选择“先解决眼前问题”或“需要提醒推进”：推荐简快情绪解压课199或199陪练打卡，送亲智聊一个月会员<br>预算敏感，或标签题选择“先低成本体验”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">A<br>自我管理</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第十二章「家庭压力状态评估」</strong><span>整个家都绷着，喘不过气。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>简快情绪解压课</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>家庭减压任务包<br>AI亲子聊天</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>简快情绪解压课 199</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>199陪练打卡<br>《5步法疗愈原生家庭》299<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、已婚且子女多或家庭负荷高，且标签题选择“先系统学方法”：推荐《5步法疗愈原生家庭》299，送亲智聊一个月会员<br>测评显示家庭压力高，且标签题选择“先拿任务边做边改”或“需要提醒推进”：推荐简快情绪解压课199或199陪练打卡，送亲智聊一个月会员<br>预算敏感，或标签题选择“先聊聊 / 先试试”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">B<br>养育方式</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第三章「个性化养育测评」</strong><span>我按经验带，但好像不适合这个孩子。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>7天AI亲子行动陪练</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>因材施教任务包<br>AI亲子聊天<br>个性化养育建议</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>《父母是孩子天生的催眠师》299</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>199陪练打卡<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、岗位稳定，且标签题选择“先系统学方法”：推荐《父母是孩子天生的催眠师》299，送亲智聊一个月会员<br>测评显示养育方式不匹配，且标签题选择“先拿任务边做边改”：推荐199陪练打卡，送亲智聊一个月会员<br>预算敏感，或标签题选择“先低成本体验”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">B<br>养育方式</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第十一章「为你好」风险评估</strong><span>我是为ta好，但ta越来越不领情。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>“为你好”压力任务包<br>AI亲子聊天</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲 199</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>《语言的魔力》14堂工具课 299<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、岗位稳定，且标签题选择“先系统学方法”：推荐《语言的魔力》14堂工具课299，送亲智聊一个月会员<br>测评显示“为你好”风险高，且标签题选择“先解决眼前问题”：推荐亲子有效沟通15讲199，送亲智聊一个月会员<br>预算敏感，或标签题选择“先聊聊 / 先试试”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">C<br>亲子关系</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第八章「情绪互动健康度测评」</strong><span>孩子有情绪，我们就互相消耗。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>AI亲子聊天<br>7天AI亲子行动陪练<br>关系回暖任务包</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲 199</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>《语言的魔力》14堂工具课 299<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、岗位稳定，且标签题选择“先系统学方法”：推荐《语言的魔力》14堂工具课299，送亲智聊一个月会员<br>测评显示冲突频率高、互动透支明显，且标签题选择“先解决眼前问题”：推荐亲子有效沟通15讲199，送亲智聊一个月会员<br>预算敏感，或标签题选择“先聊聊 / 先试试”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">C<br>亲子关系</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第九章「亲子感情账户测评」</strong><span>不知道什么时候开始，孩子越来越远。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>AI亲子聊天<br>7天AI亲子行动陪练<br>关系修复任务包</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>亲子有效沟通15讲 199</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>《语言的魔力》14堂工具课 299<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、岗位稳定，且标签题选择“先系统学方法”：推荐《语言的魔力》14堂工具课299，送亲智聊一个月会员<br>测评显示关系疏远已持续，且标签题选择“先解决眼前问题”或“需要提醒推进”：推荐亲子有效沟通15讲199，送亲智聊一个月会员<br>预算敏感，或标签题选择“先低成本体验”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">D<br>成长学习</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第四章「未来成事力评估」</strong><span>孩子长大能不能照顾好自己。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>7天AI亲子行动陪练</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>成长任务包<br>AI亲子聊天<br>年龄段成长任务清单</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>199陪练打卡</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>《父母是孩子天生的催眠师》299<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、重视长期教养能力，且标签题选择“先系统学方法”：推荐《父母是孩子天生的催眠师》299，送亲智聊一个月会员<br>测评显示成长任务更需要落地执行，且标签题选择“先拿任务边做边改”：推荐199陪练打卡，送亲智聊一个月会员<br>预算敏感，或标签题选择“先试试看”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">D<br>成长学习</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第六章「学习潜能激活度评估」</strong><span>孩子不是没潜力，只是没被带出来。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>3天学霸养成计划</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>分年龄段学习陪伴方案</span></div>
+          <div class="cell" data-label="主推产品" role="cell"><span>3天学霸养成计划 29.9</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>199陪练打卡<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、孩子学习问题明确，且标签题选择“需要提醒推进”：推荐199陪练打卡，送亲智聊一个月会员<br>测评显示问题集中在学习潜能和方法，且标签题选择“先买低门槛产品试试看”：推荐3天学霸养成计划29.9<br>预算敏感，或标签题选择“先聊聊”：推荐39.9亲智聊一个月会员</span></div>
         </div>
 
         <div class="fit-row" role="row">
           <div class="cell rank-cell" data-label="类别" role="cell">D<br>成长学习</div>
           <div class="cell" data-label="章节测评 / 核心痛点" role="cell"><strong>第七章「学习力测评」</strong><span>孩子学得累，方法可能出了问题。</span></div>
-          <div class="cell" data-label="主推产品" role="cell"><span>3天学霸养成计划</span></div>
-          <div class="cell" data-label="辅助承接" role="cell"><span>7天AI亲子行动陪练<br>学习陪伴任务包</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="matrix" class="section" aria-label="测评主题策略表">
-      <div class="section-head">
-        <h2>测评主题与转化策略表</h2>
-        <p>每类人群从哪几章进来、结果页先承接什么场景、后面对应卖什么。</p>
-      </div>
-      <div class="matrix" role="table" aria-label="测评主题与转化策略表">
-        <div class="matrix-row matrix-head" role="row">
-          <div class="cell" role="columnheader">痛点分类</div>
-          <div class="cell" role="columnheader">对应用户</div>
-          <div class="cell" role="columnheader">测评主题</div>
-          <div class="cell" role="columnheader">结果页承接</div>
-          <div class="cell" role="columnheader">付费产品</div>
-          <div class="cell" role="columnheader">优先级</div>
-        </div>
-
-        <div class="matrix-row" role="row">
-          <div class="cell" data-label="痛点分类" role="cell"><strong>A 家长自我管理类</strong><span>家长自己的问题</span></div>
-          <div class="cell" data-label="对应用户" role="cell"><span>知道问题也和自己有关，但容易急、吼、内疚，家庭压力也比较高。</span></div>
-          <div class="cell" data-label="测评主题" role="cell"><span>第一章 教养智慧指数评估<br>第五章 情绪智力测评<br>第十二章 家庭压力状态评估</span></div>
-          <div class="cell" data-label="结果页承接" role="cell"><span>先接住最近一次失控、内疚或压力爆发场景，再给7天行动方案入口：信念调整 / 情绪减压任务包。</span></div>
-          <div class="cell" data-label="付费产品" role="cell"><span>7天AI亲子行动陪练（信念调整 / 情绪减压任务包）<br>简快情绪解压课<br>AI亲子聊天</span></div>
-          <div class="cell priority" data-label="优先级" role="cell">高</div>
-        </div>
-
-        <div class="matrix-row" role="row">
-          <div class="cell" data-label="痛点分类" role="cell"><strong>B 养育方式类</strong><span>我的带法对不对</span></div>
-          <div class="cell" data-label="对应用户" role="cell"><span>按经验带孩子，但发现不一定适合；常常说“为ta好”，但孩子越来越不领情。</span></div>
-          <div class="cell" data-label="测评主题" role="cell"><span>第三章 个性化养育测评<br>第十一章 “为你好”风险评估</span></div>
-          <div class="cell" data-label="结果页承接" role="cell"><span>先帮用户识别“我现在是在按孩子需要来，还是按自己的焦虑和期待来”，再给因材施教 / “为你好”任务包入口。</span></div>
-          <div class="cell" data-label="付费产品" role="cell"><span>7天AI亲子行动陪练（因材施教 / “为你好”任务包）<br>AI亲子聊天<br>亲子有效沟通15讲</span></div>
-          <div class="cell priority mid" data-label="优先级" role="cell">中高</div>
-        </div>
-
-        <div class="matrix-row" role="row">
-          <div class="cell" data-label="痛点分类" role="cell"><strong>C 亲子关系类</strong><span>我们的关系出了问题</span></div>
-          <div class="cell" data-label="对应用户" role="cell"><span>孩子有情绪时互相消耗，或已经感觉孩子越来越远。</span></div>
-          <div class="cell" data-label="测评主题" role="cell"><span>第八章 情绪互动健康度测评<br>第九章 亲子感情账户测评</span></div>
-          <div class="cell" data-label="结果页承接" role="cell"><span>先让用户看到最近一次冲突或孩子退开的场景里哪里在透支，再给关系回暖/修复任务包入口。</span></div>
-          <div class="cell" data-label="付费产品" role="cell"><span>亲子有效沟通15讲<br>AI亲子聊天<br>7天AI亲子行动陪练（关系回暖/修复任务包）</span></div>
-          <div class="cell priority" data-label="优先级" role="cell">高</div>
-        </div>
-
-        <div class="matrix-row" role="row">
-          <div class="cell" data-label="痛点分类" role="cell"><strong>D 孩子成长/学习类</strong><span>孩子的问题</span></div>
-          <div class="cell" data-label="对应用户" role="cell"><span>担心孩子未来独立和成事能力，也关心学习潜能、学习方法和作业表现。</span></div>
-          <div class="cell" data-label="测评主题" role="cell"><span>第四章 未来成事力评估<br>第六章 学习潜能激活度评估<br>第七章 学习力测评</span></div>
-          <div class="cell" data-label="结果页承接" role="cell"><span>第四、六、七章按幼儿/小学/中学拆年龄版本，结果页给年龄段成长任务、学习陪伴或学霸计划入口。</span></div>
-          <div class="cell" data-label="付费产品" role="cell"><span>7天AI亲子行动陪练（成长 / 学习陪伴任务包）<br>3天学霸养成计划<br>分年龄段学习陪伴方案</span></div>
-          <div class="cell priority" data-label="优先级" role="cell">高</div>
+          <div class="cell" data-label="主推产品" role="cell"><span>3天学霸养成计划 29.9</span></div>
+          <div class="cell" data-label="辅助承接" role="cell"><span>199陪练打卡<br>39.9亲智聊一个月会员</span></div>
+          <div class="cell" data-label="用户画像主推产品" role="cell"><span>年收入中高、愿意为执行结果付费，且标签题选择“先拿任务边做边改”：推荐199陪练打卡，送亲智聊一个月会员<br>测评显示学习方法问题更突出，且标签题选择“先买低门槛产品试试看”：推荐3天学霸养成计划29.9<br>预算敏感，或标签题选择“先低成本体验”：推荐39.9亲智聊一个月会员</span></div>
         </div>
       </div>
     </section>
@@ -988,12 +996,12 @@
     <section id="products" class="section" aria-label="产品转化">
       <div class="section-head">
         <h2>承接产品怎么放</h2>
-        <p>结果页先完成理解和分型，再给一个低压的下一步入口，让用户从“知道问题”自然走到“开始行动”。</p>
+        <p>结果页先完成理解和分型，再通过5道承接标签题判断更适合系统课程、执行陪练，还是先从亲智聊会员进入。</p>
       </div>
       <div class="product-grid">
         <article class="product-card">
           <h3>免费层：测评结果页</h3>
-          <p>让用户知道“我现在是什么情况”。页面要先接住情绪，再告诉用户最该从哪一类问题开始看，并露出下一步行动入口。</p>
+          <p>让用户知道“我现在是什么情况”。页面先展示结果画像、维度解释和问题类型，再告诉用户下一步更适合哪一档产品。</p>
           <div class="tag-row">
             <span class="tag">画像</span>
             <span class="tag">维度解释</span>
@@ -1001,21 +1009,32 @@
           </div>
         </article>
         <article class="product-card">
-          <h3>结果页钩子：7天行动方案</h3>
-          <p>结果页不直接硬卖课程，而是给一个和测评结论匹配的入口：查看我的7天行动方案。</p>
+          <h3>承接分层：5道标签题</h3>
+          <p>不要直接问价格。先用5道轻问题判断用户更适合哪种承接方式：你现在更想怎么开始？你更希望哪种帮助方式？你更担心哪件事？你每天能拿出多少时间来学习或执行？你通常在哪个时间段更方便学习？</p>
           <div class="tag-row">
-            <span class="tag">付费钩子</span>
-            <span class="tag">任务包</span>
-            <span class="tag">轻承诺</span>
+            <span class="tag">怎么开始</span>
+            <span class="tag">帮助方式</span>
+            <span class="tag">担心什么</span>
+            <span class="tag">可投入时间</span>
+            <span class="tag">学习时段</span>
           </div>
         </article>
         <article class="product-card">
-          <h3>付费层：陪跑方案</h3>
-          <p>让用户买“能落地的改变路径”：提醒、打卡、反馈、阶段性任务，而不是再买一份知识。</p>
+          <h3>结果页钩子：三档转化入口</h3>
+          <p>根据结果画像和5道标签题给出主推方向：适合系统学习的进299课程，适合先执行改变的进199陪练，想先低门槛进入的进39.9亲智聊会员。</p>
           <div class="tag-row">
-            <span class="tag">课程承接</span>
-            <span class="tag">行动陪练</span>
-            <span class="tag">AI陪伴</span>
+            <span class="tag">付费钩子</span>
+            <span class="tag">三档分流</span>
+            <span class="tag">低压选择</span>
+          </div>
+        </article>
+        <article class="product-card">
+          <h3>付费层：按档位承接</h3>
+          <p>299课程承接愿意系统学的人，199陪练承接想先做起来的人，39.9亲智聊会员承接预算敏感或还在观望的人。</p>
+          <div class="tag-row">
+            <span class="tag">299课程</span>
+            <span class="tag">199陪练</span>
+            <span class="tag">39.9会员</span>
           </div>
         </article>
       </div>
@@ -1024,8 +1043,8 @@
         <div class="flow-strip">
           <div class="flow-step"><strong>书中痛点</strong><span>读到一段像自己的内容。</span></div>
           <div class="flow-step"><strong>扫码测评</strong><span>判断“我现在是什么情况”。</span></div>
-          <div class="flow-step"><strong>结果画像</strong><span>先被理解，再看到一个匹配结果的7天行动入口。</span></div>
-          <div class="flow-step"><strong>付费陪跑</strong><span>进入自我管理、养育、关系或学习产品线。</span></div>
+          <div class="flow-step"><strong>结果画像</strong><span>先被理解，再根据结果画像和标签看到最匹配的付费方向。</span></div>
+          <div class="flow-step"><strong>付费转化</strong><span>进入299课程，或者199陪练，或者39.9亲智聊会员。</span></div>
         </div>
       </div>
     </section>

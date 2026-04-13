@@ -217,11 +217,227 @@
 
     .frame-chat,
     .frame-entry,
+    .frame-demographic,
     .frame-questions,
     .frame-results,
-    .frame-family,
-    .frame-plan {
+    .frame-family {
       aspect-ratio: 690 / 1484;
+    }
+
+    .frame-plan {
+      aspect-ratio: 690 / 1720;
+    }
+
+    .form-preview {
+      height: 100%;
+      padding: 18px 16px;
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.9), transparent 28%),
+        linear-gradient(180deg, #f8f5ff 0%, #f0ebff 100%);
+    }
+
+    .form-preview__eyebrow {
+      font-size: 11px;
+      color: #8a80af;
+      letter-spacing: 0.04em;
+    }
+
+    .form-preview__title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .form-preview__question {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(143, 132, 255, 0.12);
+      box-shadow: 0 8px 18px rgba(125, 111, 190, 0.06);
+      display: grid;
+      gap: 6px;
+    }
+
+    .form-preview__question strong {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .form-preview__chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .form-preview__chips span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: rgba(150, 139, 255, 0.1);
+      color: #655c86;
+      font-size: 11px;
+    }
+
+    .form-preview__cta {
+      margin-top: 2px;
+      min-height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #968bff 0%, #786af7 100%);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      box-shadow: 0 12px 24px rgba(120, 106, 247, 0.18);
+    }
+
+    .plan-preview {
+      height: 100%;
+      padding: 22px 20px;
+      display: grid;
+      align-content: start;
+      gap: 14px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.9), transparent 28%),
+        linear-gradient(180deg, #f8f5ff 0%, #f0ebff 100%);
+    }
+
+    .plan-preview__hero,
+    .plan-preview__block,
+    .plan-preview__cta {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(143, 132, 255, 0.12);
+      box-shadow: 0 8px 18px rgba(125, 111, 190, 0.06);
+      display: grid;
+      gap: 10px;
+    }
+
+    .plan-preview__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 10px;
+      width: fit-content;
+      border-radius: 999px;
+      background: rgba(150, 139, 255, 0.12);
+      color: #7a70a4;
+      font-size: 12px;
+    }
+
+    .plan-preview__hero h4,
+    .plan-preview__block h4 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .plan-preview__hero p,
+    .plan-preview__block p {
+      margin: 0;
+      color: #655c86;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .plan-preview__list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .plan-preview__row {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(246, 244, 255, 0.9);
+      border: 1px solid rgba(143, 132, 255, 0.1);
+      color: #5f567f;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .plan-preview__day {
+      color: #786af7;
+      font-weight: 700;
+    }
+
+    .plan-preview__cta {
+      min-height: 62px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, #968bff 0%, #786af7 100%);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .demographic-preview {
+      height: 100%;
+      padding: 22px 18px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.9), transparent 28%),
+        linear-gradient(180deg, #f8f5ff 0%, #f0ebff 100%);
+    }
+
+    .demographic-preview__hero {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(143, 132, 255, 0.12);
+      display: grid;
+      gap: 8px;
+    }
+
+    .demographic-preview__hero span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 10px;
+      width: fit-content;
+      border-radius: 999px;
+      background: rgba(150, 139, 255, 0.12);
+      color: #7a70a4;
+      font-size: 12px;
+    }
+
+    .demographic-preview__hero h4 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .demographic-preview__list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .demographic-preview__item {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(143, 132, 255, 0.12);
+      box-shadow: 0 8px 18px rgba(125, 111, 190, 0.06);
+      font-size: 14px;
+      line-height: 1.6;
+      color: #544b74;
+    }
+
+    .demographic-preview__item strong {
+      color: #302944;
     }
 
     .tip {
@@ -240,15 +456,15 @@
     <section class="section">
       <h2>1. 书页插入二维码</h2>
       <p class="section-summary">
-        这一部分保留你之前做的书页真实插码场景，用来说明用户是从哪里被触发进入这套测评链路的。
+        这一部分保留书页真实插码场景，用来说明用户是从哪里被触发进入这套测评链路的。
       </p>
-      <iframe class="frame-book" src="./1c-real-page.html" title="书页插入二维码"></iframe>
+      <iframe class="frame-book" src="./1c-real-page.html" title="书页真实插码场景"></iframe>
     </section>
 
     <section class="section">
       <h2>2. 扫码后的网页链路</h2>
       <p class="section-summary">
-        从这里开始替换成你现在画布上的链路顺序：先看到企业微信聊天里的小程序入口，再进入小程序首页，然后进入完整长页答题。
+        从这里开始替换成你现在画布上的链路顺序：先看到企业微信聊天里的小程序入口，再进入小程序首页，答题第一页先收集人口学信息，之后再进入完整长页答题。
       </p>
 
       <div class="frame-grid">
@@ -275,8 +491,31 @@
         </article>
 
         <article class="frame-card">
+          <h3>人口学信息收集（答题第一页）</h3>
+          <p>正式进入测评前，先补充一页基础信息，用来完善用户画像。</p>
+          <div class="device-shell frame-demographic">
+            <div class="demographic-preview" aria-label="人口学信息收集页">
+              <div class="demographic-preview__hero">
+                <span>答题前补充</span>
+                <h4>先补充一点信息，让测评结果更贴近你现在的情况</h4>
+              </div>
+
+              <div class="demographic-preview__list">
+                <div class="demographic-preview__item"><strong>1.</strong> 我的年龄</div>
+                <div class="demographic-preview__item"><strong>2.</strong> 你的年收入多少？</div>
+                <div class="demographic-preview__item"><strong>3.</strong> 你的原生家庭排行是</div>
+                <div class="demographic-preview__item"><strong>4.</strong> 子女数量</div>
+                <div class="demographic-preview__item"><strong>5.</strong> 我工作的行业是</div>
+                <div class="demographic-preview__item"><strong>6.</strong> 我的职业是</div>
+                <div class="demographic-preview__item"><strong>7.</strong> 我的性别</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="frame-card">
           <h3>长页答题</h3>
-          <p>16 道题全部放在一个长页面里，用户直接下滑答题，底部固定按钮承接到结果页。</p>
+          <p>人口学信息填写完成后，再进入16道题的长页面。用户直接下滑答题，底部固定按钮承接到结果页。</p>
           <div class="device-shell frame-questions">
             <img
               class="static-shot"
@@ -290,7 +529,7 @@
     <section class="section">
       <h2>3. 结果页与转化承接</h2>
       <p class="section-summary">
-        这一段对应家长自我管理线：情绪、压力、内疚。用户先看完整结果页，底部点击“领取7天行动陪练”，再看到陪练能帮助什么和具体内容；付费后才进入家庭信息收集，用来补齐后续陪跑所需信息。
+        这一段对应家长自我管理线：情绪、压力、内疚。用户先看完整结果页，再完成5道承接标签题，然后看到三档转化入口和对应付费页；这里不再单独放家庭信息收集页。
       </p>
 
       <div class="frame-grid">
@@ -306,24 +545,71 @@
         </article>
 
         <article class="frame-card">
-          <h3>行动陪练介绍与付费</h3>
-          <p>用户从结果页进入陪练介绍页，先看到陪练能帮助什么、每天具体练什么。页面底部放付费按钮，承接到后面的家庭信息收集。</p>
-          <div class="device-shell frame-plan">
-            <img
-              class="static-shot"
-              src="./assets/figma-static/plan-screen.png"
-              alt="7天AI亲子行动陪练">
+          <h3>承接分层：5道标签题</h3>
+          <p>结果页之后不直接问价格，而是先用5道轻问题判断更适合系统课程、执行陪练，还是先从亲智聊会员进入。</p>
+          <div class="device-shell frame-family">
+            <div class="form-preview" aria-label="承接分层标签题">
+              <span class="form-preview__eyebrow">结果页后承接</span>
+              <h4 class="form-preview__title">先补 5 个问题，帮你匹配下一步</h4>
+
+              <div class="form-preview__question">
+                <strong>你现在更想怎么开始？</strong>
+                <div class="form-preview__chips"><span>先系统学</span><span>先做任务</span><span>先试试看</span></div>
+              </div>
+
+              <div class="form-preview__question">
+                <strong>你更希望哪种帮助方式？</strong>
+                <div class="form-preview__chips"><span>课程讲解</span><span>每天提醒</span><span>有人陪伴</span></div>
+              </div>
+
+              <div class="form-preview__question">
+                <strong>你更担心哪件事？</strong>
+                <div class="form-preview__chips"><span>改不掉</span><span>不知道怎么做</span><span>做不下去</span></div>
+              </div>
+
+              <div class="form-preview__question">
+                <strong>你每天能拿出多少时间学习或执行？</strong>
+                <div class="form-preview__chips"><span>10分钟</span><span>20分钟</span><span>30分钟+</span></div>
+              </div>
+
+              <div class="form-preview__question">
+                <strong>你通常哪个时间段更方便学习？</strong>
+                <div class="form-preview__chips"><span>早上</span><span>白天碎片</span><span>晚上</span><span>周末</span></div>
+              </div>
+
+              <div class="form-preview__cta">生成个性化建议</div>
+            </div>
           </div>
         </article>
 
         <article class="frame-card">
-          <h3>家庭信息收集与分层</h3>
-          <p>用户付费后再进入信息收集页，用少量字段补齐孩子年龄、主要冲突场景、当前最困扰家长的问题和期待的支持方式，为后面的分层长期陪跑做判断。</p>
-          <div class="device-shell frame-family">
-            <img
-              class="static-shot"
-              src="./assets/figma-static/family-screen.png"
-              alt="家庭信息收集">
+          <h3>7天行动陪练</h3>
+          <p>根据结果画像和5道标签题，用户被承接到299课程、199陪练，或39.9亲智聊会员。（下面是陪练展示界面）</p>
+          <div class="device-shell frame-plan">
+            <div class="plan-preview" aria-label="7天行动陪练展示页">
+              <section class="plan-preview__hero">
+                <span class="plan-preview__eyebrow">7天行动陪练</span>
+                <h4>把测评结果变成每天能做的一步</h4>
+                <p>这套陪练会把“急、吼、内疚”的循环拆成每天一个小动作，先从信念调整和情绪减压开始。</p>
+              </section>
+
+              <section class="plan-preview__block">
+                <h4>陪练能帮助什么</h4>
+                <p>帮你看见触发点，练习一句新的自我提醒，把一次冲突复盘成下一步动作。每天只完成一个小任务，先把家长自己的节奏稳下来。</p>
+              </section>
+
+              <section class="plan-preview__block">
+                <h4>陪练具体内容</h4>
+                <div class="plan-preview__list">
+                  <div class="plan-preview__row"><span class="plan-preview__day">Day 1</span><span>看见一次急、吼、内疚背后的触发点</span></div>
+                  <div class="plan-preview__row"><span class="plan-preview__day">Day 2</span><span>把“必须马上改好”换成“先稳住这一刻”</span></div>
+                  <div class="plan-preview__row"><span class="plan-preview__day">Day 3</span><span>复盘一次冲突里真正想保护的东西</span></div>
+                  <div class="plan-preview__row"><span class="plan-preview__day">Day 4</span><span>练一句不伤关系的提醒</span></div>
+                </div>
+              </section>
+
+              <div class="plan-preview__cta">领取7天行动陪练</div>
+            </div>
           </div>
         </article>
       </div>
