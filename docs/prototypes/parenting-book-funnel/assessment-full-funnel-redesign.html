@@ -224,6 +224,13 @@
       aspect-ratio: 690 / 1484;
     }
 
+    .frame-results--half .static-shot {
+      object-fit: cover;
+      object-position: top center;
+      transform: scale(1.58);
+      transform-origin: top center;
+    }
+
     .frame-plan {
       aspect-ratio: 690 / 1820;
     }
@@ -530,6 +537,256 @@
       color: #302944;
     }
 
+    .wechat-preview {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: #ececec;
+    }
+
+    .wechat-preview__top {
+      background: #fff;
+      padding: 16px 18px 14px;
+      display: grid;
+      gap: 14px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .wechat-preview__status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f1f1f;
+    }
+
+    .wechat-preview__icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .wechat-preview__signal,
+    .wechat-preview__battery {
+      height: 10px;
+      border-radius: 999px;
+      background: #1f1f1f;
+    }
+
+    .wechat-preview__signal {
+      width: 16px;
+    }
+
+    .wechat-preview__battery {
+      width: 20px;
+    }
+
+    .wechat-preview__nav {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .wechat-preview__contact {
+      justify-self: center;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f1f1f;
+    }
+
+    .wechat-preview__menu {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #fff;
+      color: #1f1f1f;
+      font-size: 14px;
+    }
+
+    .wechat-preview__menu-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: currentColor;
+      box-shadow: 7px 0 0 currentColor, 14px 0 0 currentColor;
+    }
+
+    .wechat-preview__menu-ring {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid currentColor;
+    }
+
+    .wechat-preview__body {
+      padding: 16px 14px 18px;
+      display: grid;
+      align-content: start;
+      gap: 16px;
+    }
+
+    .wechat-preview__row {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .wechat-preview__avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      background: #33c26b;
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    }
+
+    .wechat-preview__avatar::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    .wechat-preview__avatar::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      bottom: 5px;
+      width: 16px;
+      height: 8px;
+      border-radius: 8px 8px 3px 3px;
+      background: #fff;
+    }
+
+    .wechat-preview__bubble {
+      width: min(270px, 100%);
+      padding: 16px 16px 14px;
+      border-radius: 18px;
+      background: #fff;
+      color: #3a3451;
+      font-size: 13px;
+      line-height: 1.8;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .wechat-preview__card {
+      width: min(280px, 100%);
+      padding: 12px;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+      display: grid;
+      gap: 10px;
+    }
+
+    .wechat-preview__card-meta {
+      font-size: 11px;
+      color: #b0acc3;
+    }
+
+    .wechat-preview__card-title {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.3;
+      color: #2d2742;
+    }
+
+    .wechat-preview__mini {
+      min-height: 110px;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #7f62ff 0%, #6b51f7 100%);
+      color: #fff;
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+    }
+
+    .wechat-preview__mini p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .wechat-preview__mini strong {
+      display: block;
+      font-size: 23px;
+      line-height: 1.18;
+      color: #fff;
+    }
+
+    .wechat-preview__mini-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      min-height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .wechat-preview__card-tag {
+      font-size: 11px;
+      color: #b8b3c8;
+    }
+
+    .wechat-preview__input {
+      background: #fff;
+      padding: 14px 14px 16px;
+      display: grid;
+      grid-template-columns: 24px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .wechat-preview__voice {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 2px solid #777;
+      position: relative;
+    }
+
+    .wechat-preview__voice::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 999px;
+      background: #777;
+    }
+
+    .wechat-preview__field {
+      min-height: 32px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(143, 132, 255, 0.38);
+      background: #fff;
+    }
+
+    .wechat-preview__actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #7d738f;
+      font-size: 22px;
+      line-height: 1;
+    }
+
     .tip {
       padding: 16px 18px;
       border-radius: 20px;
@@ -554,24 +811,13 @@
     <section class="section">
       <h2>2. 扫码后的网页链路</h2>
       <p class="section-summary">
-        扫码后直接进入测评主题介绍页，然后进入测评题目，答完先看到简版报告；如果想看更完整的分析，再加企业微信领取详细报告。
+        扫码后直接进入测评题目，答完先看到简版报告；如果想看更完整的分析，再加企业微信领取详细报告。
       </p>
 
       <div class="frame-grid">
         <article class="frame-card">
-          <h3>测评主题介绍页</h3>
-          <p>扫码后不再先跳企微，而是直接进入本章测评主题介绍页，先让用户知道这套测评在测什么、为什么值得做。</p>
-          <div class="device-shell frame-entry">
-            <img
-              class="static-shot"
-              src="./assets/figma-static/entry-screen.png"
-              alt="测评主题介绍页">
-          </div>
-        </article>
-
-        <article class="frame-card">
           <h3>测评题目</h3>
-          <p>用户从主题介绍页点击开始评估，进入题目页完成本章测评。</p>
+          <p>扫码后不再经过介绍页，直接进入题目页完成本章测评。</p>
           <div class="device-shell frame-questions">
             <img
               class="static-shot"
@@ -583,7 +829,7 @@
         <article class="frame-card">
           <h3>简版报告</h3>
           <p>答题完成后先给一个简版报告，只展示核心画像、指数和一句最关键的提醒，先让用户觉得“被说中”。</p>
-          <div class="device-shell frame-results">
+          <div class="device-shell frame-results frame-results--half">
             <img
               class="static-shot"
               src="./assets/figma-static/results-screen.png"
@@ -595,10 +841,54 @@
           <h3>加企业微信领取详细报告</h3>
           <p>简版报告页底部不直接放全部内容，而是引导用户加企业微信，领取更完整的详细报告和后续建议。</p>
           <div class="device-shell frame-chat">
-            <img
-              class="static-shot"
-              src="./assets/figma-static/chat-screen.png"
-              alt="加企业微信领取详细报告">
+            <div class="wechat-preview" aria-label="加企业微信领取详细报告">
+              <div class="wechat-preview__top">
+                <div class="wechat-preview__status">
+                  <span>9:41</span>
+                  <div class="wechat-preview__icons">
+                    <span class="wechat-preview__signal"></span>
+                    <span class="wechat-preview__battery"></span>
+                  </div>
+                </div>
+                <div class="wechat-preview__nav">
+                  <span></span>
+                  <strong class="wechat-preview__contact">陈璐</strong>
+                  <div class="wechat-preview__menu">
+                    <span class="wechat-preview__menu-dot"></span>
+                    <span class="wechat-preview__menu-ring"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="wechat-preview__body">
+                <div class="wechat-preview__row">
+                  <span class="wechat-preview__avatar" aria-hidden="true"></span>
+                  <div class="wechat-preview__bubble">
+                    家长您好，我是李中莹亲子服务中心的陈老师。点击免费查看测评完整结果。
+                  </div>
+                </div>
+                <div class="wechat-preview__row">
+                  <span class="wechat-preview__avatar" aria-hidden="true"></span>
+                  <div class="wechat-preview__card">
+                    <div class="wechat-preview__card-meta">李中莹亲子服务中心</div>
+                    <h4 class="wechat-preview__card-title">教养智慧评估</h4>
+                    <div class="wechat-preview__mini">
+                      <p>本评估聚焦家长在教养中的四类核心能力</p>
+                      <strong>免费查看详细结果</strong>
+                      <span class="wechat-preview__mini-button">点击进入</span>
+                    </div>
+                    <div class="wechat-preview__card-tag">小程序</div>
+                  </div>
+                </div>
+              </div>
+              <div class="wechat-preview__input">
+                <span class="wechat-preview__voice" aria-hidden="true"></span>
+                <div class="wechat-preview__field" aria-hidden="true"></div>
+                <div class="wechat-preview__actions" aria-hidden="true">
+                  <span>☺</span>
+                  <span>+</span>
+                </div>
+              </div>
+            </div>
           </div>
         </article>
       </div>
@@ -607,7 +897,7 @@
     <section class="section">
       <h2>3. 详细报告与转化承接</h2>
       <p class="section-summary">
-        这一段对应家长自我管理线：情绪、压力、内疚。用户加企业微信后领取详细报告，再完成5道承接标签题，然后看到三档转化入口和对应付费页。
+        这一段对应家长自我管理线：情绪、压力、内疚。用户加企业微信后领取详细报告，然后进入对应的付费转化页。
       </p>
 
       <div class="frame-grid">
@@ -623,46 +913,8 @@
         </article>
 
         <article class="frame-card">
-          <h3>承接分层：5道标签题</h3>
-          <p>结果页之后先用 5 道轻问题判断用户更适合系统课程、执行陪练，还是先从亲智聊会员进入，再生成对应的个性化建议。</p>
-          <div class="device-shell frame-family">
-            <div class="form-preview" aria-label="承接分层标签题">
-              <span class="form-preview__eyebrow">结果页后承接</span>
-              <h4 class="form-preview__title">先补 5 个问题，帮你匹配下一步</h4>
-
-              <div class="form-preview__question">
-                <strong>你现在更想怎么开始？</strong>
-                <div class="form-preview__chips"><span>先系统学</span><span>先做任务</span><span>先试试看</span></div>
-              </div>
-
-              <div class="form-preview__question">
-                <strong>你更希望哪种帮助方式？</strong>
-                <div class="form-preview__chips"><span>课程讲解</span><span>每天提醒</span><span>有人陪伴</span></div>
-              </div>
-
-              <div class="form-preview__question">
-                <strong>你更担心哪件事？</strong>
-                <div class="form-preview__chips"><span>改不掉</span><span>不知道怎么做</span><span>做不下去</span></div>
-              </div>
-
-              <div class="form-preview__question">
-                <strong>你每天能拿出多少时间学习或执行？</strong>
-                <div class="form-preview__chips"><span>10分钟</span><span>20分钟</span><span>30分钟+</span></div>
-              </div>
-
-              <div class="form-preview__question">
-                <strong>你通常哪个时间段更方便学习？</strong>
-                <div class="form-preview__chips"><span>早上</span><span>白天碎片</span><span>晚上</span><span>周末</span></div>
-              </div>
-
-              <div class="form-preview__cta">生成个性化建议</div>
-            </div>
-          </div>
-        </article>
-
-        <article class="frame-card">
           <h3>7天行动陪练</h3>
-          <p>根据结果画像和 5 道标签题，用户被承接到 299 课程、199 陪练，或 39.9 亲智聊会员。这里展示的是执行型用户进入的 199 元付费页。</p>
+          <p>用户看完详细报告后，被承接到 299 课程、199 陪练，或 39.9 亲智聊会员。这里展示的是执行型用户进入的 199 元付费页。</p>
           <div class="device-shell frame-plan">
             <div class="plan-preview" aria-label="7天行动陪练付费页">
               <section class="plan-preview__hero">
