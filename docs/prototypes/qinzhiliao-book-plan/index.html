@@ -715,6 +715,37 @@
       margin-top: 20px;
     }
 
+    .flow-optional {
+      position: relative;
+      margin-top: 18px;
+      padding: 18px 16px 12px;
+      border-radius: 24px;
+      border: 2px dashed rgba(125, 119, 255, 0.38);
+      background: rgba(125, 119, 255, 0.04);
+    }
+
+    .flow-optional-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(125, 119, 255, 0.16);
+      color: #5d57dd;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .flow-optional-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
     .flow-card {
       position: relative;
       min-height: 180px;
@@ -834,7 +865,8 @@
       .problem-grid,
       .phase-grid,
       .offer-grid,
-      .flow-grid {
+      .flow-grid,
+      .flow-optional-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1290,14 +1322,6 @@
             <h3>首页看到专题</h3>
             <p>用户进入亲智聊首页，看到《最好的孩子在我家》专题卡，理解这里提供的是一套可落地的解决方案。</p>
           </article>
-          <article class="flow-card" data-step="Step 2">
-            <h3>做 3 分钟轻测评</h3>
-            <p>先识别：这是控制型冲突、焦虑型催促，还是孩子缺任务切分和节奏支持。</p>
-          </article>
-          <article class="flow-card" data-step="Step 3">
-            <h3>拿到个性化结论</h3>
-            <p>告诉用户：你当前的主要卡点是什么，对应书里的哪个章节，今晚先练哪一句替代话术。</p>
-          </article>
           <article class="flow-card" data-step="Step 4">
             <h3>进入 7 天打卡</h3>
             <p>每天一个微动作，从“催作业”变成“聊作业”，从“盯作业”变成“陪作业”，并用积分和阶段奖励推动完成首轮实践。</p>
@@ -1306,6 +1330,19 @@
             <h3>承接长期陪伴营</h3>
             <p>当用户完成 7 天打卡、也看见一点效果后，就更愿意进入长期陪伴营，获得更持续的陪伴、反馈和专项指导。</p>
           </article>
+        </div>
+        <div class="flow-optional">
+          <div class="flow-optional-label">可选环节 · 不一定做</div>
+          <div class="flow-optional-grid">
+            <article class="flow-card" data-step="Step 2">
+              <h3>做 3 分钟轻测评</h3>
+              <p>先识别：这是控制型冲突、焦虑型催促，还是孩子缺任务切分和节奏支持。</p>
+            </article>
+            <article class="flow-card" data-step="Step 3">
+              <h3>拿到个性化结论</h3>
+              <p>告诉用户：你当前的主要卡点是什么，对应书里的哪个章节，今晚先练哪一句替代话术。</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
