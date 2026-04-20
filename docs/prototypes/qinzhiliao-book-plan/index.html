@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>《最好的孩子在我家》× 亲智聊落地方案</title>
+  <style>
+    :root {
+      --bg: #fbf7f2;
+      --paper: rgba(255, 251, 247, 0.88);
+      --panel: rgba(255, 255, 255, 0.78);
+      --ink: #2c3142;
+      --muted: #66708a;
+      --line: rgba(93, 102, 135, 0.16);
+      --lavender: #d9d2ff;
+      --sky: #dff2ff;
+      --apricot: #ffe3bf;
+      --mint: #dbf4ea;
+      --rose: #ffd7df;
+      --brand: #7d77ff;
+      --brand-2: #6ac8ff;
+      --shadow: 0 30px 80px rgba(69, 72, 112, 0.16);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --content: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(214, 232, 255, 0.72), transparent 26%),
+        radial-gradient(circle at 82% 12%, rgba(255, 221, 229, 0.78), transparent 28%),
+        radial-gradient(circle at 72% 62%, rgba(226, 255, 243, 0.7), transparent 24%),
+        linear-gradient(180deg, #fffaf6 0%, #f6f3ff 58%, #f9fbff 100%);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(117, 122, 171, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(117, 122, 171, 0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.42), transparent 84%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .wrap {
+      width: min(var(--content), calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(251, 247, 242, 0.72);
+      border-bottom: 1px solid rgba(93, 102, 135, 0.08);
+    }
+
+    .topbar-inner {
+      width: min(var(--content), calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Baskerville", "Times New Roman", serif;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      box-shadow: 0 14px 26px rgba(117, 119, 255, 0.28);
+    }
+
+    .brand small {
+      display: block;
+      font-family: "PingFang SC", sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(125, 119, 255, 0.1);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero {
+      padding: 44px 0 26px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .glass {
+      background: var(--paper);
+      border: 1px solid rgba(93, 102, 135, 0.12);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-copy {
+      padding: 34px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(122, 211, 255, 0.32), transparent 70%);
+      right: -40px;
+      top: -40px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(93, 102, 135, 0.1);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-family: "Baskerville", "Times New Roman", serif;
+      font-size: clamp(40px, 6vw, 66px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-subtitle {
+      margin: 0;
+      max-width: 680px;
+      font-size: 18px;
+      line-height: 1.85;
+      color: #4d5770;
+    }
+
+    .hero-metrics {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(93, 102, 135, 0.08);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 6px;
+      color: #3a43aa;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .hero-side {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .book-chip {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(239, 247, 255, 0.86));
+      border: 1px solid rgba(93, 102, 135, 0.08);
+    }
+
+    .book-chip h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .book-chip p,
+    .book-chip li {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    .book-cover {
+      width: 132px;
+      flex: 0 0 132px;
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 242, 255, 0.9));
+      border: 1px solid rgba(93, 102, 135, 0.08);
+      padding: 18px 14px;
+      display: grid;
+      align-content: space-between;
+      min-height: 190px;
+      box-shadow: 0 18px 28px rgba(109, 112, 174, 0.14);
+    }
+
+    .book-cover .spine {
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #7d77ff, #9fe4ff);
+    }
+
+    .book-cover strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .book-cover em {
+      font-style: normal;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .signal {
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(93, 102, 135, 0.08);
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .signal p {
+      margin: 0;
+      line-height: 1.75;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    section.block {
+      padding: 18px 0 10px;
+    }
+
+    .section-head {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: "Baskerville", "Times New Roman", serif;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 540px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .problem-grid,
+    .persona-grid,
+    .module-grid,
+    .phase-grid,
+    .offer-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .problem-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .persona-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .problem-card,
+    .persona-card,
+    .module-card,
+    .phase-card,
+    .offer-card,
+    .flow-card,
+    .note-card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid rgba(93, 102, 135, 0.1);
+      box-shadow: 0 18px 42px rgba(103, 109, 155, 0.08);
+    }
+
+    .problem-card {
+      min-height: 220px;
+    }
+
+    .problem-card:nth-child(1) { background: linear-gradient(180deg, rgba(255, 235, 239, 0.82), rgba(255,255,255,0.82)); }
+    .problem-card:nth-child(2) { background: linear-gradient(180deg, rgba(224, 246, 255, 0.82), rgba(255,255,255,0.82)); }
+    .problem-card:nth-child(3) { background: linear-gradient(180deg, rgba(228, 250, 240, 0.82), rgba(255,255,255,0.82)); }
+
+    .persona-card {
+      min-height: 360px;
+    }
+
+    .persona-card:first-child {
+      background: linear-gradient(180deg, rgba(233, 243, 255, 0.84), rgba(255,255,255,0.82));
+    }
+
+    .persona-card:last-child {
+      background: linear-gradient(180deg, rgba(255, 240, 227, 0.84), rgba(255,255,255,0.82));
+    }
+
+    .problem-card .tag,
+    .persona-card .tag,
+    .module-card .tag,
+    .phase-card .tag,
+    .offer-card .tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #4d5780;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(93, 102, 135, 0.08);
+    }
+
+    .problem-card h3,
+    .persona-card h3,
+    .module-card h3,
+    .phase-card h3,
+    .offer-card h3,
+    .flow-card h3,
+    .note-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .problem-card p,
+    .persona-card p,
+    .module-card p,
+    .phase-card p,
+    .offer-card p,
+    .flow-card p,
+    .note-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .book-system {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 18px;
+    }
+
+    .system-map {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .system-map::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -60px auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(125, 119, 255, 0.18), transparent 70%);
+    }
+
+    .pillar-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .pillar {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(93, 102, 135, 0.08);
+    }
+
+    .pillar-index {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 14px 24px rgba(125, 119, 255, 0.25);
+    }
+
+    .pillar strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .journey {
+      padding: 28px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .journey-step {
+      position: relative;
+      padding: 16px 16px 16px 56px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(93, 102, 135, 0.08);
+    }
+
+    .journey-step::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #272a54;
+      color: #fff;
+      font-size: 13px;
+      display: grid;
+      place-items: center;
+    }
+
+    .journey-step strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .persona-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .persona-item,
+    .position-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(93, 102, 135, 0.08);
+    }
+
+    .persona-item strong,
+    .position-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .persona-item span,
+    .position-item span {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .module-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .module-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .module-card img {
+      width: 100%;
+      border-radius: 26px;
+      border: 8px solid rgba(255, 255, 255, 0.88);
+      box-shadow: 0 20px 40px rgba(98, 101, 153, 0.18);
+      background: #fff;
+    }
+
+    .module-card ul,
+    .phase-card ul,
+    .offer-card ul,
+    .note-card ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .flow-wrap {
+      padding: 28px;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .flow-card {
+      position: relative;
+      min-height: 180px;
+      padding-top: 52px;
+      overflow: hidden;
+    }
+
+    .flow-card::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 20px;
+      top: 18px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(125, 119, 255, 0.1);
+      color: #5d57dd;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .flow-card::after {
+      content: "→";
+      position: absolute;
+      right: -14px;
+      top: calc(50% - 14px);
+      font-size: 34px;
+      color: rgba(125, 119, 255, 0.3);
+    }
+
+    .flow-card:last-child::after {
+      display: none;
+    }
+
+    .phase-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .phase-card:nth-child(1) { background: linear-gradient(180deg, rgba(230, 245, 255, 0.86), rgba(255,255,255,0.82)); }
+    .phase-card:nth-child(2) { background: linear-gradient(180deg, rgba(234, 248, 239, 0.86), rgba(255,255,255,0.82)); }
+    .phase-card:nth-child(3) { background: linear-gradient(180deg, rgba(255, 241, 226, 0.86), rgba(255,255,255,0.82)); }
+
+    .offer-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .offer-card strong.price {
+      display: block;
+      margin-top: 14px;
+      font-size: 24px;
+      color: #2b3385;
+    }
+
+    .membership-shot {
+      margin-top: 18px;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .membership-shot img {
+      width: 100%;
+      border-radius: 26px;
+      border: 8px solid rgba(255, 255, 255, 0.88);
+      box-shadow: 0 20px 40px rgba(98, 101, 153, 0.18);
+      background: #fff;
+    }
+
+    .closing {
+      padding: 28px 0 72px;
+    }
+
+    .closing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .note-card {
+      min-height: 260px;
+    }
+
+    .footer-tip {
+      margin-top: 16px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(93, 102, 135, 0.08);
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    code.path {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(39, 42, 84, 0.06);
+      color: #2f3a67;
+      word-break: break-all;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .book-system,
+      .closing-grid,
+      .persona-grid,
+      .module-grid,
+      .problem-grid,
+      .phase-grid,
+      .offer-grid,
+      .flow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .module-card {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-card::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .hero-copy,
+      .hero-side,
+      .system-map,
+      .journey,
+      .flow-wrap {
+        padding: 22px;
+      }
+
+      .hero-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .book-chip {
+        flex-direction: column;
+      }
+
+      .book-cover {
+        width: 100%;
+      }
+
+      .membership-shot {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge">亲</div>
+        <div>
+          <small>Prototype / Strategy</small>
+          <div>《最好的孩子在我家》 × 亲智聊</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#problem">为什么做</a>
+        <a href="#persona">用户画像</a>
+        <a href="#system">系统方案</a>
+        <a href="#modules">页面承接</a>
+        <a href="#flow">转化链路</a>
+        <a href="#roadmap">推进节奏</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy glass">
+          <div class="eyebrow">Book IP × AI Parenting Product</div>
+          <h1>让《最好的孩子在我家》<br>成为亲智聊的第一套方法产品。</h1>
+          <p class="hero-subtitle">
+            《最好的孩子在我家》提供的是一条完整的亲子成长路径：从关系，到成长，再到学习。
+            亲智聊已经有问答、测评、成长和会员骨架，最适合承接的方式是把书的方法
+            拆成一套能被测、能被问、能被练、能被持续陪伴的实践系统。
+          </p>
+          <div class="hero-metrics">
+            <div class="metric">
+              <strong>1 本书</strong>
+              <span>做品牌锚点与信任入口，让用户先被理念说服。</span>
+            </div>
+            <div class="metric">
+              <strong>4 个页面</strong>
+              <span>首页、问答、测评、成长各自承担不同转化职责。</span>
+            </div>
+            <div class="metric">
+              <strong>21 天</strong>
+              <span>把阅读感动，变成家庭里真正发生的微小改变。</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-side glass">
+          <div class="book-chip">
+            <div>
+              <h2>方案一句话</h2>
+              <p>把“最好的孩子在我家”做成亲智聊里的专题型增长产品：</p>
+              <ul>
+                <li>书负责认知升级</li>
+                <li>AI问答负责即时承接</li>
+                <li>测评负责问题识别与转化</li>
+                <li>成长页负责持续练习与留存</li>
+              </ul>
+            </div>
+            <div class="book-cover">
+              <div class="spine"></div>
+              <div>
+                <strong>最好的孩子<br>在我家</strong>
+                <em>Book IP / Parenting Method</em>
+              </div>
+              <em>由“读完一本书”升级为“进入一套实践系统”</em>
+            </div>
+          </div>
+
+          <div class="signal-list">
+            <div class="signal">
+              <strong>最小可跑版本</strong>
+              <p>先聚焦“作业拖拉、家长一催就炸”这一条高频场景，快速跑通专题入口、测评、AI问答、7天计划、VIP承接。</p>
+            </div>
+            <div class="signal">
+              <strong>最值得守住的原则</strong>
+              <p>更适合把它做成长期实践产品，让用户感受到：书是方法地图，亲智聊是实践场。</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="block" id="problem">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Why Now</div>
+          <h2>为什么这件事适合亲智聊来做</h2>
+        </div>
+        <p>这本书自带方法、练习、陪伴三层结构，而亲智聊已经拥有最关键的产品骨架。</p>
+      </div>
+
+      <div class="problem-grid">
+        <article class="problem-card">
+          <div class="tag">用户需求</div>
+          <h3>家长更需要“今晚就能用”的方法</h3>
+          <p>看完书会被打动，但回到真实家庭场景，往往还是不知道怎么开口、怎么判断、怎么连续做下去。</p>
+        </article>
+        <article class="problem-card">
+          <div class="tag">产品机会</div>
+          <h3>亲智聊有 AI 即时性，能接住用户最情绪化的时刻</h3>
+          <p>孩子一哭、作业一拖、冲突一起，家长最需要的是一句能立刻试的话术和一个今晚能执行的动作。</p>
+        </article>
+        <article class="problem-card">
+          <div class="tag">商业机会</div>
+          <h3>这是一条天然的“内容入口 → 工具转化 → 会员留存”链路</h3>
+          <p>书带来信任，测评带来自我识别，成长任务带来回访频次，VIP把即时问答和长期陪伴变成持续收入。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="persona">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Audience & Positioning</div>
+          <h2>这本书最适合打到谁，以及它该站在什么位置</h2>
+        </div>
+        <p>先把核心用户和产品定位说清楚，后面的专题入口、测评命名、问答脚本和会员承接才会更精准。</p>
+      </div>
+
+      <div class="persona-grid">
+        <article class="persona-card">
+          <div class="tag">核心用户画像</div>
+          <h3>最值得优先服务的人群</h3>
+          <p>这本书最适合的，是已经很努力、也很焦虑，尝试过不少方法但总觉得效果不稳定的父母。</p>
+          <div class="persona-stack">
+            <div class="persona-item">
+              <strong>年龄段与家庭阶段</strong>
+              <span>核心人群集中在 6-15 岁孩子的家长，尤其是进入小学后，作业、情绪、习惯、成绩开始持续成为家庭冲突来源的阶段。</span>
+            </div>
+            <div class="persona-item">
+              <strong>决策者画像</strong>
+              <span>最主要的购买与使用决策者大概率是妈妈。她承担更多日常沟通、陪伴和教育焦虑，也更愿意主动寻找解决方案。</span>
+            </div>
+            <div class="persona-item">
+              <strong>当前心理状态</strong>
+              <span>她很重视教育，也很想做好，只是常常在焦虑、催促、控制和愧疚之间反复摇摆。</span>
+            </div>
+            <div class="persona-item">
+              <strong>她会被什么打动</strong>
+              <span>她最容易被“我终于知道问题卡在哪”“今晚就能试一试”“有人陪我慢慢练”这样的价值感打动。</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="persona-card">
+          <div class="tag">市场定位</div>
+          <h3>这本书更像什么产品</h3>
+          <p>它更适合被定义成一套面向焦虑家庭的轻实践方法产品，用内容建立信任，用工具和陪伴把改变做出来。</p>
+          <div class="persona-stack">
+            <div class="position-item">
+              <strong>在用户心中的定位</strong>
+              <span>一本可以边看边用、边用边见效的亲子实践方法书。</span>
+            </div>
+            <div class="position-item">
+              <strong>在亲智聊里的定位</strong>
+              <span>亲智聊最适合率先打磨的标志性专题产品，也是平台内容力、方法力、陪伴力的集中展示位。</span>
+            </div>
+            <div class="position-item">
+              <strong>和普通亲子内容的差异</strong>
+              <span>它强调“关系 - 成长 - 学习”的完整链路，也更容易拆成测评、问答脚本、打卡任务和成长报告。</span>
+            </div>
+            <div class="position-item">
+              <strong>一句定位表达</strong>
+              <span>面向 6-15 岁家庭的 AI 亲子实践方案：帮助焦虑中的父母，把读过的方法真正用进每天的亲子互动里。</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="system">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">System Design</div>
+          <h2>从“盒子思维”升级为“实践系统思维”</h2>
+        </div>
+        <p>用户买的核心理由，是进入一套能够实际改变亲子互动的系统。</p>
+      </div>
+
+      <div class="book-system">
+        <div class="system-map glass">
+          <h3>这套系统的四根支柱</h3>
+          <div class="pillar-list">
+            <div class="pillar">
+              <div class="pillar-index">1</div>
+              <div>
+                <strong>书 = 认知入口</strong>
+                <p>用作者的可信度和完整逻辑，让家长从“我的孩子有问题”转向“我可以用新的方式陪他成长”。</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-index">2</div>
+              <div>
+                <strong>AI问答 = 当下被接住</strong>
+                <p>把书中的方法变成回答框架，按“判断问题类型 → 给替代话术 → 给今晚动作”来回答。</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-index">3</div>
+              <div>
+                <strong>测评 = 找到我卡在哪</strong>
+                <p>围绕亲子沟通、父母焦虑、作业冲突、情绪接住等主题做轻测评，把模糊痛点变成清晰画像。</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-index">4</div>
+              <div>
+                <strong>成长计划 = 让改变持续发生</strong>
+                <p>用 7 天或 21 天微任务，把书里的理念拆成每天 5 分钟能完成的动作，让用户愿意回来复盘。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="journey glass">
+          <h3>用户感受到的是“终于有人陪我练”</h3>
+          <div class="journey-step" data-step="1">
+            <strong>被内容吸引</strong>
+            <p>用户先被书名、作者观点或短内容打动，觉得这套方法值得信。</p>
+          </div>
+          <div class="journey-step" data-step="2">
+            <strong>在亲智聊里看见自己</strong>
+            <p>通过测评或 AI 问答，用户第一次知道自己卡在某种具体模式里，也第一次看见改变的入口。</p>
+          </div>
+          <div class="journey-step" data-step="3">
+            <strong>开始一套小而真切的实践</strong>
+            <p>每天一个动作，一句替代话术，一次晚间回顾，降低改变门槛。</p>
+          </div>
+          <div class="journey-step" data-step="4">
+            <strong>把方法变成习惯</strong>
+            <p>当用户不断感受到“我今天真的比以前更会说话了”，会员和长期陪伴就自然成立。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="modules">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Existing Product Fit</div>
+          <h2>把方案长进你们现有的四个页面里</h2>
+        </div>
+        <p>可以直接沿用现有产品骨架，重新定义每个页面在这套书籍专题里的职责，让它们共同构成一个完整转化闭环。</p>
+      </div>
+
+      <div class="module-grid">
+        <article class="module-card">
+          <div>
+            <div class="tag">首页 / 问题入口</div>
+            <h3>首页：把书做成“专题入口”</h3>
+            <p>在首页增加“本月专题：最好的孩子在我家”卡片，承接用户最熟悉的高频痛点，让用户先体验，再进入产品闭环。</p>
+            <ul>
+              <li>专题标题：从焦虑教育，走向轻松陪伴</li>
+              <li>三个 CTA：先测一测 / 今天就能用 / 加入 21 天计划</li>
+              <li>与年龄标签、核心任务、红灯警示组合，形成专题化首页</li>
+            </ul>
+          </div>
+          <img src="./home.png" alt="亲智聊首页截图">
+        </article>
+
+        <article class="module-card">
+          <div>
+            <div class="tag">问答 / 即时承接</div>
+            <h3>问答页：让 AI 按这本书的方法论来回答</h3>
+            <p>把书中可操作的方法做成回答框架。每次问答都给判断、替代话术、今晚动作和下一步建议。</p>
+            <ul>
+              <li>先判断：关系问题 / 成长问题 / 学习问题</li>
+              <li>再给话术：今晚更适合怎么说</li>
+              <li>最后引导：去测评或进入对应成长计划</li>
+            </ul>
+          </div>
+          <img src="./qa.png" alt="亲智聊问答页截图">
+        </article>
+
+        <article class="module-card">
+          <div>
+            <div class="tag">测评 / 识别问题</div>
+            <h3>测评页：把书里的核心主题拆成轻测评</h3>
+            <p>围绕“你的养育焦虑来自哪里”“你在把孩子推远还是拉近”“作业冲突根源是什么”等场景做轻量测评，结果页直接挂钩章节和行动建议。</p>
+            <ul>
+              <li>测评结果除了说明画像，还给章节推荐和 3 天动作</li>
+              <li>结果页直接承接 VIP 或 21 天计划</li>
+              <li>适合跑专题增长，也适合广告投放入口</li>
+            </ul>
+          </div>
+          <img src="./assessment.png" alt="亲智聊测评页截图">
+        </article>
+
+        <article class="module-card">
+          <div>
+            <div class="tag">成长 / 留存与复盘</div>
+            <h3>成长页：这里最适合落“7 天 / 21 天实践计划”</h3>
+            <p>把书里的理念拆成每天一个小动作，比如接情绪、替换一句话、记录一次回顾，让用户不断感受到“关系正在变好”。</p>
+            <ul>
+              <li>今日主题：今天只练一件事</li>
+              <li>晚间回顾：今天发生了什么、下次怎么说</li>
+              <li>累积成长记录，反过来提高用户对 AI 的信任度</li>
+            </ul>
+          </div>
+          <img src="./growth.png" alt="亲智聊成长页截图">
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="flow">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Conversion Flow</div>
+          <h2>最值得先跑通的用户转化链路</h2>
+        </div>
+        <p>建议先抓一个最常见又最容易起效的场景，把体验和商业闭环做出来。</p>
+      </div>
+
+      <div class="flow-wrap glass">
+        <h3>推荐从“作业拖拉，一催就炸”切入</h3>
+        <p style="margin:8px 0 0;color:var(--muted);line-height:1.8;">这是最容易引起家长共鸣、最容易带来即时问答、也最容易设计测评和 7 天行动计划的高频场景。</p>
+        <div class="flow-grid">
+          <article class="flow-card" data-step="Step 1">
+            <h3>首页看到专题</h3>
+            <p>用户进入亲智聊首页，看到《最好的孩子在我家》专题卡，理解这里提供的是一套可落地的解决方案。</p>
+          </article>
+          <article class="flow-card" data-step="Step 2">
+            <h3>做 3 分钟轻测评</h3>
+            <p>先识别：这是控制型冲突、焦虑型催促，还是孩子缺任务切分和节奏支持。</p>
+          </article>
+          <article class="flow-card" data-step="Step 3">
+            <h3>拿到个性化结论</h3>
+            <p>告诉用户：你当前的主要卡点是什么，对应书里的哪个章节，今晚先练哪一句替代话术。</p>
+          </article>
+          <article class="flow-card" data-step="Step 4">
+            <h3>进入 7 天计划</h3>
+            <p>每天一个微动作，从“催作业”变成“聊作业”，从“盯作业”变成“陪作业”。</p>
+          </article>
+          <article class="flow-card" data-step="Step 5">
+            <h3>承接 VIP 或长期营</h3>
+            <p>当用户尝到一点效果，就自然愿意为不限次问答、长期成长记录和更多专题计划付费。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="roadmap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Roadmap</div>
+          <h2>建议的推进节奏：先做最小闭环，再复制扩展</h2>
+        </div>
+        <p>先用一个场景验证转化逻辑和留存，再把同样的方法复制到情绪、沟通、自主学习等专题上。</p>
+      </div>
+
+      <div class="phase-grid">
+        <article class="phase-card">
+          <div class="tag">Phase 1 / 两周内</div>
+          <h3>跑通 MVP</h3>
+          <p>选“作业冲突”专题，做一组最小功能，目的是验证用户是否愿意从测评进入成长计划，再进入会员。</p>
+          <ul>
+            <li>1 个首页专题入口</li>
+            <li>1 个轻测评</li>
+            <li>1 套 AI 回答模板</li>
+            <li>1 个 7 天成长计划</li>
+          </ul>
+        </article>
+
+        <article class="phase-card">
+          <div class="tag">Phase 2 / 一个月内</div>
+          <h3>做成书籍专题专区</h3>
+          <p>把“最好的孩子在我家”正式做成亲智聊里的 IP 专题，围绕书的主线扩展更多场景。</p>
+          <ul>
+            <li>情绪接住专题</li>
+            <li>亲子沟通修复专题</li>
+            <li>父母焦虑识别专题</li>
+            <li>自主学习支持专题</li>
+          </ul>
+        </article>
+
+        <article class="phase-card">
+          <div class="tag">Phase 3 / 两个月内</div>
+          <h3>从专题变成品牌资产</h3>
+          <p>把书、小程序、作者、直播、线下或社群串成一个长期经营的品牌资产，逐步沉淀成稳定的方法产品。</p>
+          <ul>
+            <li>书内二维码直达对应练习</li>
+            <li>章节导读音频或 AI 导练</li>
+            <li>21 天成长营 / 直播陪练</li>
+            <li>家庭成长档案沉淀</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Monetization</div>
+          <h2>商业化可以怎么接</h2>
+        </div>
+        <p>这套方案更适合把内容、工具、陪伴逐层递进，让用户按感受到的价值逐步升级。</p>
+      </div>
+
+      <div class="offer-grid">
+        <article class="offer-card">
+          <div class="tag">Free Entry</div>
+          <h3>免费体验层</h3>
+          <p>专题入口、3 分钟轻测评、3 天体验计划，用来降低首次进入门槛。</p>
+          <strong class="price">免费</strong>
+        </article>
+        <article class="offer-card">
+          <div class="tag">Content Layer</div>
+          <h3>内容工具层</h3>
+          <p>纸书、电子专题、章节导练、单次报告，把“我想系统了解”变成第一次付费。</p>
+          <strong class="price">低客单</strong>
+        </article>
+        <article class="offer-card">
+          <div class="tag">Membership</div>
+          <h3>VIP 陪伴层</h3>
+          <p>不限次问答、专题测评、成长记录、个性化计划，是最稳定的持续付费承接点。</p>
+          <strong class="price">月卡 / 季卡</strong>
+        </article>
+        <article class="offer-card">
+          <div class="tag">Premium</div>
+          <h3>深度服务层</h3>
+          <p>21 天训练营、主题直播、专家答疑、线下分享，让高意愿用户进入更深的陪伴。</p>
+          <strong class="price">高客单</strong>
+        </article>
+      </div>
+
+      <div class="membership-shot glass">
+        <div>
+          <div class="tag">Membership Landing</div>
+          <h3>你们现有的 VIP 页，其实已经是这套方案的天然承接位</h3>
+          <p>把“专业测评、养育指南、测评解读”的会员权益，重新包装成“书籍专题计划 + AI 陪练 + 成长记录”的感知价值，转化会更顺。</p>
+          <ul>
+            <li>突出：不限次 AI 亲子咨询</li>
+            <li>突出：专题成长计划持续解锁</li>
+            <li>突出：我的成长档案与家庭画像沉淀</li>
+          </ul>
+        </div>
+        <img src="./profile.png" alt="亲智聊我的和VIP截图">
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="closing-grid">
+        <article class="note-card">
+          <div class="tag">Key Message</div>
+          <h3>这件事最该对团队说的一句话</h3>
+          <p>这件事的核心，是把《最好的孩子在我家》做成亲智聊里的第一套标志性方法产品。</p>
+          <ul>
+            <li>书提供世界观和信任感</li>
+            <li>AI 提供即时承接和个性化回应</li>
+            <li>测评提供问题定位与转化</li>
+            <li>成长页提供留存与长期价值</li>
+          </ul>
+        </article>
+
+        <article class="note-card">
+          <div class="tag">Next Step</div>
+          <h3>最适合下一步立刻做的版本</h3>
+          <p>先拿“作业冲突”做一个可测试版本。把路径压缩成：首页专题入口 → 轻测评 → AI 个性化建议 → 7 天计划 → VIP 承接。</p>
+          <ul>
+            <li>这个场景足够高频，也足够容易产出即时效果</li>
+            <li>验证通过后，复制到情绪接住、沟通修复、自主学习</li>
+            <li>这是最省开发、最容易验证商业价值的走法</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="footer-tip">
+        方案页已生成，可直接本地打开预览或发给同事讨论。
+        <br>
+        <code class="path">/Users/lulu/AIWork/docs/prototypes/qinzhiliao-book-plan/index.html</code>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
