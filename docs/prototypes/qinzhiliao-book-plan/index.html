@@ -550,6 +550,131 @@
       font-size: 14px;
     }
 
+    .tier-grid,
+    .scene-grid,
+    .slogan-grid,
+    .mechanic-grid,
+    .compare-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .tier-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .scene-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .slogan-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mechanic-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .compare-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tier-card,
+    .scene-card,
+    .slogan-card,
+    .mechanic-card,
+    .compare-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(93, 102, 135, 0.08);
+      box-shadow: 0 18px 42px rgba(103, 109, 155, 0.08);
+    }
+
+    .tier-card:nth-child(1),
+    .scene-card:nth-child(1),
+    .slogan-card:nth-child(1) {
+      background: linear-gradient(180deg, rgba(231, 243, 255, 0.9), rgba(255,255,255,0.82));
+    }
+
+    .tier-card:nth-child(2),
+    .scene-card:nth-child(2),
+    .slogan-card:nth-child(2) {
+      background: linear-gradient(180deg, rgba(255, 241, 227, 0.9), rgba(255,255,255,0.82));
+    }
+
+    .tier-card:nth-child(3),
+    .scene-card:nth-child(3) {
+      background: linear-gradient(180deg, rgba(235, 249, 240, 0.9), rgba(255,255,255,0.82));
+    }
+
+    .mechanic-card:nth-child(1),
+    .mechanic-card:nth-child(3) {
+      background: linear-gradient(180deg, rgba(231, 243, 255, 0.9), rgba(255,255,255,0.82));
+    }
+
+    .mechanic-card:nth-child(2),
+    .mechanic-card:nth-child(4) {
+      background: linear-gradient(180deg, rgba(255, 241, 227, 0.9), rgba(255,255,255,0.82));
+    }
+
+    .compare-card:first-child {
+      background: linear-gradient(180deg, rgba(235, 249, 240, 0.9), rgba(255,255,255,0.82));
+    }
+
+    .compare-card:last-child {
+      background: linear-gradient(180deg, rgba(255, 240, 227, 0.9), rgba(255,255,255,0.82));
+    }
+
+    .tier-card h3,
+    .scene-card h3,
+    .slogan-card h3,
+    .mechanic-card h3,
+    .compare-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .tier-card p,
+    .scene-card p,
+    .slogan-card p,
+    .mechanic-card p,
+    .compare-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .mechanic-card strong,
+    .compare-card strong {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      font-size: 15px;
+      color: #2e376e;
+    }
+
+    .compare-card ul,
+    .mechanic-card ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .quote-line {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(39, 42, 84, 0.04);
+      color: #2e376e;
+      font-size: 18px;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
     .module-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -700,6 +825,11 @@
       .book-system,
       .closing-grid,
       .persona-grid,
+      .tier-grid,
+      .scene-grid,
+      .slogan-grid,
+      .mechanic-grid,
+      .compare-grid,
       .module-grid,
       .problem-grid,
       .phase-grid,
@@ -835,7 +965,7 @@
           <div class="signal-list">
             <div class="signal">
               <strong>最小可跑版本</strong>
-              <p>先聚焦“作业拖拉、家长一催就炸”这一条高频场景，快速跑通专题入口、测评、AI问答、7天计划、VIP承接。</p>
+              <p>先聚焦“作业拖拉、家长一催就炸”这一条高频场景，快速跑通专题入口、测评、AI问答、21 天打卡和陪练承接。</p>
             </div>
             <div class="signal">
               <strong>最值得守住的原则</strong>
@@ -868,8 +998,8 @@
         </article>
         <article class="problem-card">
           <div class="tag">商业机会</div>
-          <h3>这是一条天然的“内容入口 → 工具转化 → 会员留存”链路</h3>
-          <p>书带来信任，测评带来自我识别，成长任务带来回访频次，VIP把即时问答和长期陪伴变成持续收入。</p>
+          <h3>这是一条天然的“内容入口 → 打卡留存 → 陪练升级”链路</h3>
+          <p>书带来信任，测评带来自我识别，21 天打卡带来回访频次，陪练服务把高意愿用户转成持续收入。</p>
         </article>
       </div>
     </section>
@@ -932,6 +1062,81 @@
           </div>
         </article>
       </div>
+
+      <div class="section-head" style="margin-top: 20px;">
+        <div>
+          <div class="eyebrow">User Layers</div>
+          <h2 style="font-size: clamp(24px, 3vw, 34px);">核心用户 / 次核心用户 / 潜在用户</h2>
+        </div>
+        <p>这三层用户不该用同一套入口和话术去打，内容、转化和会员承接都要有轻重之分。</p>
+      </div>
+
+      <div class="tier-grid">
+        <article class="tier-card">
+          <div class="tag">核心用户</div>
+          <h3>高焦虑、高参与的 6-15 岁家庭妈妈</h3>
+          <p>她最常见的状态是：很爱孩子，也很愿意学习，但已经被作业、情绪、沟通和成绩问题磨得很累。她有明确痛点，也最愿意为有效的方法和持续陪伴付费。</p>
+        </article>
+        <article class="tier-card">
+          <div class="tag">次核心用户</div>
+          <h3>愿意支持但参与度偏低的爸爸，或问题刚刚显现的家庭</h3>
+          <p>他们通常认同“家庭教育重要”，但还没有形成高频使用习惯，更适合从短测评、热点场景问答、单次专题计划切入，再慢慢转成长期使用者。</p>
+        </article>
+        <article class="tier-card">
+          <div class="tag">潜在用户</div>
+          <h3>低龄家庭、教师、祖辈照护者与泛亲子内容用户</h3>
+          <p>这类人群短期不一定直接购买核心方案，但很适合作为内容传播层和未来增长层，用轻内容、公开课、免费工具先建立认知和信任。</p>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin-top: 20px;">
+        <div>
+          <div class="eyebrow">Use Cases</div>
+          <h2 style="font-size: clamp(24px, 3vw, 34px);">用户最典型的 3 个使用场景</h2>
+        </div>
+        <p>这三种场景最适合做专题入口、投放素材、测评命名和 AI 回答模板，也是最容易形成复访的地方。</p>
+      </div>
+
+      <div class="scene-grid">
+        <article class="scene-card">
+          <div class="tag">场景 1</div>
+          <h3>作业一开始，家庭气氛就紧张</h3>
+          <p>孩子拖拉、走神、顶嘴，家长一催就炸。用户此时最想要的是一句能立刻换掉冲突的话术，以及一个今晚就能试的步骤。</p>
+        </article>
+        <article class="scene-card">
+          <div class="tag">场景 2</div>
+          <h3>孩子情绪上来，家长不知道该接还是该管</h3>
+          <p>哭闹、发脾气、拒绝沟通，家长常常在“先安抚”还是“先立规矩”之间摇摆。这个场景最适合 AI 即时问答和情绪主题成长计划。</p>
+        </article>
+        <article class="scene-card">
+          <div class="tag">场景 3</div>
+          <h3>家长隐约觉得关系不对，却说不清卡在哪</h3>
+          <p>明明很爱孩子，但越管越远，越说越僵。这里最适合用轻测评帮用户先看见自己的沟通模式，再承接到章节内容和成长计划。</p>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin-top: 20px;">
+        <div>
+          <div class="eyebrow">Positioning Lines</div>
+          <h2 style="font-size: clamp(24px, 3vw, 34px);">一句对外宣传定位语 + 一句对内产品定位语</h2>
+        </div>
+        <p>对外要打动用户，对内要统一团队认知。这两句话最好分开，不要混用。</p>
+      </div>
+
+      <div class="slogan-grid">
+        <article class="slogan-card">
+          <div class="tag">对外宣传</div>
+          <h3>更适合面向用户传播的一句话</h3>
+          <p>强调“我能被帮助、今晚就能用、关系会变好”，让用户感受到温度和行动感。</p>
+          <div class="quote-line">把读过的方法，真正用进每天的亲子互动里。</div>
+        </article>
+        <article class="slogan-card">
+          <div class="tag">对内定位</div>
+          <h3>更适合团队统一认知的一句话</h3>
+          <p>强调这不是一页内容，也不是一次活动，而是一套能带动增长、转化和留存的方法产品。</p>
+          <div class="quote-line">《最好的孩子在我家》是亲智聊面向 6-15 岁家庭打造的标志性 AI 亲子实践专题。</div>
+        </article>
+      </div>
     </section>
 
     <section class="block" id="system">
@@ -971,15 +1176,15 @@
             <div class="pillar">
               <div class="pillar-index">4</div>
               <div>
-                <strong>成长计划 = 让改变持续发生</strong>
-                <p>用 7 天或 21 天微任务，把书里的理念拆成每天 5 分钟能完成的动作，让用户愿意回来复盘。</p>
+                <strong>21 天打卡 = 让改变持续发生</strong>
+                <p>用统一的 21 天打卡机制，把书里的理念拆成每天 5 分钟能完成的动作。免费用户靠积分和奖励坚持，付费用户在陪练支持下走得更深。</p>
               </div>
             </div>
           </div>
         </div>
 
         <div class="journey glass">
-          <h3>用户感受到的是“终于有人陪我练”</h3>
+          <h3>用户感受到的是“有人陪伴，我也能坚持学下去了”</h3>
           <div class="journey-step" data-step="1">
             <strong>被内容吸引</strong>
             <p>用户先被书名、作者观点或短内容打动，觉得这套方法值得信。</p>
@@ -994,7 +1199,7 @@
           </div>
           <div class="journey-step" data-step="4">
             <strong>把方法变成习惯</strong>
-            <p>当用户不断感受到“我今天真的比以前更会说话了”，会员和长期陪伴就自然成立。</p>
+            <p>当用户不断感受到“我今天真的比以前更会说话了”，免费打卡会沉淀习惯，付费陪练也会自然成立。</p>
           </div>
         </div>
       </div>
@@ -1004,7 +1209,7 @@
       <div class="section-head">
         <div>
           <div class="eyebrow">Existing Product Fit</div>
-          <h2>把方案长进你们现有的四个页面里</h2>
+          <h2>把方案放进你们现有的四个页面里</h2>
         </div>
         <p>可以直接沿用现有产品骨架，重新定义每个页面在这套书籍专题里的职责，让它们共同构成一个完整转化闭环。</p>
       </div>
@@ -1017,7 +1222,7 @@
             <p>在首页增加“本月专题：最好的孩子在我家”卡片，承接用户最熟悉的高频痛点，让用户先体验，再进入产品闭环。</p>
             <ul>
               <li>专题标题：从焦虑教育，走向轻松陪伴</li>
-              <li>三个 CTA：先测一测 / 今天就能用 / 加入 21 天计划</li>
+              <li>三个 CTA：先测一测 / 今天就能用 / 开启 21 天打卡</li>
               <li>与年龄标签、核心任务、红灯警示组合，形成专题化首页</li>
             </ul>
           </div>
@@ -1032,7 +1237,7 @@
             <ul>
               <li>先判断：关系问题 / 成长问题 / 学习问题</li>
               <li>再给话术：今晚更适合怎么说</li>
-              <li>最后引导：去测评或进入对应成长计划</li>
+              <li>最后引导：去测评或进入对应 21 天打卡</li>
             </ul>
           </div>
           <img src="./qa.png" alt="亲智聊问答页截图">
@@ -1044,8 +1249,8 @@
             <h3>测评页：把书里的核心主题拆成轻测评</h3>
             <p>围绕“你的养育焦虑来自哪里”“你在把孩子推远还是拉近”“作业冲突根源是什么”等场景做轻量测评，结果页直接挂钩章节和行动建议。</p>
             <ul>
-              <li>测评结果除了说明画像，还给章节推荐和 3 天动作</li>
-              <li>结果页直接承接 VIP 或 21 天计划</li>
+              <li>测评结果除了说明画像，还给章节推荐和第一周打卡动作</li>
+              <li>结果页直接承接 21 天打卡和陪练升级</li>
               <li>适合跑专题增长，也适合广告投放入口</li>
             </ul>
           </div>
@@ -1055,12 +1260,12 @@
         <article class="module-card">
           <div>
             <div class="tag">成长 / 留存与复盘</div>
-            <h3>成长页：这里最适合落“7 天 / 21 天实践计划”</h3>
-            <p>把书里的理念拆成每天一个小动作，比如接情绪、替换一句话、记录一次回顾，让用户不断感受到“关系正在变好”。</p>
+            <h3>成长页：这里最适合落“21 天统一打卡机制”</h3>
+            <p>把书里的理念拆成每天一个小动作，比如接情绪、替换一句话、记录一次回顾，让所有用户都进入同一条 21 天实践路径。</p>
             <ul>
               <li>今日主题：今天只练一件事</li>
               <li>晚间回顾：今天发生了什么、下次怎么说</li>
-              <li>累积成长记录，反过来提高用户对 AI 的信任度</li>
+              <li>免费版给积分、勋章、阶段奖励，付费版加陪练点评和进度推动</li>
             </ul>
           </div>
           <img src="./growth.png" alt="亲智聊成长页截图">
@@ -1079,7 +1284,7 @@
 
       <div class="flow-wrap glass">
         <h3>推荐从“作业拖拉，一催就炸”切入</h3>
-        <p style="margin:8px 0 0;color:var(--muted);line-height:1.8;">这是最容易引起家长共鸣、最容易带来即时问答、也最容易设计测评和 7 天行动计划的高频场景。</p>
+        <p style="margin:8px 0 0;color:var(--muted);line-height:1.8;">这是最容易引起家长共鸣、最容易带来即时问答、也最容易设计成 21 天打卡专题的高频场景。</p>
         <div class="flow-grid">
           <article class="flow-card" data-step="Step 1">
             <h3>首页看到专题</h3>
@@ -1094,12 +1299,12 @@
             <p>告诉用户：你当前的主要卡点是什么，对应书里的哪个章节，今晚先练哪一句替代话术。</p>
           </article>
           <article class="flow-card" data-step="Step 4">
-            <h3>进入 7 天计划</h3>
-            <p>每天一个微动作，从“催作业”变成“聊作业”，从“盯作业”变成“陪作业”。</p>
+            <h3>进入 21 天打卡</h3>
+            <p>每天一个微动作，从“催作业”变成“聊作业”，从“盯作业”变成“陪作业”，并用积分和阶段奖励推动完成。</p>
           </article>
           <article class="flow-card" data-step="Step 5">
-            <h3>承接 VIP 或长期营</h3>
-            <p>当用户尝到一点效果，就自然愿意为不限次问答、长期成长记录和更多专题计划付费。</p>
+            <h3>承接陪练升级</h3>
+            <p>当用户开始打卡、也看见一点效果后，就更愿意为陪练反馈、进度督促和专项指导付费。</p>
           </article>
         </div>
       </div>
@@ -1118,12 +1323,12 @@
         <article class="phase-card">
           <div class="tag">Phase 1 / 两周内</div>
           <h3>跑通 MVP</h3>
-          <p>选“作业冲突”专题，做一组最小功能，目的是验证用户是否愿意从测评进入成长计划，再进入会员。</p>
+          <p>选“作业冲突”专题，做一组最小功能，目的是验证用户是否愿意从测评进入 21 天打卡，再升级到陪练服务。</p>
           <ul>
             <li>1 个首页专题入口</li>
             <li>1 个轻测评</li>
             <li>1 套 AI 回答模板</li>
-            <li>1 个 7 天成长计划</li>
+            <li>1 个 21 天打卡机制</li>
           </ul>
         </article>
 
@@ -1146,7 +1351,7 @@
           <ul>
             <li>书内二维码直达对应练习</li>
             <li>章节导读音频或 AI 导练</li>
-            <li>21 天成长营 / 直播陪练</li>
+            <li>21 天主题打卡 / 直播陪练</li>
             <li>家庭成长档案沉淀</li>
           </ul>
         </article>
@@ -1159,14 +1364,14 @@
           <div class="eyebrow">Monetization</div>
           <h2>商业化可以怎么接</h2>
         </div>
-        <p>这套方案更适合把内容、工具、陪伴逐层递进，让用户按感受到的价值逐步升级。</p>
+        <p>这套方案更适合以“免费 21 天打卡”为底座，再把陪练、点评和督促做成付费升级，让用户按感受到的价值逐步升级。</p>
       </div>
 
       <div class="offer-grid">
         <article class="offer-card">
           <div class="tag">Free Entry</div>
-          <h3>免费体验层</h3>
-          <p>专题入口、3 分钟轻测评、3 天体验计划，用来降低首次进入门槛。</p>
+          <h3>免费打卡层</h3>
+          <p>专题入口、3 分钟轻测评、21 天打卡任务、积分和勋章奖励，用来拉低进入门槛并提高连续使用率。</p>
           <strong class="price">免费</strong>
         </article>
         <article class="offer-card">
@@ -1177,26 +1382,114 @@
         </article>
         <article class="offer-card">
           <div class="tag">Membership</div>
-          <h3>VIP 陪伴层</h3>
-          <p>不限次问答、专题测评、成长记录、个性化计划，是最稳定的持续付费承接点。</p>
-          <strong class="price">月卡 / 季卡</strong>
+          <h3>陪练升级层</h3>
+          <p>在 21 天打卡基础上增加陪练反馈、进度督促、阶段点评和个性化纠偏，是最自然的付费承接点。</p>
+          <strong class="price">月卡 / 陪练包</strong>
         </article>
         <article class="offer-card">
           <div class="tag">Premium</div>
           <h3>深度服务层</h3>
-          <p>21 天训练营、主题直播、专家答疑、线下分享，让高意愿用户进入更深的陪伴。</p>
+          <p>21 天训练营、主题直播、专家答疑、线下分享，让高意愿用户进入更深的陪伴和社群互动。</p>
           <strong class="price">高客单</strong>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin-top: 20px;">
+        <div>
+          <div class="eyebrow">Point System</div>
+          <h2 style="font-size: clamp(24px, 3vw, 34px);">21 天打卡积分机制怎么设计</h2>
+        </div>
+        <p>免费版不靠“试看几天”驱动，而是靠一整套轻奖励机制让用户愿意每天回来，先把连续使用习惯养起来。</p>
+      </div>
+
+      <div class="mechanic-grid">
+        <article class="mechanic-card">
+          <div class="tag">机制 1</div>
+          <h3>每日签到积分</h3>
+          <p>用户每天完成一次打卡、一次简短回顾，就能拿到基础积分，形成稳定的“打开理由”。</p>
+          <strong>建议规则</strong>
+          <ul>
+            <li>每日完成打卡：+10 分</li>
+            <li>完成晚间回顾：+5 分</li>
+            <li>连续 3 天额外加成：+10 分</li>
+          </ul>
+        </article>
+        <article class="mechanic-card">
+          <div class="tag">机制 2</div>
+          <h3>阶段勋章奖励</h3>
+          <p>把 21 天拆成 3 个阶段，不让用户觉得路太长，每完成一个阶段就拿到清晰的成就反馈。</p>
+          <strong>建议节点</strong>
+          <ul>
+            <li>第 7 天：获得“开始行动”勋章</li>
+            <li>第 14 天：获得“稳定练习”勋章</li>
+            <li>第 21 天：获得“持续陪伴”勋章</li>
+          </ul>
+        </article>
+        <article class="mechanic-card">
+          <div class="tag">机制 3</div>
+          <h3>积分兑换轻权益</h3>
+          <p>积分不一定兑实物，更适合兑换数字化轻权益，让用户感觉“坚持有回报”，同时自然引导升级。</p>
+          <strong>建议可兑换内容</strong>
+          <ul>
+            <li>章节导读卡片</li>
+            <li>额外一次主题测评</li>
+            <li>1 次 AI 深度解读机会</li>
+          </ul>
+        </article>
+        <article class="mechanic-card">
+          <div class="tag">机制 4</div>
+          <h3>把积分变成升级触发器</h3>
+          <p>积分机制的终点不是白送很多东西，而是让用户更愿意进入付费陪练，因为他已经投入、已经开始在意结果。</p>
+          <strong>建议触发方式</strong>
+          <ul>
+            <li>连续打卡 7 天后弹出陪练推荐</li>
+            <li>卡住 2 天未完成时提示陪练辅助</li>
+            <li>第 14 天开放“升级后可得阶段点评”</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin-top: 20px;">
+        <div>
+          <div class="eyebrow">Free Vs Paid</div>
+          <h2 style="font-size: clamp(24px, 3vw, 34px);">免费版 vs 付费陪练版</h2>
+        </div>
+        <p>两者都走同一条 21 天路径，差别不在“能不能参加”，而在“有没有人陪你更稳地走完、走对、走出效果”。</p>
+      </div>
+
+      <div class="compare-grid">
+        <article class="compare-card">
+          <div class="tag">免费版</div>
+          <h3>给用户一个愿意开始、愿意坚持的理由</h3>
+          <p>免费版的目标，是让更多家庭真正开始实践，不再把方法只停留在读过、听过、觉得有道理。</p>
+          <ul>
+            <li>可参与完整 21 天打卡</li>
+            <li>可获得每日任务、晚间回顾、积分与勋章</li>
+            <li>可获得基础 AI 回应与通用建议</li>
+            <li>适合拉新、提升活跃、培养习惯</li>
+          </ul>
+        </article>
+        <article class="compare-card">
+          <div class="tag">付费陪练版</div>
+          <h3>给用户一个更容易见效、更不容易放弃的版本</h3>
+          <p>付费版的价值，不是多几个页面，而是把“自己练”升级成“有人陪我练、提醒我、纠正我、推动我”。</p>
+          <ul>
+            <li>提供阶段点评、进度督促和个性化纠偏</li>
+            <li>在关键节点给更贴身的陪练反馈</li>
+            <li>对卡点用户提供针对性的下一步建议</li>
+            <li>适合高意愿、高焦虑、希望更快见效的用户</li>
+          </ul>
         </article>
       </div>
 
       <div class="membership-shot glass">
         <div>
           <div class="tag">Membership Landing</div>
-          <h3>你们现有的 VIP 页，其实已经是这套方案的天然承接位</h3>
-          <p>把“专业测评、养育指南、测评解读”的会员权益，重新包装成“书籍专题计划 + AI 陪练 + 成长记录”的感知价值，转化会更顺。</p>
+          <h3>你们现有的 VIP 页，很适合改成“陪练升级页”</h3>
+          <p>把“专业测评、养育指南、测评解读”的会员权益，重新包装成“21 天打卡 + AI 陪练 + 成长记录”的感知价值，转化会更顺。</p>
           <ul>
             <li>突出：不限次 AI 亲子咨询</li>
-            <li>突出：专题成长计划持续解锁</li>
+            <li>突出：21 天打卡过程中的陪练反馈与提醒</li>
             <li>突出：我的成长档案与家庭画像沉淀</li>
           </ul>
         </div>
@@ -1221,7 +1514,7 @@
         <article class="note-card">
           <div class="tag">Next Step</div>
           <h3>最适合下一步立刻做的版本</h3>
-          <p>先拿“作业冲突”做一个可测试版本。把路径压缩成：首页专题入口 → 轻测评 → AI 个性化建议 → 7 天计划 → VIP 承接。</p>
+          <p>先拿“作业冲突”做一个可测试版本。把路径压缩成：首页专题入口 → 轻测评 → AI 个性化建议 → 21 天打卡 → 陪练升级。</p>
           <ul>
             <li>这个场景足够高频，也足够容易产出即时效果</li>
             <li>验证通过后，复制到情绪接住、沟通修复、自主学习</li>
