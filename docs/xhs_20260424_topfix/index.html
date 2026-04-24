@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小红书单帖评论区头像与评论画像</title>
+  <style>
+    :root {
+      --bg: #edf4ff;
+      --panel: rgba(255, 255, 255, 0.86);
+      --panel-strong: rgba(248, 251, 255, 0.96);
+      --line: rgba(65, 108, 186, 0.14);
+      --ink: #102847;
+      --muted: #5f789c;
+      --blue-1: #0a4edc;
+      --blue-2: #2b84ff;
+      --blue-3: #82c9ff;
+      --blue-4: #d9ebff;
+      --shadow: 0 26px 64px rgba(29, 84, 179, 0.12);
+      --radius-xl: 34px;
+      --radius-lg: 28px;
+      --radius-md: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 7%, rgba(124, 187, 255, 0.28), transparent 20%),
+        radial-gradient(circle at 92% 3%, rgba(34, 103, 231, 0.22), transparent 24%),
+        linear-gradient(180deg, #f8fbff 0%, #edf4ff 100%);
+      font-family: "Avenir Next", "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color-scheme: light;
+    }
+
+    .page {
+      width: min(1520px, calc(100vw - 30px));
+      margin: 14px auto 28px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 42px;
+      padding: 46px 48px 34px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(8, 69, 197, 0.98) 0%, rgba(40, 120, 255, 0.95) 52%, rgba(113, 196, 255, 0.92) 100%);
+      box-shadow: 0 36px 90px rgba(17, 72, 177, 0.24);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .hero::before {
+      width: 320px;
+      height: 320px;
+      right: -86px;
+      top: -92px;
+    }
+
+    .hero::after {
+      width: 260px;
+      height: 260px;
+      left: 46%;
+      bottom: -126px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 356px;
+      gap: 26px;
+      align-items: end;
+    }
+
+    h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(42px, 5.2vw, 82px);
+      line-height: 1.01;
+      letter-spacing: -0.055em;
+      max-width: 980px;
+    }
+
+    .hero-copy {
+      margin: 0;
+      max-width: 930px;
+      font-size: 18px;
+      line-height: 1.82;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .chips {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-note {
+      padding: 22px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-note strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .hero-note p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .hero-stats {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-stat {
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-stat .value {
+      font-size: 38px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-stat .label {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr) 320px;
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .col {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .title::before {
+      content: "";
+      width: 7px;
+      height: 20px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--blue-2), var(--blue-3));
+      box-shadow: 0 0 0 4px rgba(81, 152, 255, 0.14);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--blue-1);
+      background: rgba(24, 103, 234, 0.1);
+    }
+
+    .sample-image {
+      width: 100%;
+      display: block;
+      border-radius: 26px;
+      border: 1px solid rgba(55, 108, 189, 0.12);
+      box-shadow: 0 18px 34px rgba(33, 88, 184, 0.12);
+    }
+
+    .meta,
+    .small {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .summary-box {
+      padding: 18px 20px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(227, 241, 255, 0.94), rgba(255, 255, 255, 0.9));
+      border: 1px solid rgba(72, 124, 193, 0.14);
+      font-size: 18px;
+      line-height: 1.9;
+      color: #1d416d;
+    }
+
+    .summary-box strong {
+      color: var(--blue-1);
+    }
+
+    .stack,
+    .bars,
+    .quote-list,
+    .signal-list,
+    .persona-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(245, 250, 255, 0.98), rgba(255, 255, 255, 0.98));
+      border: 1px solid rgba(66, 120, 197, 0.12);
+    }
+
+    .metric .value {
+      margin-top: 12px;
+      font-size: 40px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .metric .sub {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .bar-item {
+      display: grid;
+      gap: 8px;
+    }
+
+    .bar-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .track {
+      position: relative;
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(170, 202, 246, 0.36);
+    }
+
+    .fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #7bc0ff 0%, #2f7dff 100%);
+    }
+
+    .quote {
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(76, 126, 198, 0.1);
+    }
+
+    .quote-text {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #183963;
+    }
+
+    .quote-meta {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .persona-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .persona {
+      padding: 18px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(245, 250, 255, 0.98), rgba(255, 255, 255, 0.98));
+      border: 1px solid rgba(66, 120, 197, 0.12);
+    }
+
+    .persona h3 {
+      margin: 12px 0 8px;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .persona p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.84;
+      color: #24456f;
+    }
+
+    .signal {
+      padding: 14px 16px;
+      border-radius: 22px;
+      background: rgba(243, 248, 255, 0.92);
+      border: 1px solid rgba(76, 126, 198, 0.1);
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+      color: var(--blue-1);
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2f7dff, #4e98ff);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 16px 28px rgba(41, 110, 230, 0.18);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      padding: 20px 24px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(76, 126, 198, 0.12);
+      box-shadow: var(--shadow);
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1260px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100vw - 18px, 100%);
+      }
+      .hero {
+        padding: 30px 24px 24px;
+      }
+      h1 {
+        font-size: 42px;
+      }
+      .hero-copy {
+        font-size: 16px;
+      }
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+      .persona-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="eyebrow">XIAOHONGSHU SINGLE POST AUDIENCE PROFILE</div>
+      <div class="hero-grid">
+        <div>
+          <h1>这条评论区里，头像在降压，评论在审判</h1>
+          <p class="hero-copy">
+            基于这次抓到的 <strong>6,839</strong> 条评论和 <strong>6,490</strong> 个用户样本，这不是一群靠职业感头像建立权威的人，
+            而是一群先用头像把自己“藏轻一点”，再在评论里迅速识别“谁在装懂、谁真的经历过”的用户。
+            他们的讨论核心不是泛泛道理，而是 <strong>专家真假、婚姻代价、亲子责任、控制与尊重</strong>。
+          </p>
+          <div class="chips">
+            <span class="chip">头像偏动漫 / 萌宠 / 轻自拍</span>
+            <span class="chip">评论偏反讽识别</span>
+            <span class="chip">婚姻朋友投射明显</span>
+            <span class="chip">亲子归因强</span>
+            <span class="chip">高赞极度集中</span>
+          </div>
+        </div>
+        <aside class="hero-note">
+          <strong>一句话判断</strong>
+          <p>
+            这批用户不是来认真“听课”的，他们更像是来现场判断立场、验证自己经验、顺手给出社会观察的人。
+            头像表达偏轻，评论表达偏锋利，这种反差说明他们想降低暴露感，但并不回避意见输出。
+          </p>
+        </aside>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="value">6,839</div>
+          <div class="label">有效评论样本，当前合并版口径</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value">6,490</div>
+          <div class="label">唯一用户数，说明重复刷屏用户不多</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value">3,819 / 3,020</div>
+          <div class="label">一级评论 / 回复，讨论不是单向路过</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value">133,396</div>
+          <div class="label">最高点赞评论，爆点句式极强</div>
+        </div>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="col">
+        <article class="card">
+          <div class="title">头像样本拼图</div>
+          <img class="sample-image" src="avatar_sample/top_120_avatars_contact_sheet.png" alt="高互动用户头像样本拼图" />
+          <p class="meta">
+            这里取的是当前评论区里高互动用户的 <strong>Top 120 头像样本</strong>。不是全量 6,490 人逐一分类，
+            但足够看出这条内容吸来的自我呈现风格。
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="title">头像呈现偏好</div>
+          <div class="bars">
+            <div class="bar-item">
+              <div class="bar-head"><span>动漫 / 插画 / 二次元</span><span>43 / 120</span></div>
+              <div class="track"><div class="fill" style="width:35.8%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>真人自拍 / 人像照</span><span>33 / 120</span></div>
+              <div class="track"><div class="fill" style="width:27.5%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>萌宠 / 动物</span><span>20 / 120</span></div>
+              <div class="track"><div class="fill" style="width:16.7%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>风景 / 食物 / 静物</span><span>14 / 120</span></div>
+              <div class="track"><div class="fill" style="width:11.7%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>表情 / 符号 / 简单图标</span><span>10 / 120</span></div>
+              <div class="track"><div class="fill" style="width:8.3%"></div></div>
+            </div>
+          </div>
+          <p class="small">
+            这组占比是基于样本拼图的人工观察值，目的是看风格，不是做严格视觉识别统计。
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="title">头像画像结论</div>
+          <div class="signal-list">
+            <div class="signal">
+              <strong>先把社交压力降下来</strong>
+              很多人不用正式真人头像，而用动漫、宠物或轻滤镜自拍，说明这不是强身份背书型评论场。
+            </div>
+            <div class="signal">
+              <strong>愿意表达，但不愿太重</strong>
+              头像整体呈现“可爱化、趣味化、低攻击性”，和评论里的锋利判断形成明显反差。
+            </div>
+            <div class="signal">
+              <strong>不是专家社群，更像大众观察者</strong>
+              几乎看不到统一职业头像或机构形象，更多是普通用户在用自己的日常方式参与公共判断。
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="title">地区与时段线索</div>
+          <div class="stack">
+            <div class="metric">
+              <span class="pill">活跃时段</span>
+              <div class="value">12:00</div>
+              <div class="sub">午间评论峰值 580 条，其次是 08:00-13:00 的白天时段；21:00 与 23:00 也有次高峰。</div>
+            </div>
+            <div class="metric">
+              <span class="pill">主要地区</span>
+              <div class="sub">
+                广东 1,387 / 浙江 506 / 江苏 464 / 上海 411 / 四川 374 / 北京 314
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="col">
+        <article class="card">
+          <div class="title">一句话评论画像</div>
+          <div class="summary-box">
+            这批用户可以概括为 <strong>“轻头像、重判断”的现实议题评论人群</strong>。
+            他们不是在围绕抽象价值空谈，而是在评论里迅速识别谁更可信、谁在把个人婚姻经验投射给别人、
+            谁把亲子问题归责给父母，以及“控制”与“尊重”究竟该怎么划线。
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="title">评论画像五型</div>
+          <div class="persona-grid">
+            <div class="persona">
+              <span class="pill">最高赞核心</span>
+              <h3>专家识别型</h3>
+              <p>
+                不是在学知识，而是在判断“谁是真专家、谁是假共情”。最容易跑出来的句式就是“真专家”“患者到场”“一眼看出来”。
+              </p>
+            </div>
+            <div class="persona">
+              <span class="pill">关系投射</span>
+              <h3>婚姻投射型</h3>
+              <p>
+                用户会迅速把内容带回婚姻、朋友关系和人生选择，尤其敏感“自己过得苦，就想把别人也拉下水”这种解释框架。
+              </p>
+            </div>
+            <div class="persona">
+              <span class="pill">家庭归因</span>
+              <h3>亲子归因型</h3>
+              <p>
+                “孩子问题其实是父母问题”这类判断触发度很高，说明评论者会主动把外部观点套进家庭结构和教育责任。
+              </p>
+            </div>
+            <div class="persona">
+              <span class="pill">创伤警觉</span>
+              <h3>控制创伤型</h3>
+              <p>
+                少量但很尖锐的评论会落到“控制欲、尊重、安全感、远离”这些词，说明有人在把讨论映射到自己的成长经验。
+              </p>
+            </div>
+            <div class="persona">
+              <span class="pill">少量转化口</span>
+              <h3>求助入口型</h3>
+              <p>
+                虽然占比不大，但会直接问怎么去、看什么、课程和书单，这批人是评论区最接近“下一步行动”的部分。
+              </p>
+            </div>
+            <div class="persona">
+              <span class="pill">主流底色</span>
+              <h3>围观补刀型</h3>
+              <p>
+                仍有大量评论只是观察、补刀和加一句社会判断。它们未必长，但非常会帮助某个观点迅速形成场域共识。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="title">高赞评论切片</div>
+          <div class="quote-list">
+            <div class="quote">
+              <div class="quote-text">“真正的患者到场了[doge][流汗R]”</div>
+              <div class="quote-meta">133,396 赞。最典型的不是说理，而是用一句反讽完成场上站队。</div>
+            </div>
+            <div class="quote">
+              <div class="quote-text">“我感觉她是自己进入婚姻了，发现婚姻中的琐碎实在折磨人，所以想把‘朋友’拉下水。”</div>
+              <div class="quote-meta">49,523 赞。说明用户很习惯用关系投射去解释别人的表达动机。</div>
+            </div>
+            <div class="quote">
+              <div class="quote-text">“听懂了，他的理念就是：亲子关系不好都是父母的问题。”</div>
+              <div class="quote-meta">11,335 赞。亲子责任的归因非常容易在评论区形成共识。</div>
+            </div>
+            <div class="quote">
+              <div class="quote-text">“我觉得你很难让你的孩子爱上马桶的。”</div>
+              <div class="quote-meta">7,528 赞。辛辣、具象、带生活画面的句子更容易出圈。</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="title">评论本质判断</div>
+          <div class="signal-list">
+            <div class="signal">
+              <strong>先判立场，再谈观点</strong>
+              这条评论区最先被放大的不是方法论，而是“你到底站在哪边”“你有没有真的经历过”。
+            </div>
+            <div class="signal">
+              <strong>一句话比长解释更容易出爆点</strong>
+              最高赞评论几乎都在 15 字以内，说明这里更吃犀利判断，不吃完整论证。
+            </div>
+            <div class="signal">
+              <strong>评论者愿意把公共话题带回私人生活</strong>
+              只要触及婚姻、孩子、控制、尊重，用户就会快速把它映射到自己的真实关系经验上。
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="col">
+        <article class="card">
+          <div class="title">主题信号强度</div>
+          <div class="bars">
+            <div class="bar-item">
+              <div class="bar-head"><span>专家真假 / 患者反讽</span><span>1,102</span></div>
+              <div class="track"><div class="fill" style="width:100%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>亲子归因 / 父母责任</span><span>943</span></div>
+              <div class="track"><div class="fill" style="width:85.6%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>婚姻 / 朋友边界</span><span>782</span></div>
+              <div class="track"><div class="fill" style="width:71%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>求方法 / 求入口</span><span>214</span></div>
+              <div class="track"><div class="fill" style="width:19.4%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-head"><span>控制 / 尊重 / 安全感</span><span>138</span></div>
+              <div class="track"><div class="fill" style="width:12.5%"></div></div>
+            </div>
+          </div>
+          <p class="small">上面是按关键词信号聚合的主题热度，不是互斥分类，作用是看这条评论区最常被点燃的讨论方向。</p>
+        </article>
+
+        <article class="card">
+          <div class="title">互动结构</div>
+          <div class="stack">
+            <div class="metric">
+              <span class="pill">点赞分布</span>
+              <div class="value">42.97</div>
+              <div class="sub">平均点赞数。中位数为 0，说明大多数评论只是普通表达，少数爆点句把整体拉高。</div>
+            </div>
+            <div class="metric">
+              <span class="pill">高赞评论</span>
+              <div class="value">68 / 22</div>
+              <div class="sub">100 赞以上 / 1,000 赞以上评论数。真正形成舆论标杆的，只有很小一部分。</div>
+            </div>
+            <div class="metric">
+              <span class="pill">文本密度</span>
+              <div class="value">21.63</div>
+              <div class="sub">平均评论字数；中位数 15。说明这里不是长文辩论区，更像高频短句判断场。</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="title">高频触发词</div>
+          <div class="tag-cloud">
+            <span class="tag">专家 798</span>
+            <span class="tag">孩子 555</span>
+            <span class="tag">结婚 378</span>
+            <span class="tag">父母 316</span>
+            <span class="tag">朋友 236</span>
+            <span class="tag">患者 87</span>
+            <span class="tag">为什么 70</span>
+            <span class="tag">现在 86</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="title">内容启发</div>
+          <div class="signal-list">
+            <div class="signal">
+              <strong>适合做“立场识别型”标题</strong>
+              这条内容不是靠完整知识获胜，而是靠“谁说得更像真经历过的人”来放大传播。
+            </div>
+            <div class="signal">
+              <strong>用关系投射做二次内容更容易带讨论</strong>
+              婚姻、朋友、亲子责任是最自然的延伸场景，用户已经在评论里替你把桥搭好了。
+            </div>
+            <div class="signal">
+              <strong>如果要承接转化，先给入口再给理论</strong>
+              想看课程、书籍、线下和“怎么做”的用户不多，但他们是最明确的下一步行动人群。
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="footer-note">
+      数据说明：本页基于当前已抓取并合并的单帖评论样本制作，主数据文件为
+      <strong>merged_comments.csv</strong>。头像分析来自高互动用户头像样本拼图的人工观察，
+      作用是判断“自我呈现风格”，不是对个人身份做严格识别。评论画像则基于文本频次、主题信号和高赞评论切片，
+      用于内容洞察和用户讨论偏好判断，不等同于严谨心理测评结论。
+    </div>
+  </div>
+</body>
+</html>
