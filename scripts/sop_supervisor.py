@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -14,11 +15,10 @@ from supervisor.core.engine import (
     load_workflow_config,
     load_workflow_from_directory,
 )
-from supervisor.core.models import CheckRequest, RunnerRequest
-from supervisor.core.registry import build_registry
+from supervisor.core.models import CheckRequest, RunnerRequest, RunnerResult
+from supervisor.core.generic_registry import build_registry
 from supervisor.core.templating import render_prompt_text
 from supervisor.runners.gemini_cli import GeminiCliRunner
-from supervisor.checkers.assessment_role5 import AssessmentRole5Checker
 
 WORKFLOWS_DIR = ROOT / "supervisor" / "workflows"
 
@@ -62,9 +62,20 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def print_runner_output(result: RunnerResult) -> None:
+    if result.stdout_text:
+        print(result.stdout_text)
+        return
+    parsed = result.parsed_output
+    if isinstance(parsed, dict):
+        last_message = parsed.get("last_message")
+        if last_message:
+            print(last_message)
+
+
 def run_command(args: argparse.Namespace) -> int:
     workflow = load_workflow_from_directory(workflow_dir_for(args.workflow))
-    registry = build_registry()
+    registry = build_registry([args.workflow])
     engine = SupervisorEngine(registry)
     outcome = engine.run(
         workflow=workflow,
@@ -80,15 +91,18 @@ def run_command(args: argparse.Namespace) -> int:
     if outcome.check_result is not None:
         print(outcome.check_result.report_markdown)
         return 0 if outcome.check_result.ok else 2
-    if outcome.runner_result is not None and outcome.runner_result.stdout_text:
-        print(outcome.runner_result.stdout_text)
+    if outcome.runner_result is not None:
+        print_runner_output(outcome.runner_result)
     return 0 if outcome.status in {"completed", "passed"} else 2
 
 
 def check_command(args: argparse.Namespace) -> int:
-    registry = build_registry()
+    attempt_dir = Path(args.attempt_dir)
+    meta_path = attempt_dir.parent / "meta.json"
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    registry = build_registry([str(meta["workflow_id"])])
     engine = SupervisorEngine(registry)
-    result = engine.check_attempt(Path(args.attempt_dir))
+    result = engine.check_attempt(attempt_dir)
     print(result.report_markdown)
     return 0 if result.ok else 2
 
@@ -97,7 +111,7 @@ def smoke_command(args: argparse.Namespace) -> int:
     registry = build_registry()
     runner = registry.runners[args.runner]
     result = runner.smoke(ROOT, timeout_seconds=args.timeout)
-    print(result.stdout_text or "")
+    print_runner_output(result)
     return result.exit_code
 
 

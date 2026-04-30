@@ -1,0 +1,14 @@
+{
+  "id": "document_review",
+  "defaults": {
+    "run_root": "docs/supervisor-runs"
+  },
+  "steps": {
+    "review_note": {
+      "prompt_template": "prompts/review_note.md",
+      "runner": "codex_cli",
+      "checker": "none",
+      "allow_edits": false
+    }
+  }
+}

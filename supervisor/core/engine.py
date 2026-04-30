@@ -84,6 +84,26 @@ def _load_module(path: Path, name: str):
     return module
 
 
+def _normalize_job_id(raw: object) -> str:
+    if raw is None:
+        return ""
+    text = str(raw).strip()
+    if not text:
+        return ""
+    normalized = []
+    for char in text:
+        if char.isalnum() or char in {"-", "_"}:
+            normalized.append(char)
+        elif char.isspace() or char in {"/", ":", "."}:
+            normalized.append("-")
+        else:
+            normalized.append("-")
+    cleaned = "".join(normalized).strip("-")
+    while "--" in cleaned:
+        cleaned = cleaned.replace("--", "-")
+    return cleaned
+
+
 class SupervisorEngine:
     def __init__(self, registry) -> None:
         self.registry = registry
@@ -115,6 +135,23 @@ class SupervisorEngine:
         template_text = prompt_template_path.read_text(encoding="utf-8")
         prompt = render_prompt_text(template_text, {**context, **inputs})
         return prompt, context
+
+    def _resolve_job_id(
+        self,
+        workflow: WorkflowConfig,
+        step: StepConfig,
+        inputs: dict[str, object],
+        context: dict[str, object],
+    ) -> str:
+        explicit = _normalize_job_id(inputs.get("job_id") or context.get("job_id"))
+        if explicit:
+            return explicit
+        legacy = _normalize_job_id(
+            inputs.get("chapter") or context.get("chapter") or inputs.get("book") or context.get("book")
+        )
+        if legacy:
+            return legacy
+        return _normalize_job_id(f"{workflow.workflow_id}-{step.step_id}") or "job"
 
     def _run_check(
         self,
@@ -152,7 +189,7 @@ class SupervisorEngine:
             raise SystemExit(f"Unknown step: {step_id}")
         step = workflow.steps[step_id]
         prompt, context = self._render_step_prompt(workflow, step, inputs)
-        job_id = str(inputs.get("job_id") or inputs.get("chapter") or inputs.get("book") or "job")
+        job_id = self._resolve_job_id(workflow, step, inputs, context)
         parent_run_dir = make_parent_run_dir(
             ROOT,
             workflow.defaults.run_root,

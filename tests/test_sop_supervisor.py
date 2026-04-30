@@ -88,6 +88,71 @@ class SopSupervisorTests(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertEqual(result.parsed_output["response"], "OK")
 
+    def test_codex_runner_builds_expected_command(self) -> None:
+        from supervisor.core.models import RunnerRequest
+        from supervisor.runners.codex_cli import CodexCliRunner
+
+        runner = CodexCliRunner()
+        request = RunnerRequest(
+            prompt="Reply with OK only.",
+            cwd=ROOT,
+            timeout_seconds=120,
+            allow_edits=False,
+            env={},
+            metadata={},
+        )
+
+        with mock.patch("supervisor.runners.codex_cli.shutil.which", return_value="/opt/bin/codex"):
+            with mock.patch("supervisor.runners.codex_cli.subprocess.run") as run_mock:
+                run_mock.return_value = mock.Mock(
+                    returncode=0,
+                    stdout="",
+                    stderr="",
+                )
+                result = runner.run(request)
+
+        self.assertEqual(result.command[0], "/opt/bin/codex")
+        self.assertEqual(result.command[1], "exec")
+        self.assertIn("--skip-git-repo-check", result.command)
+        self.assertIn("--sandbox", result.command)
+        self.assertIn("read-only", result.command)
+        self.assertEqual(result.exit_code, 0)
+
+    def test_generic_registry_does_not_import_assessment_checkers_by_default(self) -> None:
+        from supervisor.core.generic_registry import build_registry
+
+        registry = build_registry()
+
+        self.assertIn("codex_cli", registry.runners)
+        self.assertIn("gemini_cli", registry.runners)
+        self.assertEqual(registry.checkers, {})
+
+    def test_legacy_registry_still_loads_assessment_checkers(self) -> None:
+        from supervisor.core.registry import build_registry
+
+        registry = build_registry()
+
+        self.assertIn("assessment_role5", registry.checkers)
+        self.assertIn("assessment_role6", registry.checkers)
+        self.assertIn("assessment_role7", registry.checkers)
+
+    def test_sop_supervisor_prints_codex_last_message_when_stdout_empty(self) -> None:
+        module = load_module(SCRIPT_PATH, "sop_supervisor_script_print_result")
+        result = module.RunnerResult(
+            command=["codex"],
+            exit_code=0,
+            stdout_text="",
+            stderr_text="",
+            parsed_output={"last_message": "OK from Codex"},
+            started_at="",
+            finished_at="",
+        )
+
+        with mock.patch("builtins.print") as print_mock:
+            module.print_runner_output(result)
+
+        print_mock.assert_called_once_with("OK from Codex")
+
     def test_engine_dry_run_writes_prompt_bundle(self) -> None:
         module = load_module(SCRIPT_PATH, "sop_supervisor_script_dry_run")
 
@@ -136,9 +201,82 @@ class SopSupervisorTests(unittest.TestCase):
             self.assertEqual(prompt_path.read_text(encoding="utf-8"), "Hello world")
             self.assertEqual(outcome.status, "dry_run")
 
+    def test_engine_dry_run_uses_generic_job_id_without_assessment_inputs(self) -> None:
+        module = load_module(SCRIPT_PATH, "sop_supervisor_script_generic_job")
+
+        with TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            workflow_dir = root / "workflow"
+            prompts_dir = workflow_dir / "prompts"
+            prompts_dir.mkdir(parents=True)
+            (prompts_dir / "draft.md").write_text("Hello ${subject}", encoding="utf-8")
+            (workflow_dir / "workflow.json").write_text(
+                json.dumps(
+                    {
+                        "id": "demo",
+                        "defaults": {"run_root": str(root / "runs")},
+                        "steps": {
+                            "draft": {
+                                "prompt_template": "prompts/draft.md",
+                                "runner": "gemini_cli",
+                                "checker": "none",
+                                "allow_edits": False,
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            workflow = module.load_workflow_from_directory(workflow_dir)
+            registry = module.build_registry()
+            engine = module.SupervisorEngine(registry)
+            outcome = engine.run(
+                workflow=workflow,
+                step_id="draft",
+                inputs={"subject": "world"},
+                runner_name=None,
+                timeout_seconds=60,
+                dry_run=True,
+            )
+
+        self.assertEqual(outcome.parent_run_dir.parent.name, "demo-draft")
+
+    def test_builtin_document_review_workflow_dry_run_renders_inputs(self) -> None:
+        module = load_module(SCRIPT_PATH, "sop_supervisor_script_document_review")
+        with TemporaryDirectory() as tmp_dir:
+            workflow = module.load_workflow_from_directory(
+                ROOT / "supervisor" / "workflows" / "document_review"
+            )
+            workflow.defaults.run_root = str(Path(tmp_dir) / "runs")
+            registry = module.build_registry()
+            engine = module.SupervisorEngine(registry)
+
+            outcome = engine.run(
+                workflow=workflow,
+                step_id="review_note",
+                inputs={
+                    "job_id": "note-1",
+                    "artifact_label": "Demo Note",
+                    "review_goal": "point out gaps",
+                    "source_text": "Alpha beta gamma",
+                },
+                runner_name=None,
+                timeout_seconds=60,
+                dry_run=True,
+            )
+
+            prompt_text = outcome.prompt_path.read_text(encoding="utf-8")
+            self.assertIn("Demo Note", prompt_text)
+            self.assertIn("point out gaps", prompt_text)
+            self.assertIn("Alpha beta gamma", prompt_text)
+
     def test_role5_checker_reports_placeholder_mismatch(self) -> None:
-        module = load_module(SCRIPT_PATH, "sop_supervisor_script_checker")
-        checker = module.AssessmentRole5Checker()
+        from supervisor.checkers.assessment_role5 import AssessmentRole5Checker
+        from supervisor.core.models import CheckRequest
+
+        checker = AssessmentRole5Checker()
 
         with TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
@@ -155,7 +293,7 @@ class SopSupervisorTests(unittest.TestCase):
             )
             attempt_dir = root / "run" / "attempt-01"
             attempt_dir.mkdir(parents=True)
-            request = module.CheckRequest(
+            request = CheckRequest(
                 workflow_id="assessment",
                 step_id="role5",
                 attempt_dir=attempt_dir,
@@ -206,7 +344,7 @@ class SopSupervisorTests(unittest.TestCase):
                         "",
                         "**建议方向**",
                         '> "信念是为你服务的，有效就用，无效就改变它。" —— 李中莹',
-                        "把注意力放回当下能做的事。",
+                        "你把注意力放回当下能做的事。",
                         "",
                         "#### 低分版",
                         "你会停在原先预想里，再慢慢转向现实。",
@@ -222,7 +360,7 @@ class SopSupervisorTests(unittest.TestCase):
                         "",
                         "**建议方向**",
                         '> "因为我们并不完美，所以我们没有资格要求世界完美。" —— 李中莹',
-                        "先把焦点移回此刻还能做的一步。",
+                        "你先把焦点移回此刻还能做的一步。",
                         "",
                         "## 三、画像详写（共 2 个）",
                         "### 画像 L",
