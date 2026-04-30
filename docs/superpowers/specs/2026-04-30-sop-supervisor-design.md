@@ -13,6 +13,12 @@ V1 is intentionally constrained:
 - no parallel steps
 - no UI or service layer
 
+Implementation constraints:
+
+- must run on Python 3.9
+- should preserve the existing “script-first” usage style
+- should avoid introducing heavy runtime dependencies
+
 The existing `scripts/assessment_supervisor.py` will be treated as the seed implementation for one workflow (`assessment`) and one checker family (`assessment_role5`), not as the long-term architecture.
 
 ## Why
@@ -73,6 +79,7 @@ That makes it hard to:
 - Workflow-specific context loading lives in workflow adapters, not in the engine core.
 - Every run writes an inspectable artifact bundle to disk.
 - Rework should be bounded and explicit, never “rewrite everything”.
+- V1 should prefer stdlib-friendly implementation choices where possible.
 
 ## Proposed Repository Structure
 
@@ -92,8 +99,6 @@ supervisor/
   runners/
     base.py
     gemini_cli.py
-    codex_cli.py
-    claude_cli.py
   checkers/
     base.py
     assessment_role5.py
@@ -110,6 +115,7 @@ supervisor/
 Notes:
 
 - `scripts/sop_supervisor.py` is the stable CLI entrypoint.
+- `scripts/assessment_supervisor.py` should remain temporarily as a compatibility shim during migration.
 - `supervisor/core` contains reusable engine logic.
 - `supervisor/runners` contains backend adapters.
 - `supervisor/checkers` contains deterministic validation logic.
@@ -153,6 +159,8 @@ V1 should define interfaces for later additions:
 - `codex_cli`
 - `claude_cli`
 
+Those later runners do not need concrete implementations in V1.
+
 ### Checker
 
 A checker is a deterministic local validator over run artifacts and workflow outputs. It returns:
@@ -170,16 +178,27 @@ Minimum contents:
 
 - `prompt.md`
 - `command.json`
-- `stdout.*`
+- `stdout.txt`
 - `stderr.txt`
 - `check-report.md`
 - `meta.json`
+
+Optional contents:
+
+- `runner-output.json` when the runner exposes a parsed structured payload
+- workflow-specific extra files
 
 If a retry occurs, each attempt gets its own attempt directory under the parent run directory.
 
 ## Configuration Model
 
 Configuration should be declarative but shallow. It should not encode arbitrary logic.
+
+V1 file-format rule:
+
+- JSON config is always supported via stdlib.
+- YAML config is supported when `PyYAML` is available.
+- Workflow authors should not depend on advanced YAML-only features.
 
 Example `workflow.yaml`:
 
@@ -215,8 +234,19 @@ Rules:
 - Workflow config may reference a checker by registered name.
 - Workflow config may override retry settings per step.
 - Complex context derivation must stay in Python adapters.
+- V1 config must stay portable to JSON shape if YAML support is later removed.
 
 ## Python Interfaces
+
+The engine should use standard-library-first primitives:
+
+- `dataclasses`
+- `pathlib`
+- `subprocess`
+- `json`
+- optional `yaml` import only at config-load boundary
+
+Do not introduce Jinja, Pydantic, or a custom DSL parser in V1.
 
 ### Runner Interface
 
@@ -293,6 +323,17 @@ This is where workflow-specific path resolution belongs. For assessment, that in
 
 This keeps the engine generic and avoids hard-coding assessment concepts into core logic.
 
+### Prompt Rendering
+
+V1 prompt rendering should use a simple stdlib mechanism such as `string.Template` or a constrained `str.format_map` wrapper.
+
+Requirements:
+
+- missing keys should raise explicit errors
+- rendering should remain text-first
+- no logic-in-template features
+- no third-party templating dependency
+
 ## Execution Flow
 
 V1 run flow:
@@ -359,6 +400,7 @@ Proposed run layout:
 - start/end timestamps
 - final status
 - final attempt count
+- compatibility source when invoked via a legacy wrapper
 
 ## CLI Design
 
@@ -374,8 +416,6 @@ python3 scripts/sop_supervisor.py run \
   --input batch="画像 LLLLL / LLLLH 返工"
 
 python3 scripts/sop_supervisor.py check \
-  --workflow assessment \
-  --step role5_write \
   --attempt-dir <path>
 
 python3 scripts/sop_supervisor.py smoke \
@@ -385,7 +425,7 @@ python3 scripts/sop_supervisor.py smoke \
 Rules:
 
 - `run` executes one step under one workflow.
-- `check` reruns deterministic validation over an existing attempt directory.
+- `check` reruns deterministic validation over an existing attempt directory and should derive workflow/step metadata from `meta.json` when possible.
 - `smoke` verifies runner availability without workflow logic.
 
 ## Assessment Workflow Migration
@@ -398,6 +438,11 @@ The current `assessment_supervisor.py` should be split as follows:
 - `build_rework_prompt(...)` -> assessment workflow rework template
 
 Assessment-specific constants remain valid, but must move out of engine core.
+
+Compatibility requirement:
+
+- keep `scripts/assessment_supervisor.py` as a thin wrapper over the new engine until downstream shell scripts and skills are migrated
+- preserve current CLI affordances for the assessment workflow during the transition
 
 ## Error Handling
 
@@ -437,6 +482,14 @@ Required behavior:
 - role5 checker on known-bad sample
 - failed check triggering rework attempt generation
 
+### Test Style Constraint
+
+Follow the existing repository pattern where practical:
+
+- `unittest` is acceptable and already common in local script tests
+- tests may dynamically import script entrypoints via `importlib.util`
+- avoid introducing a more elaborate test harness unless needed
+
 ### Manual Validation
 
 - run the migrated assessment workflow against the existing chapter-02 sample
@@ -462,6 +515,15 @@ Mitigation:
 
 - normalize all runner outputs into one `RunnerResult`
 - store raw stdout/stderr in artifacts regardless
+
+### Risk: config format creates an undeclared dependency
+
+If the engine requires YAML unconditionally, publishing and reuse become more fragile.
+
+Mitigation:
+
+- support JSON config by default
+- treat YAML as optional convenience when `PyYAML` is present
 
 ### Risk: checker contracts becoming workflow-specific
 
