@@ -1,0 +1,30 @@
+id: assessment
+defaults:
+  run_root: docs/assessment-workflow/runs
+  retry:
+    max_attempts: 2
+    mode: rework
+steps:
+  role_generic:
+    prompt_template: prompts/role_task.md
+    runner: gemini_cli
+    checker: none
+    allow_edits: false
+  role5:
+    prompt_template: prompts/role_task.md
+    runner: gemini_cli
+    checker: assessment_role5
+    allow_edits: true
+    retry:
+      max_attempts: 2
+      mode: rework
+  role6:
+    prompt_template: prompts/role_task.md
+    runner: gemini_cli
+    checker: assessment_role6
+    allow_edits: false
+  role7:
+    prompt_template: prompts/role_task.md
+    runner: gemini_cli
+    checker: assessment_role7
+    allow_edits: false
