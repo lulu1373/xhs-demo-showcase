@@ -1,0 +1,4 @@
+interface:
+  display_name: "中文测评报告写法"
+  short_description: "按本地前人测评报告的风格写中文结果页与测评报告"
+  default_prompt: "用 $assessment-report-style-zh 按本地前人测评报告的风格，帮我写一份中文测评结果页或维度报告。"

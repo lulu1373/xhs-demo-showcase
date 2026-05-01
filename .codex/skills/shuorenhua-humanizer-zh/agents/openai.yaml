@@ -1,0 +1,4 @@
+interface:
+  display_name: "Shuorenhua + Humanizer ZH"
+  short_description: "中文写作去 AI 味、语域校准与结构病灶清理"
+  default_prompt: "用 $shuorenhua-humanizer-zh 处理这段中文文本，先做场景与误杀保护判断，再去掉 AI 味、模板感和重复表演腔；如有重叠问题只改一次。"

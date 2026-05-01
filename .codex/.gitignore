@@ -1,0 +1,8 @@
+# Local Codex runtime artifacts
+supervisor-runs/
+tmp/
+*.log
+
+# One-off local backups
+*.bak
+*.bak_*

@@ -1,0 +1,7 @@
+interface:
+  display_name: "社交用户画像宇宙"
+  short_description: "小红书/知乎评论画像与看板框架"
+  default_prompt: "Use $social-user-profile-universe to analyze XHS or Zhihu comments into reusable persona segments and dashboard-ready display names."
+
+policy:
+  allow_implicit_invocation: true

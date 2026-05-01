@@ -1,0 +1,4 @@
+interface:
+  display_name: "书向测评流程"
+  short_description: "直接调用章节测评流程文档与模板开展工作"
+  default_prompt: "用 $book-chapter-assessment 按书向章节测评流程处理这次任务，并严格基于流程文档与模板输出。"
