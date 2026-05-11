@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>用户画像 Skill 可视化汇报</title>
+  <style>
+    :root {
+      --bg: #efe7d8;
+      --paper: #faf5eb;
+      --paper-2: #fffaf0;
+      --ink: #17201d;
+      --muted: #66716d;
+      --line: rgba(23, 32, 29, 0.12);
+      --green: #235a4a;
+      --gold: #c0842d;
+      --red: #b1493d;
+      --blue: #2e6171;
+      --dark: #101513;
+      --cream: #fff6e8;
+      --shadow: 0 24px 70px rgba(61, 48, 29, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(192, 132, 45, 0.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(35, 90, 74, 0.14), transparent 32%),
+        linear-gradient(180deg, #f2ecdf 0%, var(--bg) 100%);
+      font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+    .app {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 24px;
+      width: min(1560px, calc(100vw - 32px));
+      margin: 24px auto 48px;
+    }
+    .side-nav {
+      position: sticky;
+      top: 20px;
+      height: calc(100vh - 40px);
+      padding: 22px 18px;
+      border-radius: 24px;
+      background: rgba(255, 250, 240, 0.72);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.72);
+      box-shadow: var(--shadow);
+    }
+    .brand {
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand p {
+      margin: 0 0 8px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+    }
+    .brand h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      font-family: "Songti SC", "Noto Serif SC", serif;
+    }
+    .nav-list {
+      display: grid;
+      gap: 8px;
+    }
+    .nav-link {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+    .nav-link:hover {
+      background: rgba(255,255,255,0.66);
+      border-color: var(--line);
+      transform: translateX(2px);
+    }
+    .nav-link small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .content {
+      display: grid;
+      gap: 24px;
+    }
+    .slide {
+      min-height: auto;
+      padding: 28px;
+      border-radius: 32px;
+      background: rgba(255,250,240,0.82);
+      border: 1px solid rgba(255,255,255,0.72);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.42), transparent 28%);
+      pointer-events: none;
+    }
+    .slide.dark {
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(192,132,45,0.14), transparent 26%),
+        linear-gradient(180deg, #101513 0%, #161d19 100%);
+    }
+    .slide.dark .subtitle,
+    .slide.dark .subnote,
+    .slide.dark .section-footer,
+    .slide.dark .big-card p,
+    .slide.dark .mini-card p,
+    .slide.dark .persona-card p,
+    .slide.dark .usage-card p,
+    .slide.dark .info-card p,
+    .slide.dark .footer-banner { color: #d9ccb2; }
+    .slide.dark .big-card,
+    .slide.dark .mini-card,
+    .slide.dark .info-card,
+    .slide.dark .usage-card,
+    .slide.dark .persona-card {
+      background: rgba(28, 37, 31, 0.78);
+      border-color: rgba(220, 205, 174, 0.12);
+    }
+    .slide-meta {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 20px;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+    }
+    .slide.dark .slide-meta { color: #d9ccb2; }
+    .slide-no {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--dark);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+    .slide-head, .slide-body { position: relative; z-index: 1; }
+    .slide-head {
+      margin-bottom: 22px;
+    }
+    .slide-head h2, h1 {
+      margin: 0;
+      font-family: "Songti SC", "Noto Serif SC", serif;
+      line-height: 1.12;
+    }
+    .slide-head h2 { font-size: clamp(30px, 3.2vw, 48px); }
+    h1 { font-size: clamp(44px, 5vw, 76px); max-width: 8.8em; }
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 62rem;
+    }
+    .subtitle.large { font-size: 18px; max-width: 34rem; }
+    .kicker {
+      margin: 0 0 16px;
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+    .hero-grid, .split-grid, .video-layout, .image-layout {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .video-stage {
+      display: block;
+    }
+    .image-stage {
+      display: block;
+    }
+    #intro.slide, #video.slide {
+      min-height: min(82vh, 860px);
+    }
+    #intro .hero-grid {
+      min-height: min(58vh, 560px);
+      align-items: center;
+    }
+    .flow-list, .big-card, .mini-card, .step-card, .persona-card, .usage-card, .info-card {
+      background: rgba(255,255,255,0.66);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px;
+    }
+    .flow-list {
+      display: grid;
+      gap: 10px;
+      padding: 20px;
+    }
+    .flow-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .flow-item:last-child { border-bottom: 0; }
+    .flow-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--dark);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .footer-banner, .section-footer, .code-band {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(28,37,31,0.92);
+      color: #f3e8d2;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .big-card h3, .mini-card h4, .step-card h4, .persona-card h4, .usage-card h4, .info-card h4 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.22;
+    }
+    .mini-card h4, .step-card h4, .persona-card h4, .usage-card h4, .info-card h4 {
+      font-size: 18px;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+    .big-card p, .mini-card p, .step-card p, .persona-card p, .usage-card p, .info-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 15px;
+    }
+    .mini-card-grid, .timeline-grid, .persona-grid, .usage-grid {
+      display: grid;
+      gap: 16px;
+    }
+    .mini-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .timeline-grid, .persona-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .usage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .usage-card.wide { grid-column: span 1; }
+    .table-wrap {
+      overflow: auto;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.66);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+    }
+    th, td {
+      padding: 14px 14px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    th:last-child, td:last-child { border-right: 0; }
+    th {
+      background: var(--dark);
+      color: var(--cream);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      position: sticky;
+      top: 0;
+    }
+    .subnote {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+    .step-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .step-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--green);
+      color: var(--cream);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .stat-box {
+      padding: 18px;
+      border-radius: 22px;
+      background: var(--green);
+      color: var(--cream);
+      box-shadow: 0 12px 36px rgba(35, 90, 74, 0.18);
+    }
+    .stat-box strong {
+      display: block;
+      font-size: 44px;
+      line-height: 1;
+      font-family: Georgia, serif;
+    }
+    .stat-box span {
+      display: block;
+      margin-top: 8px;
+      color: #e5d8bd;
+      font-size: 13px;
+    }
+    .video-shell {
+      padding: 14px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(220, 205, 174, 0.12);
+    }
+    .video-shell-full {
+      width: 100%;
+      padding: 18px;
+      border-radius: 32px;
+    }
+    .image-frame {
+      padding: 14px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.66);
+      border: 1px solid var(--line);
+    }
+    .image-frame-full {
+      width: 100%;
+      padding: 18px;
+      border-radius: 32px;
+    }
+    .slide.dark .image-frame {
+      background: rgba(28,37,31,0.78);
+      border-color: rgba(220, 205, 174, 0.12);
+    }
+    .image-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 18px;
+    }
+    #closing .slide-body {
+      margin-top: 28px;
+    }
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1920 / 1066;
+      border-radius: 18px;
+      background: #000;
+    }
+    #video .slide-body {
+      margin-top: 28px;
+    }
+    #video video {
+      min-height: min(66vh, 900px);
+      object-fit: contain;
+    }
+    .video-info {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 1fr; }
+      .side-nav {
+        position: relative;
+        top: auto;
+        height: auto;
+      }
+      .nav-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .slide { min-height: auto; }
+    }
+    @media (max-width: 900px) {
+      .hero-grid, .split-grid, .video-layout, .image-layout,
+      .mini-card-grid, .timeline-grid, .persona-grid,
+      .usage-grid, .stats-row {
+        grid-template-columns: 1fr;
+      }
+      .app { width: min(100vw - 20px, 1560px); margin: 10px auto 24px; }
+      .slide { padding: 20px; border-radius: 24px; }
+      h1 { font-size: 38px; }
+      .slide-head h2 { font-size: 30px; }
+      .nav-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="side-nav">
+      <div class="brand">
+        <p>Web Deck</p>
+        <h3>用户画像 Skill</h3>
+      </div>
+      <nav class="nav-list">
+        
+          <a class="nav-link" href="#intro">
+            <small>01</small>
+            <span>用户画像 Skill 可视化汇报</span>
+          </a>
+          <a class="nav-link" href="#universe">
+            <small>02</small>
+            <span>画像宇宙是什么</span>
+          </a>
+          <a class="nav-link" href="#codebook">
+            <small>03</small>
+            <span>画像宇宙编码表</span>
+          </a>
+          <a class="nav-link" href="#process">
+            <small>04</small>
+            <span>这个 Skill 是怎么创建出来的</span>
+          </a>
+          <a class="nav-link" href="#demo">
+            <small>05</small>
+            <span>知乎孩子议题演示结果</span>
+          </a>
+          <a class="nav-link" href="#usage">
+            <small>06</small>
+            <span>怎么用这个 Skill</span>
+          </a>
+          <a class="nav-link" href="#video">
+            <small>07</small>
+            <span>现场演示视频</span>
+          </a>
+          <a class="nav-link" href="#closing">
+            <small>08</small>
+            <span>小红书同批数据宇宙版总图</span>
+          </a>
+      </nav>
+    </aside>
+    <main class="content">
+      
+    <section class="slide dark" id="intro">
+      <div class="slide-meta">
+        <span class="slide-no">01</span>
+        <span class="slide-name">用户画像 Skill 可视化汇报</span>
+      </div>
+      
+      <div class="slide-body">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">Codex Skill / Social User Profile Universe</p>
+        <h1>用户画像 Skill 可视化汇报</h1>
+        <p class="subtitle large">把小红书、知乎、飞书表格里的评论数据，跑成评论层标注、用户层画像、看板和汇报材料。</p>
+      </div>
+      <div class="flow-list">
+        
+          <div class="flow-item">
+            <span class="flow-num">1</span>
+            <span>平台识别</span>
+          </div>
+          <div class="flow-item">
+            <span class="flow-num">2</span>
+            <span>评论主功能</span>
+          </div>
+          <div class="flow-item">
+            <span class="flow-num">3</span>
+            <span>D1-D4 大域</span>
+          </div>
+          <div class="flow-item">
+            <span class="flow-num">4</span>
+            <span>S/H/M 分支</span>
+          </div>
+          <div class="flow-item">
+            <span class="flow-num">5</span>
+            <span>用户聚合画像</span>
+          </div>
+          <div class="flow-item">
+            <span class="flow-num">6</span>
+            <span>汇报输出</span>
+          </div>
+      </div>
+    </div>
+    <div class="footer-banner">调用示例：用 social-user-profile-universe 这个 skill，分析小红书或知乎评论表，输出画像表、看板和长图。</div>
+  </div>
+    </section>
+  
+    <section class="slide " id="universe">
+      <div class="slide-meta">
+        <span class="slide-no">02</span>
+        <span class="slide-name">画像宇宙是什么</span>
+      </div>
+      
+      <div class="slide-head">
+        <h2>画像宇宙是什么</h2>
+        <p class="subtitle">不是“给人贴几类标签”，而是一套可复用的分类空间和判定规则。</p>
+      </div>
+      <div class="slide-body">
+    <div class="split-grid">
+      <div class="big-card">
+        <h3>一套稳定坐标系</h3>
+        <p>它规定评论应该先看什么、怎么分层、哪些边界不能越过。面对新评论时，不是临时发明人群名，而是把样本放回同一张地图里比较。</p>
+        <div class="code-band">评论主功能 -&gt; D1-D4 -&gt; S/H/M -&gt; L1 -&gt; L2 -&gt; L3 -&gt; L4</div>
+      </div>
+      <div class="mini-card-grid">
+        
+          <div class="mini-card">
+            <h4>空间</h4>
+            <p>规定有哪些位置：关系心理、结构制度、实务程序、轻互动元评论。</p>
+          </div>
+          <div class="mini-card">
+            <h4>规则</h4>
+            <p>先判主功能，再判关键词；D3 必须有路径；D4 只收轻互动。</p>
+          </div>
+          <div class="mini-card">
+            <h4>层级</h4>
+            <p>区分单条评论角色和用户稳定倾向。单次发声不直接写成稳定人格。</p>
+          </div>
+          <div class="mini-card">
+            <h4>翻译</h4>
+            <p>底层保留 D/S/H/M 码，对外展示更好懂的人群名。</p>
+          </div>
+      </div>
+    </div>
+  </div>
+    </section>
+  
+    <section class="slide " id="codebook">
+      <div class="slide-meta">
+        <span class="slide-no">03</span>
+        <span class="slide-name">画像宇宙编码表</span>
+      </div>
+      
+      <div class="slide-head">
+        <h2>画像宇宙编码表</h2>
+        <p class="subtitle">汇报时可以直接用这页解释 D1-D4、典型评论和边界规则。</p>
+      </div>
+      <div class="slide-body">
+    <div class="table-wrap">
+      <table class="codebook">
+        <thead>
+          <tr><th>大域</th><th>名称</th><th>核心分支</th><th>示例评论</th><th>适合放入的评论</th><th>边界规则</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>D1</td><td>关系-心理域</td><td>S1/S2/S3/S4/S5/S6/S7</td><td>“这不是孩子突然变差，是长期被控制后的反应。”</td><td>解释亲子关系、边界、创伤、现实成本、责任规则、真假专家。</td><td>S6 不是兜底；能归具体分支时优先归具体分支。</td></tr><tr><td>D2</td><td>结构-制度域</td><td>S8a/S8b/S8c/S8d</td><td>“学校制度、升学压力和资源差距都在推着孩子走。”</td><td>解释学校、组织、平台、阶层资源、性别分工和系统性困境。</td><td>重点不是个人动机，而是制度/资源约束时进入 D2。</td></tr><tr><td>D3</td><td>实务-程序域</td><td>H1/H2/H3/H4/H5</td><td>“先去正规医院评估，再和学校沟通减压方案。”</td><td>给出明确处理路径，如法律、医疗、沟通、学业、资源配置。</td><td>必须有“怎么做”；泛泛建议不进 D3。</td></tr><tr><td>D4</td><td>轻互动-元评论域</td><td>M1/M2/M3/M4</td><td>“太真实了，我家也是这样，看评论区已经破防了。”</td><td>主功能是附和、元评论、纠错、玩梗和气氛型互动。</td><td>长评论或含实质论证的，不因为开头附和就进 D4。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="subnote">L1 只说明这一条评论在讨论中扮演什么功能；L2 聚合后才判断主画像和稳定性；头像只表示账号如何呈现自己。</p>
+  </div>
+    </section>
+  
+    <section class="slide " id="process">
+      <div class="slide-meta">
+        <span class="slide-no">04</span>
+        <span class="slide-name">这个 Skill 是怎么创建出来的</span>
+      </div>
+      
+      <div class="slide-head">
+        <h2>这个 Skill 是怎么创建出来的</h2>
+        <p class="subtitle">从真实评论、头像讨论、人工复核和撞类回改里逐轮沉淀。</p>
+      </div>
+      <div class="slide-body">
+    <div class="timeline-grid">
+      
+        <article class="step-card">
+          <div class="step-head">
+            <span class="step-badge">1</span>
+            <h4>头像问题起点</h4>
+          </div>
+          <p>先提出“头像风格 -&gt; 自我呈现 -&gt; 评论表达 -&gt; 议题角色”的链路，同时划清头像不能直接推人格。</p>
+        </article>
+        <article class="step-card">
+          <div class="step-head">
+            <span class="step-badge">2</span>
+            <h4>小红书人工试标</h4>
+          </div>
+          <p>拿评论和头像做 20/40 条样本演示，观察原型能否覆盖真实表达。</p>
+        </article>
+        <article class="step-card">
+          <div class="step-head">
+            <span class="step-badge">3</span>
+            <h4>扩展 V2/V3 宇宙</h4>
+          </div>
+          <p>从几类人扩成 D1-D4 大域和 S/H/M 分支，补现实规范、结构制度、方法路径和轻互动。</p>
+        </article>
+        <article class="step-card">
+          <div class="step-head">
+            <span class="step-badge">4</span>
+            <h4>知乎跨题验证</h4>
+          </div>
+          <p>用知乎“孩子”评论筛出画像子集，验证跨平台、跨问题标题复用。</p>
+        </article>
+        <article class="step-card">
+          <div class="step-head">
+            <span class="step-badge">5</span>
+            <h4>D3/D4 回改规则</h4>
+          </div>
+          <p>各抽 20 条复核，修正长评论误进轻互动、泛建议误进方法类等边界。</p>
+        </article>
+        <article class="step-card">
+          <div class="step-head">
+            <span class="step-badge">6</span>
+            <h4>写入 SKILL.md</h4>
+          </div>
+          <p>沉淀平台路由、画像宇宙、命名规则、头像边界、输出清单和固定跑法。</p>
+        </article>
+    </div>
+    <div class="section-footer">探索 -&gt; 试标 -&gt; 回改 -&gt; 固化</div>
+  </div>
+    </section>
+  
+    <section class="slide " id="demo">
+      <div class="slide-meta">
+        <span class="slide-no">05</span>
+        <span class="slide-name">知乎孩子议题演示结果</span>
+      </div>
+      
+      <div class="slide-head">
+        <h2>知乎孩子议题演示结果</h2>
+        <p class="subtitle">611 条评论、508 个用户、33 个问题标题进入 V3.1 画像分析。</p>
+      </div>
+      <div class="slide-body">
+    <div class="stats-row">
+      
+        <div class="stat-box">
+          <strong>611</strong>
+          <span>评论样本</span>
+        </div>
+        <div class="stat-box">
+          <strong>508</strong>
+          <span>用户数</span>
+        </div>
+        <div class="stat-box">
+          <strong>57</strong>
+          <span>多次发声用户</span>
+        </div>
+        <div class="stat-box">
+          <strong>33</strong>
+          <span>问题标题</span>
+        </div>
+    </div>
+    <div class="persona-grid">
+      
+        <article class="persona-card">
+          <h4>心理创伤识别型</h4>
+          <p>134 个用户 / 160 条评论。把孩子问题理解为家庭失衡、依恋创伤、控制关系或长期忽视。</p>
+        </article>
+        <article class="persona-card">
+          <h4>情绪立场共鸣型</h4>
+          <p>114 个用户 / 135 条评论。先站队、先表态，快速放大委屈、愤怒、心疼或认同。</p>
+        </article>
+        <article class="persona-card">
+          <h4>现实边界规训型</h4>
+          <p>122 个用户 / 144 条评论。关注养育成本、婚育代价、家庭责任、规则边界和反泛化。</p>
+        </article>
+        <article class="persona-card">
+          <h4>方法结构求解型</h4>
+          <p>138 个用户 / 172 条评论。推进到怎么办，或放回学校制度和资源结构解释。</p>
+        </article>
+    </div>
+    <p class="subnote">数据源：/Users/lulu/AIWork/output/zhihu_haizi_comments_20260424.csv</p>
+  </div>
+    </section>
+  
+    <section class="slide " id="usage">
+      <div class="slide-meta">
+        <span class="slide-no">06</span>
+        <span class="slide-name">怎么用这个 Skill</span>
+      </div>
+      
+      <div class="slide-head">
+        <h2>怎么用这个 Skill</h2>
+        <p class="subtitle">可以直接喂小红书原始爬虫表，也可以喂知乎评论表。</p>
+      </div>
+      <div class="slide-body">
+    <div class="usage-grid">
+      
+        <article class="usage-card wide">
+          <h4>小红书原始输入</h4>
+          <p>/Users/lulu/AIWork/output/xhs_20260424_topfix/merged_comments.xlsx</p>
+        </article>
+        <article class="usage-card wide">
+          <h4>知乎原始输入</h4>
+          <p>/Users/lulu/AIWork/output/zhihu_haizi_comments_20260424.csv</p>
+        </article>
+        <article class="usage-card ">
+          <h4>Skill 路径</h4>
+          <p>/Users/lulu/AIWork/.codex/skills/social-user-profile-universe/SKILL.md</p>
+        </article>
+        <article class="usage-card ">
+          <h4>典型输出</h4>
+          <p>评论层标注表、用户画像表、HTML 看板、长图、PDF。</p>
+        </article>
+        <article class="usage-card ">
+          <h4>调用话术</h4>
+          <p>用 social-user-profile-universe 这个 skill，分析这批评论，输出画像表和可视化。</p>
+        </article>
+    </div>
+    <div class="section-footer">输入表格 -&gt; Skill -&gt; 用户画像成品</div>
+  </div>
+    </section>
+  
+    <section class="slide dark" id="video">
+      <div class="slide-meta">
+        <span class="slide-no">07</span>
+        <span class="slide-name">现场演示视频</span>
+      </div>
+      
+      <div class="slide-head">
+        <h2>现场演示视频</h2>
+        <p class="subtitle"></p>
+      </div>
+      <div class="slide-body">
+    <div class="video-stage">
+      <div class="video-shell video-shell-full">
+        <video controls preload="metadata" playsinline poster="./assets/image1.png">
+          <source src="./assets/media1.mp4" type="video/mp4" />
+          
+          当前浏览器不支持内嵌视频播放。
+        </video>
+      </div>
+    </div>
+  </div>
+    </section>
+  
+    <section class="slide " id="closing">
+      <div class="slide-meta">
+        <span class="slide-no">08</span>
+        <span class="slide-name">小红书同批数据宇宙版总图</span>
+      </div>
+      
+      <div class="slide-head">
+        <h2>小红书同批数据宇宙版总图</h2>
+        <p class="subtitle">作为最后一页收口，回到这套框架的完整落点。</p>
+      </div>
+      <div class="slide-body">
+    <div class="image-stage">
+      <div class="image-frame image-frame-full">
+        <img src="./assets/xhs_samebatch_universe_dashboard.png" alt="小红书同批数据宇宙版总图" />
+      </div>
+    </div>
+  </div>
+    </section>
+  
+    </main>
+  </div>
+</body>
+</html>
