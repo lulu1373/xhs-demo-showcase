@@ -1,0 +1,7 @@
+interface:
+  display_name: "dycrawler"
+  short_description: "Run Douyin comment crawls via MediaCrawler."
+  default_prompt: "Use $dycrawler to crawl this Douyin post's comments and export first-level plus second-level tables."
+
+policy:
+  allow_implicit_invocation: true
