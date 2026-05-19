@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你的人生剧本 · 旧戏未谢幕型 · 报告示例</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --paper: #faf6ef;
+  --paper-2: #f3ede0;
+  --ink: #1a1a1a;
+  --ink-2: #3a3a3a;
+  --ink-3: #6b6b6b;
+  --ink-4: #9a9a9a;
+  --seal: #b8302e;
+  --seal-2: #a02824;
+  --brown: #8b7355;
+  --gold: #b88a3e;
+  --line: #d8d0bf;
+  --line-soft: #e8e3d8;
+  --v-color: #4a6fa5;
+  --a-color: #c97e3e;
+  --k-color: #5a8a5a;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, "PingFang SC", "Songti SC", "Source Han Serif SC", serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+
+.report {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 30px 24px 80px;
+}
+
+/* ===== Demo Bar (顶部说明，仅 demo 用) ===== */
+.demo-bar {
+  background: #2a2a2a;
+  color: var(--paper);
+  padding: 14px 24px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin: -30px -24px 30px;
+  line-height: 1.9;
+}
+
+.demo-bar strong { color: #f5d97e; }
+.demo-bar .data { color: var(--ink-4); font-size: 11px; display: block; margin-top: 4px; }
+
+/* ===== 幕分隔（轻量·三组分隔）===== */
+.act-divider {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 80px 0 40px;
+}
+.act-divider:first-child {
+  margin-top: 30px;
+}
+.act-divider::before,
+.act-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.act-divider .label {
+  font-family: "Songti SC", "Source Han Serif SC", serif;
+  font-size: 13px;
+  letter-spacing: 0.45em;
+  color: var(--brown);
+  white-space: nowrap;
+}
+.act-divider .num {
+  color: var(--seal);
+  font-weight: 600;
+  margin: 0 2px;
+}
+.act-divider .hint {
+  display: block;
+  text-align: center;
+  font-family: "Songti SC", serif;
+  font-style: italic;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  color: var(--ink-4);
+  margin-top: 18px;
+  font-weight: normal;
+}
+
+/* ===== 段通用 ===== */
+.seg-block {
+  margin: 0 0 64px;
+}
+
+.seg-label {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--brown);
+  margin-bottom: 6px;
+}
+
+.seg-title {
+  font-family: "Songti SC", serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1.5px solid var(--ink);
+  display: inline-block;
+}
+
+.body-text {
+  font-family: "Songti SC", "Source Han Serif SC", serif;
+  font-size: 16.5px;
+  line-height: 2.05;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.body-text p { margin-bottom: 18px; }
+
+.body-text strong { font-weight: 600; color: var(--ink); }
+
+/* ===== 变量槽（demo 用，正式发布时去掉） ===== */
+.var {
+  background: linear-gradient(to bottom, transparent 0%, transparent 70%, rgba(184,48,46,0.08) 70%, rgba(184,48,46,0.08) 100%);
+  border-bottom: 1.5px dotted rgba(184,48,46,0.4);
+  padding-bottom: 1px;
+}
+.var.resource {
+  background: linear-gradient(to bottom, transparent 0%, transparent 70%, rgba(90,138,90,0.08) 70%, rgba(90,138,90,0.08) 100%);
+  border-bottom: 1.5px dotted rgba(90,138,90,0.4);
+}
+.var-tag {
+  display: none;
+  font-size: 10px;
+  color: var(--seal);
+  font-family: Georgia, serif;
+  background: white;
+  padding: 1px 4px;
+  border: 1px solid var(--seal);
+  border-radius: 2px;
+  margin-right: 2px;
+  vertical-align: middle;
+}
+.show-vars .var-tag { display: inline-block; }
+
+/* ===== 图位占位 ===== */
+.fig {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin: 30px 0;
+  padding: 24px;
+  position: relative;
+}
+
+.fig::before {
+  content: attr(data-fig);
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: var(--paper);
+  color: var(--brown);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  padding: 2px 10px;
+  border: 1px solid var(--line);
+}
+
+.fig-cap {
+  text-align: center;
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 14px;
+  letter-spacing: 0.1em;
+}
+
+/* ===== 段 1 · 身份卡 ===== */
+.id-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.id-card .pname {
+  display: inline-block;
+  width: 130px;
+  height: 130px;
+  border: 3px solid var(--seal);
+  border-radius: 8px;
+  background: #fdf4f0;
+  position: relative;
+  padding-top: 38px;
+  margin-bottom: 18px;
+}
+.id-card .pname .text {
+  font-family: "Songti SC", serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--seal);
+  letter-spacing: 0.15em;
+  line-height: 1.5;
+}
+.id-card .pname .num {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.2em;
+}
+
+.id-tag {
+  font-size: 14px;
+  color: var(--ink-2);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+.id-tag strong { color: var(--seal); }
+
+.id-meta {
+  display: grid;
+  gap: 10px;
+  margin: 0 auto 24px;
+  max-width: 560px;
+  text-align: left;
+}
+
+.id-meta .meta-row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+.id-meta .meta-key {
+  color: var(--brown);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+
+.id-meta .meta-val {
+  color: var(--ink);
+}
+
+.id-meta .meta-val strong {
+  color: var(--seal);
+  font-weight: 600;
+}
+
+.keyword-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyword-strip span {
+  background: var(--paper-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.id-charts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--line);
+}
+
+.id-charts .item {
+  text-align: center;
+}
+
+.id-charts .item .lab {
+  font-size: 10px;
+  color: var(--brown);
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+.id-charts .item .val {
+  font-family: "Songti SC", serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 6px;
+}
+
+/* 内感官雷达 svg */
+.radar { width: 92px; height: 92px; margin: 0 auto; }
+
+/* 罗盘 */
+.compass {
+  width: 92px;
+  height: 92px;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+  background: var(--paper-2);
+}
+.compass::before, .compass::after {
+  content: "";
+  position: absolute;
+  background: var(--line);
+}
+.compass::before { left: 50%; top: 5px; bottom: 5px; width: 1px; }
+.compass::after { top: 50%; left: 5px; right: 5px; height: 1px; }
+.compass .needle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 36px;
+  background: var(--seal);
+  transform-origin: top center;
+  transform: translate(-50%, 0) rotate(180deg);
+  border-radius: 2px;
+}
+.compass .dir-l {
+  position: absolute;
+  font-size: 9px;
+  color: var(--ink-3);
+}
+.compass .n { top: 4px; left: 50%; transform: translateX(-50%); }
+.compass .s { bottom: 4px; left: 50%; transform: translateX(-50%); color: var(--seal); font-weight: 600; }
+.compass .e { right: 4px; top: 50%; transform: translateY(-50%); }
+.compass .w { left: 4px; top: 50%; transform: translateY(-50%); }
+
+/* 时间线视角卡 */
+.timeline-view-card {
+  width: 122px;
+  margin: 0 auto;
+  padding: 10px 8px;
+  background: var(--paper-2);
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  text-align: left;
+}
+.timeline-view-card .tv-row {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 6px;
+  align-items: center;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  padding: 3px 0;
+}
+.timeline-view-card .tv-key {
+  color: var(--brown);
+  letter-spacing: 0.08em;
+}
+.timeline-view-card .tv-main {
+  color: var(--seal);
+  font-weight: 600;
+}
+
+/* 经验元素条 */
+.exp-bar {
+  width: 92px;
+  margin: 0 auto;
+  padding-top: 24px;
+}
+.exp-bar .bar {
+  display: flex;
+  gap: 1px;
+  height: 14px;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+  position: relative;
+}
+.exp-bar .bar > div { flex: 1; }
+.exp-bar .bar .b1 { background: #fbe8e3; }
+.exp-bar .bar .b2 { background: #f4cfc8; }
+.exp-bar .bar .b3 { background: #ecaea4; }
+.exp-bar .bar .b4 { background: #d97e72; }
+.exp-bar .bar .b5 { background: var(--seal); position: relative; }
+.exp-bar .marker {
+  position: absolute;
+  top: -10px;
+  right: 12%;
+  font-size: 8px;
+  color: var(--seal);
+  font-weight: 600;
+}
+.exp-bar .lbls {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--ink-3);
+}
+
+/* ===== 操盘手解释图 ===== */
+.operator-map {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(184,48,46,0.08), transparent 34%),
+    linear-gradient(135deg, #fffaf2 0%, #f1e7d6 100%);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin: -28px 0 64px;
+  padding: 26px 26px 22px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(66, 48, 28, 0.08);
+}
+
+.operator-map::before {
+  content: attr(data-fig);
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  color: var(--brown);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+}
+
+.operator-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--seal);
+  box-shadow: 0 10px 22px rgba(66, 48, 28, 0.10);
+}
+
+.basis-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--seal);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin: -38px 0 64px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.basis-card .basis-title {
+  font-size: 12px;
+  color: var(--brown);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.basis-card p {
+  font-family: "Songti SC", serif;
+  font-size: 15.5px;
+  line-height: 2.0;
+  color: var(--ink-2);
+  margin-bottom: 12px;
+}
+
+.basis-card p:last-child {
+  margin-bottom: 0;
+}
+
+.basis-card strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ===== 主舞台 · 段 3 ===== */
+.main-stage {
+  background: var(--paper-2);
+  border: 2px solid var(--line);
+  border-radius: 6px;
+  padding: 32px 24px;
+  position: relative;
+  min-height: 380px;
+}
+
+.main-stage .axis-up, .main-stage .axis-down {
+  text-align: center;
+}
+
+.main-stage .axis-dir {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--brown);
+  margin: 4px 0;
+}
+
+.main-stage .axis-tags {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.main-stage .tag-pain {
+  background: #fbe8e3;
+  color: var(--seal-2);
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.main-stage .tag-resource {
+  background: #e5eee5;
+  color: #2d5a2d;
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+.main-stage .tag-muted {
+  background: white;
+  color: var(--ink-3);
+  border: 1px solid var(--line);
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.main-stage .center-row {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 24px 0;
+  margin: 14px 0;
+  border-top: 1px dashed var(--line);
+  border-bottom: 1px dashed var(--line);
+}
+
+.main-stage .center-card {
+  text-align: center;
+}
+
+.main-stage .card-lab {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--brown);
+  margin-bottom: 10px;
+}
+
+.main-stage .badge-center {
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  border: 3px solid var(--seal);
+  border-radius: 10px;
+  background: #fdf4f0;
+  padding-top: 32px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(184,48,46,0.12);
+}
+.main-stage .badge-center .text {
+  font-family: "Songti SC", serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--seal);
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+.main-stage .badge-center .anchor {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  font-size: 10px;
+  color: var(--brown);
+  letter-spacing: 0.15em;
+}
+
+.main-stage .now-overlay {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.main-stage .now-overlay .now-val {
+  display: inline-block;
+  background: white;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-top: 4px;
+}
+
+/* ===== 机制标签组 · 段 3 ===== */
+.resource-badges {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.r-badge {
+  background: white;
+  border: 1.5px solid var(--seal);
+  padding: 10px 18px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--seal-2);
+  position: relative;
+  letter-spacing: 0.05em;
+}
+
+.r-badge::before {
+  content: "◆";
+  margin-right: 6px;
+  color: var(--seal);
+}
+
+/* ===== 段 4 · 三层机制 ===== */
+.mechanism {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.mech-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--brown);
+  padding: 18px 16px;
+  text-align: center;
+  position: relative;
+}
+
+.mech-card:nth-child(2) { border-top-color: var(--gold); }
+.mech-card:nth-child(3) { border-top-color: var(--seal); }
+
+.mech-card .step {
+  font-family: "Songti SC", serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--brown);
+  margin-bottom: 6px;
+}
+.mech-card:nth-child(2) .step { color: var(--gold); }
+.mech-card:nth-child(3) .step { color: var(--seal); }
+
+.mech-card .name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.mech-card .desc {
+  font-size: 11px;
+  color: var(--ink-3);
+  line-height: 1.7;
+}
+
+.iceberg {
+  background: linear-gradient(to bottom,
+    rgba(74,111,165,0.05) 0%,
+    rgba(74,111,165,0.05) 35%,
+    rgba(74,111,165,0.18) 35%,
+    rgba(74,111,165,0.18) 100%);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 20px 24px;
+  margin: 20px 0;
+  font-size: 12px;
+}
+.iceberg .above {
+  font-family: "Songti SC", serif;
+  color: var(--ink);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 2px dashed var(--v-color);
+  text-align: center;
+  font-size: 13px;
+}
+.iceberg .below {
+  color: var(--ink-2);
+  line-height: 1.9;
+  padding: 0 10px;
+}
+.iceberg .below strong {
+  color: var(--v-color);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ===== 剧本结构卡 ===== */
+.plot-formula {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin: 24px 0;
+}
+
+.plot-formula .formula-title,
+.cost-gift-grid .cg-title,
+.rewrite-actions .ra-title {
+  font-size: 11px;
+  color: var(--brown);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.plot-formula .steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-family: "Songti SC", serif;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.plot-formula .step {
+  background: var(--paper-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 16px;
+  padding: 5px 10px;
+}
+
+.plot-formula .arrow {
+  color: var(--seal);
+  font-size: 13px;
+}
+
+.cost-gift-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 24px 0 28px;
+}
+
+.cost-gift-grid .cg-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 18px 18px 16px;
+}
+
+.cost-gift-grid .cg-card.cost { border-left: 3px solid var(--seal); }
+.cost-gift-grid .cg-card.gift { border-left: 3px solid var(--k-color); }
+
+.cost-gift-grid ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--ink-2);
+}
+
+.rewrite-actions {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin: 24px 0;
+}
+
+.rewrite-actions .ra-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.rewrite-actions .ra-item {
+  background: var(--paper-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 14px 12px;
+  font-family: "Songti SC", serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.rewrite-actions .num {
+  display: inline-block;
+  color: var(--seal);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.sense-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--k-color);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin: 22px 0 24px;
+}
+
+.sense-card .sense-title {
+  color: var(--brown);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.sense-card p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-2);
+  margin-bottom: 16px;
+}
+
+.sense-bars {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 12px;
+}
+
+.sense-row {
+  display: grid;
+  grid-template-columns: 82px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.sense-row .name {
+  font-weight: 600;
+}
+
+.sense-row .track {
+  height: 8px;
+  background: var(--paper-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.sense-row .fill {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+}
+
+.sense-row.visual .fill { background: var(--v-color); }
+.sense-row.audio .fill { background: var(--a-color); }
+.sense-row.kinesthetic .fill { background: var(--k-color); }
+
+.sense-row .pct {
+  color: var(--ink-3);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sense-read {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.sense-read .read-item {
+  background: var(--paper-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+.sense-read .read-item strong {
+  display: block;
+  color: var(--seal);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.sense-dim-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+
+.sense-dim {
+  background: var(--paper-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+.sense-dim strong {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.sense-dim.visual strong { color: var(--v-color); }
+.sense-dim.audio strong { color: var(--a-color); }
+.sense-dim.kinesthetic strong { color: var(--k-color); }
+
+.sense-hint {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--ink-3);
+}
+
+.rewrite-step {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin: 18px 0;
+}
+
+.rewrite-step .step-head {
+  font-size: 12px;
+  color: var(--brown);
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.rewrite-step .step-title {
+  font-family: "Songti SC", serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.rewrite-step .example-lines {
+  background: var(--paper-2);
+  border-left: 2px solid var(--seal);
+  border-radius: 0 4px 4px 0;
+  padding: 12px 16px;
+  margin: 14px 0;
+  font-family: "Songti SC", serif;
+  font-size: 14.5px;
+  line-height: 1.9;
+  color: var(--ink-2);
+}
+
+.rewrite-step .why {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-2);
+}
+
+.rewrite-step .why strong {
+  color: var(--seal);
+}
+
+.two-col-note {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.two-col-note .col {
+  background: var(--paper-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+.two-col-note .col strong {
+  display: block;
+  color: var(--brown);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  margin-bottom: 6px;
+}
+
+.fit-note {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 18px 22px;
+  margin-top: 24px;
+}
+
+.fit-note .fit-title {
+  color: var(--brown);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.fit-note p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.new-line-card {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--seal);
+  border-radius: 4px;
+  padding: 24px 26px;
+  margin: 24px 0;
+  font-family: "Songti SC", serif;
+  font-size: 19px;
+  line-height: 1.9;
+  color: var(--ink);
+  text-align: center;
+}
+
+/* ===== 段 5 · 四场景 ===== */
+.scene-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.scene-card {
+  background: white;
+  border: 1px solid var(--line);
+  padding: 28px 32px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.scene-card .icon {
+  position: absolute;
+  top: 28px;
+  right: 32px;
+  font-size: 28px;
+  opacity: 0.5;
+}
+
+.scene-card .name {
+  font-family: "Songti SC", serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.12em;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+  display: inline-block;
+}
+
+.scene-card .text {
+  font-family: "Songti SC", serif;
+  font-size: 15.5px;
+  color: var(--ink);
+  line-height: 2.0;
+  letter-spacing: 0.02em;
+}
+
+.scene-card .text p { margin-bottom: 14px; }
+.scene-card .text p:last-child { margin-bottom: 0; }
+
+.scene-card .text strong { font-weight: 600; color: var(--ink); }
+
+.impact-tag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 99px;
+  margin-right: 8px;
+}
+
+.impact-tag.cost {
+  color: var(--seal);
+  background: rgba(184,48,46,0.08);
+}
+
+.impact-tag.gift {
+  color: var(--k-color);
+  background: rgba(90,138,90,0.10);
+}
+
+.dialog-quote {
+  border-left: 2px solid var(--seal);
+  padding: 10px 0 10px 20px;
+  margin: 16px 0;
+  font-family: "Songti SC", serif;
+  font-size: 15px;
+  color: var(--ink-2);
+  line-height: 2.0;
+  background: var(--paper-2);
+  border-radius: 0 4px 4px 0;
+}
+
+.dialog-quote p { margin: 0 0 8px 0; }
+.dialog-quote p:last-child { margin: 0; }
+
+.scene-card .img-placeholder {
+  background: var(--paper-2);
+  border: 1px dashed var(--line);
+  height: 140px;
+  margin: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--ink-4);
+  letter-spacing: 0.15em;
+}
+
+/* ===== 段 7 · 双剧本对照 ===== */
+.double-map {
+  background: white;
+  border: 1px solid var(--line);
+  padding: 22px;
+  border-radius: 4px;
+  margin: 24px 0;
+}
+
+.double-map .row {
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.mini-map {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 14px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.mini-map .who {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.mini-map .traits {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10px;
+}
+.mini-map .t {
+  background: white;
+  padding: 3px 6px;
+  border-radius: 2px;
+}
+
+.bubble {
+  text-align: center;
+  font-size: 22px;
+  color: var(--ink-4);
+}
+
+/* ===== 段 8 · 金句卡 ===== */
+.quote-card {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 32px 28px;
+  text-align: center;
+  position: relative;
+  margin: 24px 0;
+}
+
+.quote-card::before {
+  content: "「";
+  position: absolute;
+  top: 4px;
+  left: 14px;
+  font-size: 36px;
+  color: var(--seal);
+  font-family: "Songti SC", serif;
+  opacity: 0.5;
+}
+.quote-card::after {
+  content: "」";
+  position: absolute;
+  bottom: 4px;
+  right: 14px;
+  font-size: 36px;
+  color: var(--seal);
+  font-family: "Songti SC", serif;
+  opacity: 0.5;
+}
+
+.quote-card .q {
+  font-family: "Songti SC", serif;
+  font-size: 19px;
+  line-height: 1.9;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.quote-card .src {
+  font-size: 12px;
+  color: var(--brown);
+  letter-spacing: 0.2em;
+}
+
+.quote-card .seal-mark {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--seal);
+  border-radius: 4px;
+  margin-top: 14px;
+  color: var(--seal);
+  font-size: 9px;
+  line-height: 14px;
+  padding: 2px 0;
+  font-family: "Songti SC", serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transform: rotate(-2deg);
+}
+
+/* ===== 章节索引 ===== */
+.chapter-index {
+  background: white;
+  border: 1px solid var(--line);
+  padding: 22px 26px;
+  border-radius: 4px;
+  margin: 24px 0;
+}
+
+.chapter-index .ci-head {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--brown);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.chapter-index .ci-list {
+  display: grid;
+  gap: 10px;
+}
+
+.ci-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--line-soft);
+  font-size: 13px;
+  align-items: center;
+}
+.ci-item:first-child { border-top: none; padding-top: 0; }
+
+.ci-item .ch {
+  font-family: "Songti SC", serif;
+  color: var(--seal);
+  font-weight: 600;
+  text-align: center;
+}
+
+.ci-item .name { color: var(--ink-2); }
+
+/* ===== CTA ===== */
+.final-cta {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 28px;
+  border-radius: 4px;
+  text-align: center;
+  margin: 30px 0 0;
+}
+
+.final-cta .lab {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.final-cta .head {
+  font-family: "Songti SC", serif;
+  font-size: 19px;
+  margin-bottom: 8px;
+  letter-spacing: 0.08em;
+}
+
+.final-cta .desc {
+  font-size: 13px;
+  color: var(--ink-4);
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+.final-cta .btn-light {
+  display: inline-block;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 10px 28px;
+  border-radius: 2px;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+}
+
+/* ===== 注意力位置 ===== */
+.attn-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--brown);
+  text-align: center;
+  letter-spacing: 0.05em;
+  font-style: italic;
+}
+
+/* 切换按钮 */
+.toggle-vars {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 8px 14px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 2px;
+  z-index: 200;
+  font-family: inherit;
+}
+
+@media (max-width: 640px) {
+  .report { padding: 20px 16px 60px; }
+  .id-charts { grid-template-columns: 1fr; gap: 24px; }
+  .main-stage .center-row { grid-template-columns: 1fr; }
+  .mechanism { grid-template-columns: 1fr; }
+  .scene-grid { grid-template-columns: 1fr; }
+  .double-map .row { grid-template-columns: 1fr; }
+  .cost-gift-grid { grid-template-columns: 1fr; }
+  .rewrite-actions .ra-list { grid-template-columns: 1fr; }
+  .sense-row { grid-template-columns: 74px 1fr 40px; }
+  .sense-read { grid-template-columns: 1fr; }
+  .sense-dim-grid { grid-template-columns: 1fr; }
+  .two-col-note { grid-template-columns: 1fr; }
+  .id-meta .meta-row { grid-template-columns: 1fr; gap: 2px; }
+  .operator-map { margin-top: -18px; padding: 24px 18px 20px; }
+  .basis-card { margin-top: -38px; padding: 22px 20px; }
+  .toggle-vars { top: auto; bottom: 12px; right: 12px; }
+}
+</style>
+</head>
+<body>
+
+<button class="toggle-vars" onclick="document.body.classList.toggle('show-vars')">显示变量槽 [demo]</button>
+
+<div class="report">
+
+  <!-- ========== Demo 顶栏（仅 demo 用） ========== -->
+  <div class="demo-bar">
+    <strong>报告示例 · 旧戏未谢幕型</strong>（反刍 × 高敏）<br>
+    <span class="data">模拟数据：内视觉 3.8 · 内听觉 2.5 · 内感觉 4.5（内感觉主导/内听觉薄弱）· 经验元素 4.2（高敏）· 过去消极 4.5 · T1=贴身重演</span>
+  </div>
+
+  <!-- ===== 开篇 · 剧本登场 ===== -->
+  <div class="act-divider">
+    <span class="label">开篇 · 剧本登场</span>
+  </div>
+
+  <!-- ========== 第一幕 · 你的剧本封面 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第一幕</div>
+    <h1 class="seg-title">你的剧本封面</h1>
+
+    <div class="id-card">
+      <!-- 图 1 · 画像徽章 -->
+      <div class="pname">
+        <div class="text">旧戏<br>未谢幕</div>
+        <div class="num">画像 1 / 10</div>
+      </div>
+
+      <div class="id-tag">
+        <strong>旧戏未谢幕型</strong> · 事情已经过去，身体却还停在那一幕
+      </div>
+
+      <div class="id-meta">
+        <div class="meta-row">
+          <div class="meta-key">后台画像</div>
+          <div class="meta-val">旧戏未谢幕型（画像锚：<strong>反刍 × 高敏</strong>）</div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-key">剧本优势</div>
+          <div class="meta-val">细腻敏锐、共情很深、能捕捉微妙变化</div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-key">剧本卡点</div>
+          <div class="meta-val">容易内耗、表达滞后、旧事难翻篇</div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-key">关键词</div>
+          <div class="meta-val keyword-strip">
+            <span>高敏感</span>
+            <span>身体记忆</span>
+            <span>旧事贴近</span>
+            <span>慢半拍表达</span>
+            <span>深度共情</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="id-charts">
+        <!-- 图 2 · 内感官雷达 -->
+        <div class="item">
+          <div class="lab">内感官配比</div>
+          <svg class="radar" viewBox="0 0 100 100">
+            <polygon points="50,8 92,75 8,75" fill="none" stroke="#d8d0bf" stroke-width="0.8"/>
+            <polygon points="50,28 78,68 22,68" fill="none" stroke="#d8d0bf" stroke-width="0.6"/>
+            <polygon points="50,21 84,72 14,72" fill="rgba(184,48,46,0.18)" stroke="var(--seal)" stroke-width="0.6"/>
+            <text x="50" y="6" text-anchor="middle" font-size="7" fill="#4a6fa5">视 33%</text>
+            <text x="96" y="80" text-anchor="middle" font-size="7" fill="#c97e3e">听 22%</text>
+            <text x="4" y="80" text-anchor="middle" font-size="7" fill="#5a8a5a">感 45%</text>
+          </svg>
+          <div class="val">内感觉主导 · 内听觉薄弱</div>
+        </div>
+        <!-- 图 3 · 时间线视角卡 -->
+        <div class="item">
+          <div class="lab">时间线视角</div>
+          <div class="timeline-view-card">
+            <div class="tv-row"><span class="tv-key">过去</span><span class="tv-main">贴身重演</span></div>
+            <div class="tv-row"><span class="tv-key">未来</span><span>任务压近</span></div>
+            <div class="tv-row"><span class="tv-key">角色</span><span>沉浸演员</span></div>
+          </div>
+          <div class="val">旧事未抽离</div>
+        </div>
+        <!-- 图 4 · 经验元素条 -->
+        <div class="item">
+          <div class="lab">经验元素</div>
+          <div class="exp-bar">
+            <div class="bar">
+              <div class="b1"></div><div class="b2"></div><div class="b3"></div><div class="b4"></div><div class="b5"></div>
+              <span class="marker">▲</span>
+            </div>
+            <div class="lbls"><span>钝感</span><span>高敏</span></div>
+          </div>
+          <div class="val" style="margin-top:16px;">高敏 · 4.2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 第一幕补充 · 操盘手解释图 ========== -->
+  <div class="operator-map" data-fig="图 2 · 操盘手解释图" aria-label="你的人生剧本操盘手">
+    <img
+      class="operator-image"
+      src="a4d3e056-0c5f-44da-95fe-2f4e7cb7a710.png"
+      alt="你的人生剧本操盘手：思考模式、呈现方式、记忆位置"
+    >
+  </div>
+
+  <!-- ========== 第一幕补充 · 测评依据过渡段 ========== -->
+  <div class="basis-card">
+    <div class="basis-title">▍测评依据：你的数据呈现了怎样的倾向？</div>
+    <p>
+      这份报告对你的解读，源于你当前各项得分共同呈现出的倾向。
+    </p>
+    <p>
+      从时间线这个维度来看，比起当下或未来，你可能更容易受过去发生的事情影响。尤其是那些没有妥善收尾的旧事，在压力状态或相似场景里，更容易被重新带回眼前，带出偏消极的情绪体验。
+    </p>
+    <p>
+      从感受的敏锐度来看，你处在相对高敏的档位。这意味着当旧事在内心里重现时，它们往往更清楚、更贴近，也更容易带出紧、闷、沉重这类身体感，而不只是一个淡淡路过的念头。
+    </p>
+    <p>
+      从大脑接收和整理信息的偏好来看，你更倾向先通过身体感受捕捉变化。面对外界冲击时，身体往往比语言更早做出反应；而语言整理相对慢半拍，所以你当下未必能马上把复杂感受说清楚。
+    </p>
+    <p>
+      这些数据综合表明，你更容易先用身体承接未完结的感受，再慢慢找到语言表达它。这不是定论，而是你在压力下更容易启动的一条默认路径，也是后文分析你的日常场景时，最重要的一条线索。
+    </p>
+  </div>
+
+  <!-- ========== 第二幕 · 主角设定 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第二幕</div>
+    <h2 class="seg-title">主角设定</h2>
+    <div style="font-size:13px; color:var(--brown); letter-spacing:0.05em; margin:-18px 0 28px; line-height:1.9;">
+      旧事贴近 ｜ 相似场景触发 ｜ 这一幕还没退场
+    </div>
+
+    <div class="body-text">
+      <p>
+        你的日常里，容易出现这样的瞬间：伴侣一个略沉的语气，或是会议上一个微妙的停顿。旁人早把这事翻了篇，可在你这里，只要撞上相似的场景，那些没谢幕的旧戏就会悄悄靠过来。
+      </p>
+      <p>
+        当下你未必能立刻说清哪里不对，只觉得哪里被牵动了一下。这股不对劲不一定只来自眼前这件事，也可能是过去某段没收尾的旧经验，被眼前的语气、表情、氛围轻轻勾了出来。
+      </p>
+      <p>
+        你不是故意翻旧账，也不是非要把事情想复杂。只是这些旧经验在你心里保存得更清楚、更贴近，也带着更明显的感受重量。所以别人一句"都过去了"就能翻篇，你却需要多一点时间，把自己从那幕旧戏里带回来。
+      </p>
+      <p>
+        旁人容易觉得你爱生闷气、想太多、反应过度。可更接近事实的是：你只是需要先分辨清楚，这是当下的情绪，还是旧剧情又悄悄上演了。
+      </p>
+      <p>
+        接下来，我们就一起拆解这条"旧事未谢幕"的剧本，是如何上演的。
+      </p>
+    </div>
+
+    <!-- 图 5 · 抽象情绪插画 -->
+    <div class="fig" data-fig="图 5 · 抽象情绪插画">
+      <div style="background:var(--paper-2); border:1px dashed var(--line); padding:60px 20px; text-align:center; color:var(--ink-4); font-size:12px; letter-spacing:0.15em;">
+        〔水墨情绪图位 · 一个人物背影 + 远处一句飘回的话 · 国风留白〕
+      </div>
+      <div class="fig-cap">画像专属插画 · 旧戏未谢幕型 · 10 套之 1</div>
+    </div>
+  </div>
+
+  <!-- ===== 中篇 · 剧情展开 ===== -->
+  <div class="act-divider">
+    <span class="label">中篇 · 剧情展开</span>
+  </div>
+
+  <!-- ========== 第三幕 · 核心剧情 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第三幕</div>
+    <h2 class="seg-title">核心剧情</h2>
+    <div style="font-size:13px; color:var(--brown); letter-spacing:0.05em; margin:-18px 0 28px; line-height:1.9;">
+      一幕触发 ｜ 信号浮现 ｜ 关系错位 ｜ 回头认出
+    </div>
+
+    <!-- 图 6 · 主舞台示意 -->
+    <div class="main-stage">
+      <div class="axis-up">
+        <div class="axis-dir">↑ 未来</div>
+        <div class="axis-tags">
+          <span class="tag-muted">未来焦虑 3.0 · 未触发</span>
+        </div>
+      </div>
+
+      <div class="center-row">
+        <div class="center-card">
+          <div class="card-lab">内感官雷达</div>
+          <svg class="radar" viewBox="0 0 100 100" style="width:120px; height:120px;">
+            <polygon points="50,8 92,75 8,75" fill="none" stroke="#d8d0bf" stroke-width="0.8"/>
+            <polygon points="50,28 78,68 22,68" fill="none" stroke="#d8d0bf" stroke-width="0.6"/>
+            <polygon points="50,21 84,72 14,72" fill="rgba(184,48,46,0.18)" stroke="var(--seal)" stroke-width="0.6"/>
+            <text x="50" y="6" text-anchor="middle" font-size="6" fill="#4a6fa5">视</text>
+            <text x="96" y="80" text-anchor="middle" font-size="6" fill="#c97e3e">听弱</text>
+            <text x="4" y="80" text-anchor="middle" font-size="6" fill="#5a8a5a">感主</text>
+          </svg>
+        </div>
+
+        <div class="center-card">
+          <div class="card-lab">⚓ 画像锚</div>
+          <div class="badge-center">
+            <div class="text">旧戏<br>未谢幕型</div>
+            <div class="anchor">反刍 × 高敏</div>
+          </div>
+        </div>
+
+        <div class="center-card">
+          <div class="card-lab">经验元素</div>
+          <div class="exp-bar" style="padding-top:32px;">
+            <div class="bar">
+              <div class="b1"></div><div class="b2"></div><div class="b3"></div><div class="b4"></div><div class="b5"></div>
+              <span class="marker">▲</span>
+            </div>
+            <div class="lbls"><span>钝感</span><span>高敏</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="axis-down">
+        <div class="axis-tags">
+          <span class="tag-pain">过去消极 4.5 ⚑</span>
+        </div>
+        <div class="axis-dir">↓ 过去</div>
+      </div>
+
+      <div class="now-overlay">
+        <div>当下倦怠</div>
+        <div class="now-val">2.5 · 不显著</div>
+      </div>
+    </div>
+
+    <!-- 图 7 · 机制标签组 -->
+    <div class="resource-badges">
+      <div class="r-badge">旧事容易靠近</div>
+      <div class="r-badge">感受更清楚</div>
+      <div class="r-badge">关系容易错位</div>
+      <div class="r-badge">回头才认出</div>
+    </div>
+
+    <div class="body-text">
+      <p>
+        当一件事发生在你眼前，你很难立刻看清全貌，往往只接住最戳你的那一小部分：伴侣一瞬沉下的语气、会议里一次微妙的停顿、对方收话时躲闪的眼神。事情本身不大，但这一小块细节会先被你留住。
+      </p>
+      <p>
+        还没来得及判断它的意义，一股说不清的不对劲已经浮上来。你未必马上知道自己在意什么，只觉得事情没那么简单，仿佛一段旧情绪被轻轻带近。
+      </p>
+      <p>
+        于是你可能沉默、把话收回，或是让气氛冷了几分。可对方看不到你心里未理清的牵动，只看见你的反应。关系里的错位，往往就在这里慢慢拉开。
+      </p>
+      <p>
+        等事情过去片刻，你回头才发觉：眼前这一幕，和很久以前的经历格外相似。又是一句没说清的话、一场没收尾的对话，那种“最后还是卡在这里”的感觉再次出现。
+      </p>
+      <p>
+        顺着这份熟悉追溯，真正的路径才浮现：没收尾的旧经验在心底存得更清楚、更贴近；相似场景一出现，旧感受被带回，反应随之发生，错位加深，“事情总会卡住”的信念也被悄悄印证。于是下一次遇见类似情境，你仍会不自觉用同一套方式应对。
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ========== 第四幕 · 隐藏编剧 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第四幕</div>
+    <h2 class="seg-title">隐藏编剧</h2>
+    <div style="font-size:13px; color:var(--brown); letter-spacing:0.05em; margin:-18px 0 28px; line-height:1.9;">
+      早期经验 ｜ 默认规则 ｜ 自动分镜
+    </div>
+
+    <div class="body-text">
+      <p>
+        你的反应模式并不是凭空出现的，它更像是早年经验在心里留下的一套自动分镜。
+      </p>
+    </div>
+
+    <!-- 图 8 · 三层机制 -->
+    <div class="mechanism">
+      <div class="mech-card">
+        <div class="step">一</div>
+        <div class="name">信念</div>
+        <div class="desc">相似场景出现时<br>容易预设事情可能又会卡住</div>
+      </div>
+      <div class="mech-card">
+        <div class="step">二</div>
+        <div class="name">自我价值</div>
+        <div class="desc">在冲突或冷场里<br>容易怀疑感受是否会被接纳</div>
+      </div>
+      <div class="mech-card">
+        <div class="step">三</div>
+        <div class="name">潜意识</div>
+        <div class="desc">自动捕捉相似线索<br>提前调出旧情绪作为防御</div>
+      </div>
+    </div>
+
+    <div class="body-text">
+      <p>
+        在你成长的早期经验里，某些特定的语调、细微的表情或一次意外的冷场，可能曾与委屈、误解或一时的无力感连在一起。当这些体验沉淀下来，你心里容易形成一条默认信念：相似场景再次出现时，事情可能又会卡住，最后还是没有好好收尾。
+      </p>
+      <p>
+        这条信念继续往里走，就会影响你的自我价值感：在冲突或冷场里，你可能不只是担心事情本身，也更容易怀疑自己的感受是否重要、自己的表达是否会被接纳。于是，你会更谨慎，也更容易把一部分压力先放回自己心里。
+      </p>
+      <p>
+        后来，当生活中再次出现相似线索时，潜意识会迅速识别，并把它归入那一类熟悉的旧剧情中。它原本是在保护你，试图让你提前预警，避免再次体验同样的错位感。但当这套机制过度灵敏、太快启动时，眼前真实的人和事，就容易被过去那套自动分镜所覆盖。
+      </p>
+      <p>
+        于是，即使只是日常的一件小事，也可能触发你心里的防御。这套机制确实容易让你在关系和情绪中承受更多消耗；但换个角度看，它也为你保留了更细腻的敏锐，以及某种提前保护自己的能力。
+      </p>
+    </div>
+
+    <!-- 图 9 · 水面上下示意（极简版 · 留白让文案承担情感任务） -->
+    <div class="iceberg">
+      <div class="above">水面上：旁人眼里的较真、冷淡或慢半拍</div>
+      <div class="below">
+        <strong>水面下</strong>：<br>
+        信念：事情可能又会卡住<br>
+        自我价值：我的感受可能不被接纳<br>
+        潜意识：旧经验被调出，用来判断这次是否安全
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 第五幕 · 剧情代价与天赋 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第五幕</div>
+    <h2 class="seg-title">剧情代价与天赋</h2>
+    <div style="font-size:13px; color:var(--brown); letter-spacing:0.05em; margin:-18px 0 28px; line-height:1.9;">
+      耗能卡点 ｜ 关系错位 ｜ 敏锐天赋
+    </div>
+
+    <div class="body-text">
+      <p>
+        这套剧本对你的影响，不只是一时的情绪波动。它会改变你处理关系、表达感受和做决定的方式。对「旧戏未谢幕型」来说，它通常同时带来两面：一面是消耗，一面是天赋。
+      </p>
+      <p>
+        代价来自旧事贴得太近，让你在相似场景里更容易被牵回过去；天赋也来自同一套系统，让你比很多人更早捕捉到关系里的微妙变化。重点不是否定这套敏锐，而是看清它什么时候在保护你，什么时候又开始消耗你。
+      </p>
+    </div>
+
+    <div class="cost-gift-grid">
+      <div class="cg-card cost">
+        <div class="cg-title">剧情代价</div>
+        <ul>
+          <li>容易耗能</li>
+          <li>关系中过度揣测</li>
+          <li>表达滞后</li>
+          <li>旧事难翻篇</li>
+        </ul>
+      </div>
+      <div class="cg-card gift">
+        <div class="cg-title">隐藏天赋</div>
+        <ul>
+          <li>细腻、共情强</li>
+          <li>记忆带感受</li>
+          <li>能捕捉微妙气氛</li>
+          <li>适合深度关系和创作表达</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="scene-grid">
+      <div class="scene-card">
+        <div class="icon">职</div>
+        <div class="name">职业戏</div>
+        <div class="text">
+          <p><span class="impact-tag cost">代价</span>会议里一句含糊的反馈，别人可能当成普通工作信息，你却容易在散会后反复回到那个瞬间：是不是哪里没做好，是不是对方话里还有别的意思。它会让你在工作之外继续耗神，也让表达慢半拍。</p>
+          <p><span class="impact-tag gift">天赋</span>同一套敏锐，也让你能提前察觉项目里的微妙阻力。你往往能听出没被明说的顾虑，看见团队气氛里的细小变化，适合做需要细致判断、深度沟通和长期打磨的工作。</p>
+        </div>
+      </div>
+
+      <div class="scene-card">
+        <div class="icon">关</div>
+        <div class="name">关系戏</div>
+        <div class="text">
+          <p><span class="impact-tag cost">代价</span>亲密关系里，对方一个沉下来的语气、一次没及时回应，都可能把旧事带近。你不一定立刻发作，更多时候是先安静下来，自己消化很久。对方看见的是冷淡，你感到的却是旧情绪又被碰到了。</p>
+          <p><span class="impact-tag gift">天赋</span>但也因为你对关系信号很敏锐，你往往能感到别人还没说出口的委屈、疲惫和需要。只要这份敏锐没有被旧戏牵走，它会成为很深的共情能力，让你适合经营有真实回应的深度关系。</p>
+        </div>
+      </div>
+
+      <div class="scene-card">
+        <div class="icon">情</div>
+        <div class="name">情绪戏</div>
+        <div class="text">
+          <p><span class="impact-tag cost">代价</span>你的情绪不一定来得猛烈，但容易留得久。一首歌、一句话、某个相似的氛围，都可能让旧事重新浮上来。它不一定让你崩溃，却会悄悄占用当下的心神，让你难以真正放松。</p>
+          <p><span class="impact-tag gift">天赋</span>这也让你的记忆不是干巴巴的事件，而是带着温度、颜色和感受。你能保存很多别人忽略的细节，也更容易在创作、表达、陪伴和理解他人时，拿出有质感的经验。</p>
+        </div>
+      </div>
+
+      <div class="scene-card">
+        <div class="icon">择</div>
+        <div class="name">抉择戏</div>
+        <div class="text">
+          <p><span class="impact-tag cost">代价</span>到了要做决定的时候，过去那些没被妥善放下的经验，容易一起被带进眼前选择里。你会比别人多想几轮，也更怕重蹈覆辙。外人以为你犹豫，其实是旧事在影响你的风险判断。</p>
+          <p><span class="impact-tag gift">天赋</span>不过，这份谨慎也让你不容易只看表面收益。你会本能地评估一条路是否真的能长期承受，是否会让自己重新陷入熟悉的消耗。它能帮你做出更贴近身心状态的选择。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 终篇 · 改写与对手戏 ===== -->
+  <div class="act-divider">
+    <span class="label">终篇 · 改写与对手戏</span>
+  </div>
+
+  <!-- ========== 第六幕 · 改写入口 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第六幕</div>
+    <h2 class="seg-title">改写入口</h2>
+    <div style="font-size:13px; color:var(--brown); letter-spacing:0.05em; margin:-18px 0 24px; line-height:1.9;">
+      认识通道 ｜ 看懂结果 ｜ 调整建议
+    </div>
+
+    <div class="sense-card">
+      <div class="sense-title">▍内感官是什么</div>
+      <p>
+        内感官，简单说，就是你在心里处理经验时常用的三条通道：画面、声音语言、身体感觉。它一般会出现在回忆旧事、想象未来、理解别人反应、复盘冲突和做决定的时候。它重要，是因为同一件事用不同通道处理，你的反应速度、表达方式和情绪残留都会不一样。
+      </p>
+      <div class="sense-dim-grid">
+        <div class="sense-dim visual"><strong>内视觉 V</strong>用画面处理信息，比如场景、表情、空间位置和脑海里的图像。</div>
+        <div class="sense-dim audio"><strong>内听觉 A</strong>用声音和语言处理信息，比如语气、话语、内心解释和表达顺序。</div>
+        <div class="sense-dim kinesthetic"><strong>内感觉 K</strong>用身体感和氛围处理信息，比如紧、沉、堵、靠近、排斥和安全感。</div>
+      </div>
+      <div class="sense-title">▍你的内感官结果</div>
+      <div class="sense-bars">
+        <div class="sense-row visual">
+          <span class="name">内视觉</span>
+          <span class="track"><span class="fill" style="width:33%;"></span></span>
+          <span class="pct">33%</span>
+        </div>
+        <div class="sense-row audio">
+          <span class="name">内听觉</span>
+          <span class="track"><span class="fill" style="width:22%;"></span></span>
+          <span class="pct">22%</span>
+        </div>
+        <div class="sense-row kinesthetic">
+          <span class="name">内感觉</span>
+          <span class="track"><span class="fill" style="width:45%;"></span></span>
+          <span class="pct">45%</span>
+        </div>
+      </div>
+      <p>
+        你的结果呈现为：<strong>内感觉 45% 为主导，内视觉 33% 居中，内听觉 22% 相对偏弱</strong>。这说明在压力场景里，你往往不是先用语言解释发生了什么，而是先接收到身体的紧、沉、堵，随后才慢慢补上画面和语言。
+      </p>
+      <div class="sense-read">
+        <div class="read-item"><strong>优势</strong>你更容易捕捉氛围变化、关系里的细微信号和别人没说出口的情绪，适合深度共情、细致判断和有质感的表达。</div>
+        <div class="read-item"><strong>局限</strong>当旧事被触发时，身体可能先被带走，语言整理慢一步，容易出现当下说不清、事后才明白、关系里被误解为冷淡或较真的情况。</div>
+      </div>
+      <div class="sense-hint">读法：比例不是能力高低，只表示你在压力场景下更容易优先调用哪条通道。</div>
+    </div>
+
+    <div class="rewrite-actions">
+      <div class="ra-title">▍给你的 3 条调整建议</div>
+      <div class="ra-list">
+        <div class="ra-item"><span class="num">建议一</span><br>先说清身体信号</div>
+        <div class="ra-item"><span class="num">建议二</span><br>分清眼前事实和旧剧情</div>
+        <div class="ra-item"><span class="num">建议三</span><br>提前告诉对方你的状态</div>
+      </div>
+    </div>
+
+    <div class="body-text">
+      <p>
+        下面三条建议，不是要求你否定敏感，也不是让你马上变得轻松。它们对应的是你的内感官结果：先接住身体反应，再区分旧事和当下，最后把状态用简单的话说出来。
+      </p>
+    </div>
+
+    <div class="rewrite-step">
+      <div class="step-head">建议一</div>
+      <div class="step-title">先说清身体信号</div>
+      <div class="body-text" style="margin:0;">
+        <p>
+          当旧事被触发时，先不要急着判断“我是不是太敏感”。你可以先把身体反应说清楚：
+        </p>
+      </div>
+      <div class="example-lines">
+        “我现在身体有点紧。”<br>
+        “刚才那句话好像触动了我。”<br>
+        “我需要一点时间确认，这是不是旧情绪被带出来了。”
+      </div>
+      <div class="why"><strong>为什么这样建议：</strong>你的内感觉更突出，身体常常比语言更早反应。先命名身体信号，能让你从“被感觉推着走”变成“看见感觉正在发生”。</div>
+    </div>
+
+    <div class="rewrite-step">
+      <div class="step-head">建议二</div>
+      <div class="step-title">分清眼前事实和旧剧情</div>
+      <div class="body-text" style="margin:0;">
+        <p>
+          拿一张纸，或者在心里分成两栏：左边写“眼前发生了什么”，右边写“我联想到的旧剧情是什么”。
+        </p>
+      </div>
+      <div class="two-col-note">
+        <div class="col"><strong>眼前事实</strong>对方停顿了三秒。</div>
+        <div class="col"><strong>旧剧情</strong>我担心他是不是又觉得我难沟通。</div>
+      </div>
+      <div class="why"><strong>为什么这样建议：</strong>你的经验元素偏高敏，旧事容易带着清晰感和贴近感回到眼前。把事实和联想分开，能减少旧剧情直接覆盖当下。</div>
+    </div>
+
+    <div class="rewrite-step">
+      <div class="step-head">建议三</div>
+      <div class="step-title">提前告诉对方你的状态</div>
+      <div class="body-text" style="margin:0;">
+        <p>
+          你不必等完全想清楚才开口。可以先用一句简单的话，让对方知道你正在整理，而不是在冷淡或较真：
+        </p>
+      </div>
+      <div class="example-lines">
+        “我现在有点被触动，但我还没完全想清楚，不是要怪你。”<br>
+        “这件事让我想起一些旧感受，我需要缓一下，等会儿再跟你说。”
+      </div>
+      <div class="why"><strong>为什么这样建议：</strong>你的内听觉相对偏弱，语言整理可能慢一步。提前准备几句可直接使用的话，能减少关系误会，也给你自己留出整理时间。</div>
+    </div>
+
+    <div class="fit-note">
+      <div class="fit-title">▍这组建议的核心逻辑</div>
+      <p>
+        顺序不要反过来：先处理身体信号，再区分旧事和当下，最后再进入关系表达。这样做不是压掉敏感，而是让敏感从自动反应，慢慢变成你可以使用的信息。
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== 第七幕 · 对手戏关系 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第七幕</div>
+    <h2 class="seg-title">对手戏关系</h2>
+    <div style="font-size:13px; color:var(--brown); letter-spacing:0.05em; margin:-18px 0 28px; line-height:1.9;">
+      处理节奏快 ｜ 需求错位 ｜ 可说出口的话
+    </div>
+
+    <div class="body-text">
+      <p>
+        你这部「旧戏未谢幕型」的剧本，最容易和一类节奏很快、处理问题很直接的人发生错位。这类人遇到问题时，习惯先处理事情本身；事情处理完，就默认关系也跟着恢复了。他们不一定冷淡，只是很少停下来确认那件事在你心里有没有真正落地。
+      </p>
+    </div>
+
+    <!-- 图 15 · 双剧本对照 -->
+    <div class="double-map">
+      <div class="row">
+        <div class="mini-map">
+          <div class="who">你</div>
+          <div class="traits">
+            <div class="t">旧戏未谢幕型</div>
+            <div class="t">需要确认感受已被接住</div>
+            <div class="t">旧事靠近时会慢半拍</div>
+          </div>
+        </div>
+        <div class="bubble">⇄</div>
+        <div class="mini-map">
+          <div class="who">对方</div>
+          <div class="traits">
+            <div class="t">解决问题优先</div>
+            <div class="t">默认处理完就过去</div>
+            <div class="t">不习惯反复确认感受</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="body-text">
+      <p>
+        你们真正的冲突，常常不在事件本身，而在「收尾标准」不同。你要的是：这件事有没有被理解、我的感受有没有被看见、类似的旧情绪是不是又被碰到了。对方要的是：事情解决了吗、流程走完了吗、现在是不是可以继续生活。
+      </p>
+      <p>
+        所以，同一段沉默、同一句“算了吧”，在你们两个人心里会被翻译成完全不同的意思。
+      </p>
+    </div>
+
+    <div class="two-col-note">
+      <div class="col"><strong>你可能在想</strong>我还没缓过来，他怎么能当没发生过？</div>
+      <div class="col"><strong>对方可能在想</strong>事情不是已经解决了吗，为什么又提？</div>
+      <div class="col"><strong>你可能在做</strong>先沉默，等自己分辨清楚那股旧情绪。</div>
+      <div class="col"><strong>对方可能误解</strong>你在冷淡、较真，或用沉默惩罚他。</div>
+      <div class="col"><strong>你真正需要</strong>一句确认、一次解释，或一点整理时间。</div>
+      <div class="col"><strong>对方常给出的</strong>解决方案、讲道理，或催你快点翻篇。</div>
+    </div>
+
+    <div class="body-text">
+      <p>
+        这就是你们最容易误会的地方：你要的是情绪被安放，对方给的是问题被解决；你需要一点时间确认安全，对方却以为沉默代表拒绝沟通。
+      </p>
+      <p>
+        更实用的做法，不是等对方自动懂你，而是提前把你的“收尾需求”说清楚。你可以把下面这几句话当成关系里的临时字幕：
+      </p>
+    </div>
+
+    <div class="dialog-quote">
+      <p>“我不是要翻旧账，我只是这件事在心里还没放稳。”</p>
+      <p>“你可以先不用给我方案，我更需要你确认一下：你理解我为什么会被触动。”</p>
+      <p>“我现在沉默，不是要冷处理你，是我需要一点时间把旧情绪和眼前这件事分开。”</p>
+      <p>“如果你愿意，给我一句明确的话，比继续讲道理更有用。”</p>
+    </div>
+
+    <div class="fit-note">
+      <div class="fit-title">▍关系里的提醒</div>
+      <p>
+        对方不是一定不在乎你，他可能只是习惯用“解决问题”表示关心；你也不是一定在翻旧账，你只是需要让旧戏真正落幕。把这个差异说出来，关系才有机会从互相误解，变成互相配合。
+      </p>
+    </div>
+  </div>
+
+  <!-- ========== 第八幕 · 你的新台词 ========== -->
+  <div class="seg-block">
+    <div class="seg-label">第八幕</div>
+    <h2 class="seg-title">你的新台词</h2>
+
+    <div class="new-line-card">
+      我不需要否定自己的敏感，<br>
+      只需要让身体记住：这一幕已经过去了。
+    </div>
+
+    <!-- 图 16 · 金句卡 -->
+    <div class="quote-card">
+      <div class="q">
+        每一个人的世界，<br>
+        是在他的脑子里。
+      </div>
+      <div class="src">李中莹 · 《重塑心灵》第一章</div>
+      <div class="seal-mark">心灵<br>测评</div>
+    </div>
+
+    <!-- CTA -->
+    <div class="final-cta">
+      <div class="lab">如果你想真正学会改写</div>
+      <div class="head">李中莹 NLP 证书班</div>
+      <div class="desc">
+        系统学习人生剧本改写 · 旧戏未谢幕型在这里能学到的<br>
+        是<strong>把"身体接住的"翻译成"头脑能用的"</strong>——技术，而不是道理。
+      </div>
+      <a href="#" class="btn-light">了解课程</a>
+    </div>
+
+    <div style="text-align:center; margin-top:30px; padding-top:24px; border-top:1px solid var(--line); font-size:11px; color:var(--ink-4); letter-spacing:0.2em;">
+      《你的人生剧本》· 《重塑心灵》配套测评<br>
+      李中莹 × NLP 第 4 条前提假设 × 津巴多 ZTPI
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
